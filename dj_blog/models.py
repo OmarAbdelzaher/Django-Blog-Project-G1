@@ -11,5 +11,13 @@ class User(models.Model):
     # def save(self,*args,**kwargs):
     #     self.set_password(self.password)
     #     super().save(*args,**kwargs)
+
+
+
+class Comment(models.Model):
+    comment_body=models.CharField(max_length=100)
+    comment_time=models.DateField(null=True)
+    user_id=models.ForeignKey(User,on_delete=models.CASCADE)
+    post_id=models.ForeignKey(Post,on_delete=models.CASCADE)     
     
     
