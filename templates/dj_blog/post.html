@@ -1,0 +1,277 @@
+{% extends 'dj_blog/base.html' %}
+{% load static %}
+
+{% block main_block %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+
+<div class="container">
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        {% comment %} <div class="panel panel-white profile-widget">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="image-container bg2" style="background:url(http://www.bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg)">  
+                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="avatar" alt="avatar"> 
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="details">
+                        <h4>John Smit Doe <i class="fa fa-sheild"></i></h4>
+                        <div>Works at Bootdey.com</div>
+                        <div>Attended University of Bootdey</div>
+                        <div>Lives in Medellin, Colombia</div>
+                        <div class="mg-top-10">
+                            <a href="#" class="btn btn-default">About Kevin</a>
+                            <a href="#" class="btn btn-success">Add Kevin</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-white post">
+                    <div class="post-heading">
+                        <div class="pull-left image">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
+                        </div>
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>John Doe</b></a>
+                                uploaded a photo.
+                            </div>
+                            <h6 class="text-muted time">5 seconds ago</h6>
+                        </div>
+                    </div>
+                    <div class="post-image">
+                        <img src=""><img src="https://via.placeholder.com/400x200" class="image" alt="image post">
+                    </div>
+                    <div class="post-description">
+                        <h4>Product Shoot</h4>
+                        <p>Here is a picture of the walkway to our product shoot.</p>
+                        <div class="stats">
+                            <a href="javascript:void(0);" class="btn btn-primary stat-item">
+                                <i class="fa fa-thumbs-up icon"></i>228
+                            </a>
+                            {% comment %} <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                <i class="fa fa-share icon"></i>128
+                            </a> {% endcomment %}
+                            
+                            <a class="btn btn-danger stat-item" href="#!">
+                                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                34
+                            </a>
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <div class="input-group"> 
+                            <input class="form-control" placeholder="Add a comment" type="text">
+                            <span class="input-group-addon">
+                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a>  
+                            </span>
+                        </div>
+                        <ul class="comments-list">
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">John dOE</h4>
+                                        <h5 class="time">7 minutes ago</h5>
+                                    </div>
+                                    <p>I really love this picture. I really wish i could have been there.</p>
+                                </div>
+                            </li>
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">John Doe</h4>
+                                        <h5 class="time">3 minutes ago</h5>
+                                    </div>
+                                    <p>I think I might you this for one of my projects.</p>
+                                </div>
+                            </li>
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">John Doe</h4>
+                                        <h5 class="time">10 seconds ago</h5>
+                                    </div>
+                                    <p>Wow! This is gorgeous.</p>
+                                </div>
+                                <ul class="comments-list">
+                                    <li class="comment">
+                                        <a class="pull-left" href="javascript:void(0);">
+                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
+                                        </a>
+                                        <div class="comment-body">
+                                            <div class="comment-heading">
+                                                <h4 class="user">Gavino Free</h4>
+                                                <h5 class="time">5 minutes ago</h5>
+                                            </div>
+                                            <p>Sure, I'd help out.</p>
+                                        </div>
+                                        <ul class="comments-list">
+                                            <li class="comment">
+                                                <a class="pull-left" href="javascript:void(0);">
+                                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
+                                                </a>
+                                                <div class="comment-body">
+                                                    <div class="comment-heading">
+                                                        <h4 class="user">John Doe</h4>
+                                                        <h5 class="time">3 minutes ago</h5>
+                                                    </div>
+                                                    <p>I will email you the details.</p>
+                                                </div>
+                                            </li> 
+                                            <li class="comment">
+                                                <a class="pull-left" href="javascript:void(0);">
+                                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="avatar">
+                                                </a>
+                                                <div class="comment-body">
+                                                    <div class="comment-heading">
+                                                        <h4 class="user">John Doe</h4>
+                                                        <h5 class="time">3 minutes ago</h5>
+                                                    </div>
+                                                    <p>Ok, cool.</p>
+                                                </div>
+                                            </li> 
+                                        </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            {% comment %} <div class="col-sm-12">
+                <div class="panel panel-white post">
+                    <div class="post-heading">
+                        <div class="pull-left image">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
+                        </div>
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>John Doe</b></a>
+                                made a post.
+                            </div>
+                            <h6 class="text-muted time">1 minute ago</h6>
+                        </div>
+                    </div> 
+                    <div class="post-description"> 
+                        <p>Anyone who is interested in helping out with the Mark &amp; Markson dinner party, please let me know before the week is over.</p>
+                        <div class="stats">
+                            <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                <i class="fa fa-thumbs-up icon"></i>2
+                            </a>
+                            <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                <i class="fa fa-share icon"></i>12
+                            </a>
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <div class="input-group"> 
+                            <input class="form-control" placeholder="Add a comment" type="text">
+                            <span class="input-group-addon">
+                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a>  
+                            </span>
+                        </div>
+                        <ul class="comments-list">
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">Gavino Free</h4>
+                                        <h5 class="time">5 minutes ago</h5>
+                                    </div>
+                                    <p>Sure, I'd help out.</p>
+                                </div>
+                                <ul class="comments-list">
+                                    <li class="comment">
+                                        <a class="pull-left" href="javascript:void(0);">
+                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
+                                        </a>
+                                        <div class="comment-body">
+                                            <div class="comment-heading">
+                                                <h4 class="user">John Doe</h4>
+                                                <h5 class="time">3 minutes ago</h5>
+                                            </div>
+                                            <p>I will email you the details.</p>
+                                        </div>
+                                    </li> 
+                                    <li class="comment">
+                                        <a class="pull-left" href="javascript:void(0);">
+                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="avatar">
+                                        </a>
+                                        <div class="comment-body">
+                                            <div class="comment-heading">
+                                                <h4 class="user">John Doe</h4>
+                                                <h5 class="time">3 minutes ago</h5>
+                                            </div>
+                                            <p>Ok, cool.</p>
+                                        </div>
+                                    </li> 
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+            
+            {% comment %} <div class="col-sm-12">
+                <div class="panel panel-white post">
+                    <div class="post-heading">
+                        <div class="pull-left image">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="img-circle avatar" alt="user profile image">
+                        </div>
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>Yanique Robinson</b></a>
+                                shared a video.
+                            </div>
+                            <h6 class="text-muted time">1 minute ago</h6>
+                        </div>
+                    </div> 
+                    <div class="post-video">
+                        <div class="fluid-width-video-wrapper" style="padding-top: 56.2%;"><iframe src="https://player.vimeo.com/video/98417189" id="fitvid369523"></iframe></div>
+                    </div>
+                    <div class="post-description">  
+                        <div class="stats">
+                            <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                <i class="fa fa-thumbs-up icon"></i>2
+                            </a>
+                            <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                <i class="fa fa-share icon"></i>12
+                            </a>
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <div class="input-group"> 
+                            <input class="form-control" placeholder="Add a comment" type="text">
+                            <span class="input-group-addon">
+                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a> 
+                            </span>
+                        </div> 
+                    </div>
+                </div>
+            </div> {% endcomment %}
+            
+        </div>
+        
+    </div>
+    
+</div>
+</div>
+
+{% endblock %}
