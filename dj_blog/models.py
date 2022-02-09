@@ -20,4 +20,10 @@ class Comment(models.Model):
     user_id=models.ForeignKey(User,on_delete=models.CASCADE)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE)     
     
-    
+ 
+#  Reply Table   
+class Reply(models.Model):
+    reply_body=models.CharField(max_length=100)
+    reply_time=models.TimeField(null=True)
+    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE)    
