@@ -12,7 +12,15 @@ class User(models.Model):
     #     self.set_password(self.password)
     #     super().save(*args,**kwargs)
 
-
+class Post(models.Model):
+    title=models.CharField(max_length=50,null=True)
+    picture=models.ImageField(null=True)
+    content=models.CharField(null=True)
+    likes=models.IntegerField(null=True)
+    dislikes=models.IntegerField(null=True)
+    date_of_publish=models.DateField(null=True)
+    user_id =models.ForeignKey(User,on_delete=models.CASCADE)
+    cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
 
 class Comment(models.Model):
     comment_body=models.CharField(max_length=100)
