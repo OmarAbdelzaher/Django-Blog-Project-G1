@@ -42,7 +42,7 @@ class PostTag(models.Model):
     tag=models.CharField(max_length=100)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
 
-class UserCategory(models,Model):
+class UserCategory(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category, on_delete=models.CASCADE)
 
