@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+import os
 # Create your views here.
 
 def post(request):
@@ -7,6 +8,16 @@ def post(request):
 
 def postPage(request):
     posts = Post.objects.all()
-    print(posts)
-    context = {'posts':posts}
+    imgs = Post.objects.values_list('picture', flat=True)
+    
+    imageBases = []
+    
+    for i in range(len(imgs)):
+        imageBases.append(os.path.basename(imgs[i]))
+    
+    my_list = zip(posts,imageBases)
+    
+    # print(imageBases)
+    # dict = {'posts':posts,'images':imageBases}
+    context = {'mylist':my_list}
     return render(request,'dj_blog/posts-page.html',context)

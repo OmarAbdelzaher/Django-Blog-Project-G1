@@ -21,7 +21,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title=models.CharField(max_length=50,null=True)
-    picture=models.ImageField(null=True)
+    picture=models.ImageField(null=True,upload_to='dj_blog/static/img/Posts Images/')
     content=models.CharField(max_length=255)
     likes=models.IntegerField(null=True)
     dislikes=models.IntegerField(null=True)
@@ -29,7 +29,8 @@ class Post(models.Model):
     user_id =models.ForeignKey(User,on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
 
-    # return post title
+    def __str__(self):
+        return self.title
     
 class Comment(models.Model):
     comment_body=models.CharField(max_length=100)
