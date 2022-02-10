@@ -384,7 +384,7 @@ body {
 }
 
 .blog-post {
-  background-color:#d51919;
+  background-color:#ffffff;
   padding:10px 25px;
   margin-bottom:60px;
 }
@@ -393,13 +393,13 @@ ul.blog-tags li {
   padding:7px 0;
 }
 
-.blog-post ul.blog-tags .all-tags {
+.stats .blog-post ul.blog-tags .all-tags {
   margin: 0 4px;
 }
 
 .stats .blog-post ul.blog-tags li i,
 .stats .blog-post .box.tags ul li i {
-  color: #ce2020;
+  color: #ffffff;
   position: relative;
   top: 1px;
   font-size: 14px;
