@@ -2,5 +2,48 @@
 {% load static %}
 
 {% block main_block %}
-    
+    {% for post in posts %}
+        {{post.title}}
+        {{post.picture}}
+        {{post.content}}
+        {{post.likes}}
+        {{post.dislikes}}
+        {{post.user_id}}
+        {{post.cat_id}}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-white post">
+                    <div class="post-heading">
+                        <div class="pull-left image">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
+                        </div>
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>John Doe</b></a>
+                                uploaded a photo.
+                            </div>
+                            <h6 class="text-muted time">5 seconds ago</h6>
+                        </div>
+                    </div>
+                    <div class="post-image">
+                        <img src=""><img src="https://via.placeholder.com/400x200" class="image" alt="image post">
+                    </div>
+                    <div class="post-description">
+                        <h4>Product Shoot</h4>
+                        <p>Here is a picture of the walkway to our product shoot.</p>
+                        <div class="stats">
+                            <a href="javascript:void(0);" class="btn btn-primary stat-item">
+                                <i class="fa fa-thumbs-up icon"></i>228
+                            </a>
+                            {% comment %} <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                <i class="fa fa-share icon"></i>128
+                            </a> {% endcomment %}
+                            
+                            <a class="btn btn-danger stat-item" href="#!">
+                                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                34
+                            </a>
+                        </div>
+                    </div>
+    {% endfor %}
 {% endblock %}

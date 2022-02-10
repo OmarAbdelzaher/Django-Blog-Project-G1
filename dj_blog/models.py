@@ -29,6 +29,8 @@ class Post(models.Model):
     user_id =models.ForeignKey(User,on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
 
+    # return post title
+    
 class Comment(models.Model):
     comment_body=models.CharField(max_length=100)
     comment_time=models.DateField(null=True)
@@ -42,7 +44,7 @@ class Reply(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
-class PostTag(models.Model):
+class PostTags(models.Model):
     tag=models.CharField(max_length=100)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
 
