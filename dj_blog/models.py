@@ -3,9 +3,10 @@ from django.db import models
 # Create your models here.
 
 class User(models.Model):
+    TYPE_CHOICES = (('user','User'),('admin','Admin'))
     username = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    user_type = models.CharField(max_length=50)
+    user_type = models.CharField(max_length=50,choices=TYPE_CHOICES)
     password = models.CharField(max_length=20)
     avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
     
@@ -42,7 +43,7 @@ class PostTag(models.Model):
     tag=models.CharField(max_length=100)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
 
-class UserCategory(models,Model):
+class UserCategory(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category, on_delete=models.CASCADE)
 
