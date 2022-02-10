@@ -15,6 +15,9 @@ class User(models.Model):
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.cat_name
+
 class Post(models.Model):
     title=models.CharField(max_length=50,null=True)
     picture=models.ImageField(null=True)
