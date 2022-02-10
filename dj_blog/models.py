@@ -13,8 +13,7 @@ class User(models.Model):
         return self.username
 
 class Category(models.Model):
-    cat_namey=models.CharField(max_length=100)
-    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
+    cat_name=models.CharField(max_length=100)
 
 class Post(models.Model):
     title=models.CharField(max_length=50,null=True)
@@ -39,7 +38,11 @@ class Reply(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
-class PostTags(models.Model):
+class PostTag(models.Model):
     tag=models.CharField(max_length=100)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
+
+class UserCategory(models,Model):
+    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
+    cat_id=models.ForeignKey(Category, on_delete=models.CASCADE)
 
