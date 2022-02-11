@@ -27,32 +27,32 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-                            {{ register_form.username }}
+                            {{ user_form.username }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
 							</div>
-                            {{ register_form.email }}
+                            {{ user_form.email }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-                            {{ register_form.password }}
+                            {{ user_form.password1 }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-                            {{ register_form.confirm_password }}
+                            {{ user_form.password2 }}
 						</div>
 
 				   		<div class="d-flex justify-content-center mt-3 login_container">
 				 			<input class="btn login_btn" type="submit" value="Register Account">
 				   		</div>
 						
-						   {% for field, errors in register_form.errors.items %}
+						   {% for field, errors in user_form.errors.items %}
 						   		{% for error in errors %}
 								   <p id="messages">{{ error }}</p>
 								   {% endfor %}
