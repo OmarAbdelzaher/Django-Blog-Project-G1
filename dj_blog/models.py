@@ -1,13 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class User(models.Model):
+# Account model extends from User (built-in-Model) and add some extra fields
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     TYPE_CHOICES = (('user','User'),('admin','Admin'))
-    username = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
     user_type = models.CharField(max_length=50,choices=TYPE_CHOICES)
-    password = models.CharField(max_length=20)
     avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
     
     def __str__(self):  
