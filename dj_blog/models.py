@@ -1,18 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-class User(models.Model):
+# Account model extends from User (built-in-Model) and add some extra fields
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     TYPE_CHOICES = (('user','User'),('admin','Admin'))
-    username = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
     user_type = models.CharField(max_length=50,choices=TYPE_CHOICES)
-    password = models.CharField(max_length=20)
     avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
     
-    def __str__(self):
+    def __str__(self):  
         return self.username
-        
+
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
 
@@ -44,11 +43,11 @@ class Reply(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
-class Tags(models.Model):
+class PostTags(models.Model):
     tag=models.CharField(max_length=100)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
 
 class UserCategory(models.Model):
-    user_id=models.ForeignKey(User,on_delete=models.CASCADE)
-    cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
+    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
+    cat_id=models.ForeignKey(Category, on_delete=models.CASCADE)
 
