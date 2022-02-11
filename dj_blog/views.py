@@ -1,49 +1,42 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import login,authenticate
-from .forms import CreateUserForm
-from django.contrib import messages
+from .forms import *
 from .models import *
 import os
 
 # validation to the registration form 
 def registerpage(request):
-    # is_authenticaed with http request checks whether the user is already logged in or not 
-    if request.user.is_authenticated:
-        return redirect('home')
-    else :
-        register_form = CreateUserForm()
-        if request.method=='POST':
-            register_form = CreateUserForm(request.POST)
-            if register_form.is_valid():
-                register_form.save()
-                msg = 'User account created for username: ' + register_form.cleaned_data.get('username')
-                messages.info(request, msg)
-                return redirect('home')
-        context = {'register_form': register_form}
-        return render(request, 'dj_blog/register.html', context)
+    # handling the checking for already logged in later 
+    user_form=RegistrationForm()
+    if request.method == "POST":
+        user_form = RegistrationForm(request.POST)
+        if user_form.is_valid():
+            user_form.save()
+            return redirect('login')
+    context={'user_form':user_form}
+    return render(request, 'dj_blog/register.html', context)
 
-
-# validation to the login form 
+# validation to the login page (check user already logged in if not -> authenticate the username and password )
 def loginpage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else :
-        if request.method == 'POST':
-            name = request.POST.get('username')
-            passwd = request.POST.get('password')
-            user = authenticate(request,username= name, password =passwd)
-            if user is not None:
-                login(request, user)
-                # next here specifies whether the user will redirect to the page he came from or not 
-                if request.GET.get('next') is not None:
-                    return redirect(request.GET.get('next'))
-                else:
-                    return redirect('home')
-                
-            else:
-                messages.warning(request, 'User name or password is incorrect')
-        return render(request, 'dj_blog/login.html')
+    # handling the checking for already logged in later 
+    login_form=LoginForm()
+    if request.method == "POST":
+            login_form = LoginForm(data=request.POST)
+            if(login_form.is_valid()):
+                username = request.POST['username']
+                password = request.POST["password"]
+                user = authenticate(username=username, password=password)
+                if user is not None:  
+                    # handling the checking for blocked users here later 
+                    login(request,user)
+                    if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                    else:
+                        return redirect('home')
+    context = {"login_form": login_form}
+    return render(request, 'dj_blog/login.html', context)
+
 
 #Experimental Page 
 def home (request):
