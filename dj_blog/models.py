@@ -18,7 +18,7 @@ class Category(models.Model):
     def __str__(self):
         return self.cat_name
 
-class PostTags(models.Model):
+class Tags(models.Model):
     tag=models.CharField(max_length=100)
     def __str__(self):
         return self.tag
@@ -32,7 +32,7 @@ class Post(models.Model):
     date_of_publish=models.DateField(null=True)
     user_id =models.ForeignKey(User,on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
-    tag_id=models.ForeignKey(Category,on_delete=models.CASCADE)
+    tag_id=models.ForeignKey(Tags,on_delete=models.CASCADE)
 
     # return post title
     
