@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Setting MEDIA_URL and MEDIA_ROOT for the image upload 
+# MEDIA_URL = '/Posts Images/'
+# MEDIA_ROOT = os.path.join(BASE_DIR,'/dj_blog/static/img/Posts Images/') # The root for the media storage
+
 
 # Application definition
 
@@ -64,6 +68,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                # To access the MEDIA_URL in template
+                'django.template.context_processors.media',
             ],
         },
     },
