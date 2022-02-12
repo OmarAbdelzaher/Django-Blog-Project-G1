@@ -42,6 +42,9 @@ def loginpage(request):
 def home (request):
     return HttpResponse ('<h1>Welcome Home Page </h1>')
 
+#Home Page
+def landing(request):
+    return render(request, 'dj_blog/landing.html')
 
 def post(request):
     return render(request, 'dj_blog/post.html')
