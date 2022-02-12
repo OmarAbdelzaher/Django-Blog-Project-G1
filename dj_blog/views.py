@@ -21,6 +21,7 @@ def registerpage(request):
     return render(request, 'dj_blog/register.html', context)
 
 # validation to the login page (check user already logged in if not -> authenticate the username and password )
+@csrf_exempt 
 def loginpage(request):
     # handling the checking for already logged in later 
     login_form=LoginForm()
