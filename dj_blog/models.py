@@ -18,6 +18,11 @@ class Category(models.Model):
     def __str__(self):
         return self.cat_name
 
+class PostTags(models.Model):
+    tag=models.CharField(max_length=100)
+    def __str__(self):
+        return self.tag
+
 class Post(models.Model):
     title=models.CharField(max_length=50,null=True)
     picture=models.ImageField(null=True)
@@ -27,6 +32,7 @@ class Post(models.Model):
     date_of_publish=models.DateField(null=True)
     user_id =models.ForeignKey(User,on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
+    tag_id=models.ForeignKey(Category,on_delete=models.CASCADE)
 
     # return post title
     
@@ -43,9 +49,6 @@ class Reply(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
-class PostTags(models.Model):
-    tag=models.CharField(max_length=100)
-    post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
 
 class UserCategory(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
