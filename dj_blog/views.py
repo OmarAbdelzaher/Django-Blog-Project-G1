@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,logout,authenticate
 from .forms import *
 from .models import *
+from django.contrib import messages
 import os
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import auth
 
 # validation to the registration form 
 def registerpage(request):
@@ -18,6 +21,7 @@ def registerpage(request):
     return render(request, 'dj_blog/register.html', context)
 
 # validation to the login page (check user already logged in if not -> authenticate the username and password )
+@csrf_exempt
 def loginpage(request):
     # handling the checking for already logged in later 
     login_form=LoginForm()
@@ -33,7 +37,7 @@ def loginpage(request):
                     if request.GET.get('next') is not None:
                         return redirect(request.GET.get('next'))
                     else:
-                        return redirect('home')
+                        return redirect('landing')
     context = {"login_form": login_form}
     return render(request, 'dj_blog/login.html', context)
 
@@ -42,6 +46,9 @@ def loginpage(request):
 def home (request):
     return HttpResponse ('<h1>Welcome Home Page </h1>')
 
+#Home Page
+def landing(request):
+    return render(request, 'dj_blog/landing.html')
 
 def post(request):
     return render(request, 'dj_blog/post.html')
@@ -59,3 +66,7 @@ def postPage(request):
     
     context = {'mylist':my_list}
     return render(request,'dj_blog/posts-page.html',context)
+
+def logoutpage(request):
+    auth.logout(request)
+    return redirect('landing')
