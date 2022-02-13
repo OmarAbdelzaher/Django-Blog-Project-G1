@@ -163,22 +163,25 @@
                 <!-- Categories Section  -->
                 <div class="sidebar">
                     <h3>Categories</h3>
-                    <ul class="categories">
-                        {% for category in categories %}
-                        <li>
-                            <a href="#"><span>{{ category.cat_name }} </span></a>
-                            {% if user.is_authenticated %}
-                            {% if user in category.user.all %}
-                            <a type="button" class="btn  btn-primary subBtn"
-                                href="{% url 'unsubscribe' category.id %}">Unsubscribe</a>
-                            {% else %}
-                            <a type="button" class="btn  btn-primary subBtn"
-                                href="{% url 'subscribe' category.id %}">Subscribe</a>
-                            {% endif %}
-                            {% endif %}
-                        </li>
-                        {% endfor %}
-                    </ul>
+                    <div class="box categories">
+
+                        <ul class="list-unstyled">
+                            {% for category in categories %}
+                            <li>
+                                <a href="#"><span>{{ category.cat_name }} </span></a>
+                                {% if user.is_authenticated %}
+                                {% if user in category.user.all %}
+                                <a type="button" class="btn un-sub"
+                                    href="{% url 'unsubscribe' category.id %}">Unsubscribe</a>
+                                {% else %}
+                                <a type="button" class="btn subBtn"
+                                    href="{% url 'subscribe' category.id %}">Subscribe</a>
+                                {% endif %}
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Recent Posts Section  -->

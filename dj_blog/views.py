@@ -83,6 +83,10 @@ def logoutpage(request):
     return redirect('landing')
 
 
+def manageBlog(request):
+    return render(request, 'dj_blog/ManageBlog.html')
+
+
 # catagories subscribe
 def subscribe(request, cat_id):
     user = request.user

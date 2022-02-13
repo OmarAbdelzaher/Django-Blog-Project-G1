@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout/', views.logoutpage,name='logout'),
     path('subscribe/<cat_id>', views.subscribe,name="subscribe"),
     path('unsubscribe/<cat_id>', views.unsubscribe,name="unsubscribe"),
-    # path('manageBlog/', views.manageBlog,name='manageBlog'),
+    path('manageBlog/', views.manageBlog,name='manageBlog'),
 
 
 ]
