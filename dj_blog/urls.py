@@ -9,6 +9,9 @@ urlpatterns = [
     path('home/',views.home,name='home'),
     path('landing/', views.landing,name='landing'),
     path('logout/', views.logoutpage,name='logout'),
+    path('subscribe/<cat_id>', views.subscribe,name="subscribe"),
+    path('unsubscribe/<cat_id>', views.unsubscribe,name="unsubscribe"),
+    # path('manageBlog/', views.manageBlog,name='manageBlog'),
 
 
 ]
