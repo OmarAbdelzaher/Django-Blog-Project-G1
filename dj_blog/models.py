@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -12,6 +13,9 @@ class User(models.Model):
     
     def __str__(self):  
         return self.username
+    
+    # USERNAME_FIELD = 'username'
+    # REQUIRED_FIELDS = ['username','password']
 
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
@@ -19,8 +23,11 @@ class Category(models.Model):
     def __str__(self):
         return self.cat_name
 
-class Tags(models.Model):
-    tag=models.CharField(max_length=100)
+# class Tags(models.Model):
+#     tag=models.CharField(max_length=100)
+    
+#     def __str__(self):
+#         return self.tag
     
 class Post(models.Model):
     title=models.CharField(max_length=50,null=True)
@@ -31,7 +38,8 @@ class Post(models.Model):
     date_of_publish=models.DateField(null=True)
     user_id =models.ForeignKey(User,on_delete=models.CASCADE)
     cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
-    tag_name=models.ForeignKey(Tags, on_delete=models.CASCADE,null=True)
+    # tag_id=models.ForeignKey(Tags, on_delete=models.CASCADE,null=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title

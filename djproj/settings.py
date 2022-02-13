@@ -32,10 +32,17 @@ ALLOWED_HOSTS = []
 # MEDIA_URL = '/Posts Images/'
 # MEDIA_ROOT = os.path.join(BASE_DIR,'/dj_blog/static/img/Posts Images/') # The root for the media storage
 
+# AUTH_USER_MODEL = 'dj_blog.User'
+
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Application definition
 
 INSTALLED_APPS = [
+    'taggit',
     'dj_blog',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -85,9 +92,9 @@ WSGI_APPLICATION = 'djproj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blogdb',
-        'USER':'saeed',
-        'PASSWORD':'passw0rd',
+        'NAME': 'blogdb_1',
+        'User':'omar',
+        'PASSWORD':'Password1234#@!',
     }
 }
 
@@ -134,3 +141,4 @@ STATIC_URL = os.path.join(BASE_DIR,'dj_blog/static/')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

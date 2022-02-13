@@ -32,7 +32,14 @@ def loginpage(request):
         if request.method == 'POST':
             name = request.POST.get('username')
             passwd = request.POST.get('password')
+            print(name)
+            print(passwd)
             user = authenticate(request,username= name, password =passwd)
+            print(user)
+            # print(user.is_active)
+            # if user.is_active:   
+            #     print(user)
+            
             if user is not None:
                 login(request, user)
                 # next here specifies whether the user will redirect to the page he came from or not 
@@ -48,7 +55,6 @@ def loginpage(request):
 #Experimental Page 
 def home (request):
     return HttpResponse ('<h1>Welcome Home Page </h1>')
-
 
 def post(request):
     return render(request, 'dj_blog/post.html')
