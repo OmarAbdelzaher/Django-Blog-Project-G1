@@ -9,7 +9,6 @@ admin.site.register(Comment)
 admin.site.register(Reply)
 admin.site.register(Category)
 admin.site.register(PostTags)
-admin.site.register(UserCategory)
 
 
 
