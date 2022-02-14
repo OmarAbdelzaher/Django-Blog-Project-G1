@@ -42,7 +42,6 @@ AUTHENTICATION_BACKENDS = (
 # Application definition
 
 INSTALLED_APPS = [
-    'taggit',
     'dj_blog',
     'django.contrib.admin',
     'django.contrib.auth',
