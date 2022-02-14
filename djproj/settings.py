@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'User':'omar',
-        'PASSWORD':'Password1234#@!',
+        'User':'noura',
+        'PASSWORD':'noura',
     }
 }
 
@@ -141,3 +141,15 @@ STATIC_URL = os.path.join(BASE_DIR,'dj_blog/static/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+from django.core.mail import send_mail
+from django.conf import settings
+#Sednding mail to user
+DEFAULT_FROM_EMAIL = '<djangoapp50@gmail.com>'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '<djangoapp50@gmail.com>'
+EMAIL_HOST_PASSWORD = '<NSZOS123>'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
