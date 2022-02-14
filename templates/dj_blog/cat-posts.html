@@ -7,7 +7,6 @@
 
 <div class="container">
     {% for post,image,names in mylist %}
-    {% comment %} <h1>{{tags}}</h1> {% endcomment %}
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-white post">
@@ -33,22 +32,36 @@
                     </div>
                     <div class="post-description">
                         <div class="stats">
-                            <a href="javascript:void(0);" class="btn btn-primary stat-item">
+                            <!--<a href="javascript:void(0);" class="btn btn-primary stat-item">
                                 <i class="fa fa-thumbs-up icon"></i> {{post.likes}}
-                            </a>
-                            <a class="btn btn-danger stat-item" href="#!">
+                            </a>-->
+
+                            <!--<a class="btn btn-danger stat-item" href="javascript:void(0);" >
                                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
                                 {{post.dislikes}}
-                            </a>
-                            <div class="blog-post">
+                            </a>-->
+
+                            <!--<div class="blog-post">
                                 <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
                                     {% for tag in post.tags %}
                                         <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{post.tag}}</a></li>
                                     {% endfor %} 
                                 </ul> 
-                            </div>
+                            </div>-->
                         </div>
                     </div>
         {% endfor %}
     </div>
+    {% comment %} <script>
+        var likes = 0
+        var dislikes = 0
+        function addLike(){
+            likes += 1
+            console.log(likes)
+        }
+        function addDislike(){
+            dislikes +=1
+            console.log(dislikes)
+        }
+    </script> {% endcomment %}
 {% endblock %}

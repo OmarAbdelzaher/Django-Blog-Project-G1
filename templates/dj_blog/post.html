@@ -40,30 +40,43 @@
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
-                                <a href="#"><b>John Doe</b></a>
-                                uploaded a photo.
+                                <a href="#"><b>{{post.user}}</b></a>
+                                added a new post
                             </div>
-                            <h6 class="text-muted time">5 seconds ago</h6>
+                            <h6 class="text-muted time">{{post.date_of_publish}}</h6>
                         </div>
                     </div>
                     <div class="post-image">
-                        <img src=""><img src="https://via.placeholder.com/400x200" class="image" alt="image post">
+                        <img src={% static 'img/Posts Images/' %}{{image}} class="image" alt="image post" style="width:150px;">
                     </div>
                     <div class="post-description">
-                        <h4>Product Shoot</h4>
-                        <p>Here is a picture of the walkway to our product shoot.</p>
+                        <h4>{{post.title}}</h4>
+                        <p>{{post.content}}</p>
+                        <h3>{{post.category}}</h3>
                         <div class="stats">
-                            <a href="javascript:void(0);" class="btn btn-primary stat-item">
+                            <!--<a href="javascript:void(0);" class="btn btn-primary stat-item">
                                 <i class="fa fa-thumbs-up icon"></i>228
-                            </a>
+                            </a>-->
+                            <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">  
+                                <button type="submit" class="btn btn-primary stat-item">
+                                    <i class="fa fa-thumbs-up icon">{{post.likes.all.count}}</i> 
+                                </button>
+                            </form>
+                            <form method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}"> 
+                                <button type="submit" class="btn btn-danger stat-item">
+                                    <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
+                                </button>
+                            </form>
                             {% comment %} <a href="javascript:void(0);" class="btn btn-default stat-item">
                                 <i class="fa fa-share icon"></i>128
                             </a> {% endcomment %}
                             
-                            <a class="btn btn-danger stat-item" href="#!">
+                            <!--<a class="btn btn-danger stat-item" href="#!">
                                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
                                 34
-                            </a>
+                            </a>-->
                         </div>
                     </div>
                     <div class="post-footer">

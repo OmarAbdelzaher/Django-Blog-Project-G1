@@ -6,158 +6,47 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="{% static 'css/landing.css' %}" rel="stylesheet">
 
-<h3> Hello from landing page</h3>
-
-
-
-
 <!-- Home Content  -->
-
-
 <section class="content-item grey" id="blog-timeline">
     <div class="container">
         <div class="row">
-
+            <h2>Welcome to SONSZ-Blog</h2>
             <!-- BLOG POSTS - START -->
             <div class="col-sm-8">
-                <h2>Our Blog</h2>
                 <div class="timeline">
-
-                    <!-- BLOG POST 1 - START -->
+                    <!-- BLOG POST - START -->
+                    {% for post,image,names in mylist %}
                     <div class="blog-post">
                         <div class="blog-info">
                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
-                                alt="avatar-img">
-                            <div class="date">
-                                <div class="number">18</div>
-                                <div>Dec</div>
-                            </div>
+                            alt="avatar-img">
+                            <div>{{names}}</div>
                         </div>
-                        <h3><a href="#blogitem.html">Introducing WordPress 4.0 “Benny”</a></h3>
-                        <div class="date-xs">18/12/2014</div>
+                        <h3><a href="{% url 'like' post.id %}">{{post.title}}</a></h3>
+                        <div class="date-xs">{{post.date_of_publish}}</div>
                         <p>
-                            <a href="{% url 'post' %}" target="_self">
-                                <img class="img-responsive pull-right" src="https://via.placeholder.com/266x200/"
-                                    alt="post-img"> </a>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lacus ac
-                            semper viverra. Etiam consequat odio sollicitudin metus condimentum, quis hendrerit erat
-                            adipiscing. Cras non turpis ut eros varius laoreet a ut felis. Aliquam sodales, purus
-                            pulvinar tincidunt congue, elit mauris sodales nisl, consequat iaculis urna enim in lectus.
-                            Proin at ornare lacus.
+                            <a href="{% url 'like' post.id %}" target="_self">
+                                <img class="img-responsive pull-right" src={% static 'img/Posts Images/' %}{{image}}
+                                alt="post-img"> </a>
+                            {{post.content}}
                         </p>
-                        <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>book</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>music</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
-                            </li>
-                        </ul>
+                        <!--
+                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
+                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>book</a></li>
+                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>music</a></li>
+                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
+                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
+                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
+                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
+                                </li>
+                            </ul>
+                        -->
                     </div>
-                    <!-- BLOG POST 1 - END -->
-
-                    <!-- BLOG POST 2 - START -->
-                    <div class="blog-post">
-                        <div class="blog-info">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                class="img-responsive user-avatar" alt="avatar-img">
-                            <div class="date">
-                                <div class="number">09</div>
-                                <div>Dec</div>
-                            </div>
+                {% endfor %}
                         </div>
-                        <h3><a href="#blogitem.html">Nature Center: Earth Day Festival</a></h3>
-                        <p><img class="img-responsive pull-right" src="https://via.placeholder.com/266x200/"
-                                alt="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lacus ac
-                            semper viverra. Etiam consequat odio sollicitudin metus condimentum, quis hendrerit erat
-                            adipiscing. Cras non turpis ut eros varius laoreet a ut felis. Aliquam sodales, purus
-                            pulvinar tincidunt congue, elit mauris sodales nisl, consequat iaculis urna enim in lectus.
-                            Proin at ornare lacus.</p>
-                        <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>book</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>music</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
-                            </li>
-                        </ul>
                     </div>
-                    <!-- BLOG POST 2 - END -->
-
-                    <!-- BLOG POST 3 - START -->
-                    <div class="blog-post">
-                        <div class="blog-info">
-
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                class="img-responsive user-avatar" alt="avatar-img">
-                            <div class="date">
-                                <div class="number">25</div>
-                                <div>Nov</div>
-                            </div>
-                        </div>
-                        <h3><a href="#blogitem.html">Two New Stores Set to Open in Downtown</a></h3>
-                        <p>
-                            <a href="{% url 'post' %}" target="_self">
-                                <img class="img-responsive pull-right" src="https://via.placeholder.com/266x200/"
-                                    alt="post-img"> </a> hello ipsum dolor sit amet, consectetur adipiscing elit. In
-                            venenatis lacus ac
-                            semper viverra. Etiam consequat odio sollicitudin metus condimentum, quis hendrerit erat
-                            adipiscing. Cras non turpis ut eros varius laoreet a ut felis. Aliquam sodales, purus
-                            pulvinar tincidunt congue, elit mauris sodales nisl, consequat iaculis urna enim in lectus.
-                            Proin at ornare lacus.
-                        </p>
-                        <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>book</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>music</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- BLOG POST 3 - END -->
-
-                    <!-- BLOG POST 4 - START -->
-                    <div class="blog-post">
-                        <div class="blog-info">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                class="img-responsive user-avatar" alt="avatar-imgg">
-                            <div class="date">
-                                <div class="number">19</div>
-                                <div>Nov</div>
-                            </div>
-                        </div>
-                        <h3><a href="#blogitem.html">We Have Moved to a New Office</a></h3>
-                        <p><img class="img-responsive pull-right" src="https://via.placeholder.com/266x200/"
-                                alt="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lacus ac
-                            semper viverra. Etiam consequat odio sollicitudin metus condimentum, quis hendrerit erat
-                            adipiscing. Cras non turpis ut eros varius laoreet a ut felis. Aliquam sodales, purus
-                            pulvinar tincidunt congue, elit mauris sodales nisl, consequat iaculis urna enim in lectus.
-                            Proin at ornare lacus.</p>
-                        <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>book</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>music</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- BLOG POST 4 - END -->
-
-                </div>
-
-                <div class="text-center">
-                    <a href="##" class="btn btn-danger btn-lg">Load More</a>
-                </div>
-
-            </div>
-            <!-- End of Posts  -->
-
+                    <!-- End of Posts  -->
+                    
             <!-- SIDEBAR - Section -->
             <div class="col-sm-4">
                 <!-- Categories Section  -->
@@ -168,7 +57,7 @@
                         <ul class="list-unstyled">
                             {% for category in categories %}
                             <li>
-                                <a href="#"><span>{{ category.cat_name }} </span></a>
+                                <a href={% url "cat-posts" category.id %}><span>{{ category.cat_name }} </span></a>
                                 {% if user.is_authenticated %}
                                 {% if user in category.user.all %}
                                 <a type="button" class="btn un-sub"

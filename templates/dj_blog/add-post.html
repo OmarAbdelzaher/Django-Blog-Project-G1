@@ -1,0 +1,11 @@
+{% extends 'dj_blog/base.html' %}
+{% load static %}
+
+{% block main_block %}
+    <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
+        {{post.as_p}}
+        {{tag.as_p}}
+        <input type="submit" value="Add Post" class="btn btn-success"/>
+        <input type="reset" value="Clear" class="btn btn-danger"/>
+    </form>
+{% endblock %}

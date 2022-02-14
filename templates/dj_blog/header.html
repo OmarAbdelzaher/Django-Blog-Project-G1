@@ -2,12 +2,10 @@
 <nav class="navbar navbar-light bg-light navbar-expand-lg mb-4">
   <div class="container-fluid navbar-nav ">
     <ul class="navbar-nav me-auto mb-2 ">
+      <a class="nav-link active" aria-current="page" href="{% url 'landing' %}">Home</a>
 
-      <a class="navbar-brand" href="{% url 'landing'%}">Top Nav</a>
-      <a class="nav-link active" aria-current="page" href="{% url 'landing'%}">Home</a>
-      <a class="nav-link" href="{% url 'post'%}">Posts</a>
       {% if user.is_authenticated %}
-      <a class="nav-link" href="{% url 'post'%}">Add Post</a>
+      <a class="nav-link" href="{% url 'add-post'%}">Add Post</a>
 
       <a class="nav-link" href="{% url 'logout' %}">Log out</a>
 
