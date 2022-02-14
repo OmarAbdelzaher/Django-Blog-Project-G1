@@ -88,6 +88,7 @@ DATABASES = {
         'NAME': 'blogdb',
         'USER':'samiha',
         'PASSWORD':'password',
+
     }
 }
 

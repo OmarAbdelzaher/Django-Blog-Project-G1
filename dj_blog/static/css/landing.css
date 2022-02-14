@@ -189,6 +189,16 @@ body{margin-top:20px;}
     margin: 0 30px;
     align-content:space-around;
 }
+/* unsubscribe  */
+
+.sidebar .categories .un-sub{
+	background-color: red;
+	border: none;
+    margin: 0 30px;
+    align-content:space-around;
+}
+
+
 .posts ul li a {
 	font-size:14px;
 	line-height:23px;
@@ -300,3 +310,5 @@ div .box.tags ul li i {
 		margin-bottom:30px;
 	}
 }
+
+

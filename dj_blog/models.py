@@ -14,6 +14,7 @@ class Account(models.Model):
 
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
+    user = models.ManyToManyField(User,related_name='categories')
 
     def __str__(self):
         return self.cat_name
@@ -50,7 +51,5 @@ class Reply(models.Model):
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
 
-class UserCategory(models.Model):
-    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
-    cat_id=models.ForeignKey(Category, on_delete=models.CASCADE)
+
 
