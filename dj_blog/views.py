@@ -93,7 +93,7 @@ def logoutpage(request):
 
 
 def manageBlog(request):
-    return render(request, 'dj_blog/ManageBlog.html')
+    return render(request, 'dj_blog/manageblog.html')
 
 
 # catagories subscribe

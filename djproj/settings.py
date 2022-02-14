@@ -42,6 +42,8 @@ AUTHENTICATION_BACKENDS = (
 # Application definition
 
 INSTALLED_APPS = [
+    
+    'dj_admin',
     'dj_blog',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,8 +95,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'User':'omar',
-        'PASSWORD':'Password1234#@!',
+        'User':'saeed',
+        'PASSWORD':'passw0rd',
     }
 }
 

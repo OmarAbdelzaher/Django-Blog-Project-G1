@@ -5,12 +5,11 @@ from django.contrib.auth.models import User
 # Account model extends from User (built-in-Model) and add some extra fields
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    TYPE_CHOICES = (('user','User'),('admin','Admin'))
-    user_type = models.CharField(max_length=50,choices=TYPE_CHOICES)
     avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
-    
+    is_locked = models.BooleanField(default=False)
+
     def __str__(self):
-        return self.username
+        return self.user.username
 
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
