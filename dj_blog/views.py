@@ -8,6 +8,8 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
 
 def registerpage(request):
     # handling the checking for already logged in later
@@ -101,6 +103,9 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
+    send_mail("subscribed to a new category",
+             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
+             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
     return redirect("landing")
 
 # catagories unsubscribe
