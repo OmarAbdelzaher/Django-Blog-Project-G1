@@ -1,1 +1,5 @@
-djproj/settings.py
+settings.py
+migrations
+__pycache__
+Posts Images
+Users Images

@@ -27,13 +27,13 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="username" placeholder="Username..." class="form-control">
+							{{ login_form.username }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-								<input type="password" name="password" placeholder="Password..." class="form-control" >
+							{{ login_form.password }}
 						</div>
 
 							<div class="d-flex justify-content-center mt-3 login_container">
@@ -43,10 +43,11 @@
 
 				</div>
 
-				{% for msg in messages %}
-                <p id ='messages'>{{msg}}</p>
-                {% endfor %}
-                
+				{% for field, errors in login_form.errors.items %}
+						   		{% for error in errors %}
+								   <p id="messages">{{ error }}</p>
+								   {% endfor %}
+							{% endfor %}
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">

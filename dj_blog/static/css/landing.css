@@ -1,0 +1,314 @@
+
+body{margin-top:20px;}
+
+
+.content-item {
+    padding:30px 0;
+	background-color:#FFFFFF;
+}
+
+.content-item.grey {
+	background-color:#F0F0F0;
+	padding:50px 0;
+	height:100%;
+}
+
+.content-item h2 {
+	font-weight:700;
+	font-size:35px;
+	line-height:45px;
+	text-transform:uppercase;
+	margin:20px 0;
+}
+
+.content-item h3 {
+	font-weight:400;
+	font-size:20px;
+	color:#555555;
+	margin:10px 0 15px;
+	padding:0;
+}
+
+.content-headline {
+	height:1px;
+	text-align:center;
+	margin:20px 0 70px;
+}
+
+.content-headline h2 {
+	background-color:#FFFFFF;
+	display:inline-block;
+	margin:-20px auto 0;
+	padding:0 20px;
+}
+
+.grey .content-headline h2 {
+	background-color:#F0F0F0;
+}
+
+.content-headline h3 {
+	font-size:14px;
+	color:#AAAAAA;
+	display:block;
+}
+
+
+#blog-timeline h2,
+#blog-item h2 {
+    margin:0 0 15px;
+}
+
+#blog-timeline .sidebar h3,
+#blog-item .sidebar h3 {
+	margin-top:15px;
+}
+
+.timeline {
+    border-left:3px solid #BBBBBB;
+    margin-left:110px;
+    padding-left:25px;
+}
+
+.blog-post {
+	background-color:#FFFFFF;
+	padding:10px 25px;
+	margin-bottom:60px;
+}
+
+.blog-post .date-xs {
+	display:none;
+}
+
+.blog-post p {
+	font-size:14px;
+	line-height:23px;
+	text-align:justify;
+}
+
+.blog-post p img {
+	max-width:200px;	
+}
+
+.blog-post p img.pull-right {
+	margin-left:15px;
+}
+
+.blog-post p img.pull-left {
+	margin-right:15px;
+}
+
+.blog-post .blog-info {
+	position:absolute;
+	left:0;
+	margin-top:-10px;
+	width:100px;
+	background-color:#FFFFFF;
+	box-shadow:0 0 2px 1px rgba(0,0,0,0.2);
+}
+
+/* User avatar image */
+
+.blog-post .blog-info .user-avatar{
+    width: 15vw;
+    height: 30vh;
+}
+
+.blog-post .blog-info:after {
+    width:20px;
+	height:20px;
+    position: absolute;
+    right:-37px;
+    top:21px;
+	content:"";
+	text-align:center;
+	border-radius:50%;
+	border:5px solid #F0F0F0;
+}
+
+.blog-post .blog-info .date {
+	background-color:#FFFFFF;
+	font-size:16px;
+}
+
+.blog-post .blog-info .date div {
+	float:left;
+	padding:8px 0 0 12px;
+	font-weight:600;
+}
+
+.blog-post .blog-info .date div.number {
+	padding:4px 10px;
+	color:#FFFFFF;
+	font-size:20px;
+}
+
+.box {
+    background-color:#FFFFFF;
+	padding:10px 20px;
+	box-shadow:0 1px 2px 0 rgba(0,0,0,0.1);
+	margin-bottom:20px;
+}
+
+.box h3 {
+    margin:30px 0 5px;
+	font-weight:bold;
+}
+
+.box ul {
+	margin:0;
+}
+
+.box ul li {
+	font-size:13px;
+	border-bottom:1px dashed #DDDDDD;
+	padding:10px 0;
+	font-weight:600;
+}
+
+.box ul li:last-child {
+	border-bottom:0;
+}
+
+.box ul li i {
+	font-size:18px;
+	margin-right:20px;
+}
+
+.box.categories ul li i {
+	color:#d81313;	
+	position:relative;
+	top:2px;
+	width:20px;
+    
+}
+/* Subscribe Buttons */
+
+.sidebar .categories .subBtn{
+    background-color: #35858B;
+    border: none;
+    margin: 0 30px;
+    align-content:space-around;
+}
+/* unsubscribe  */
+
+.sidebar .categories .un-sub{
+	background-color: red;
+	border: none;
+    margin: 0 30px;
+    align-content:space-around;
+}
+
+
+.posts ul li a {
+	font-size:14px;
+	line-height:23px;
+}
+
+.posts ul li a:hover {
+	color:#333333;	
+}
+
+.posts ul li div {
+	font-size:13px;
+	color:#999999;
+	font-weight:bold;
+	text-align:right;
+	margin-top:5px;
+}
+
+.box.posts ul li i {
+    color:#333333;
+    font-size:14px;
+    margin-right:10px;
+}
+
+.box.tags ul.blog-tags li {
+	border:0;
+
+}
+
+ul.blog-tags li {
+	padding:7px 0;
+}
+/* tags of posts Style */
+div ul.blog-tags .all-tags{
+    margin: 0 4px;
+}
+div ul.blog-tags li i,
+div .box.tags ul li i {
+	color:#FFFFFF;
+	position:relative;
+	top:1px;
+	font-size:14px;
+    
+}
+@media (max-width:1024px) {
+    .blog-post p,
+	.blog p,
+	#comments .media p {
+		text-align:left;
+	}
+}
+
+/*------------------------------
+    SMALL DEVICES
+------------------------------*/
+
+@media (min-width:768px) and (max-width:991px) {
+	.overlay-wrapper .overlay a {
+		font-size:15px;
+		width:40px;
+		height:40px;
+		padding-top:9px;
+	}
+	
+	#reference {
+		min-height:430px;
+	}
+	
+	#blog-timeline h2, 
+	#blog-item h2 {
+		font-size:30px;
+	}
+	
+	.blog-post p img {
+		max-width:100%;
+		margin-bottom:10px;
+	}
+}
+
+/*------------------------------
+	EXTRA SMALL DEVICES
+------------------------------*/
+
+@media (max-width:767px) {
+	.blog-post p img,
+	.blog p img {
+		max-width:100%;
+		margin-bottom:10px;
+	}
+	
+	#blog-timeline .sidebar,
+	#blog-item .sidebar {
+		margin-top:40px;
+	}
+	
+	#gallery-item h2 {
+		margin-top:20px;
+	}
+	
+	.recent-post {
+		margin-bottom:30px;
+		text-align:center;
+	}
+	
+	#event-info {
+		padding-bottom:20px;
+	}
+	
+	.event-info-item {
+		margin-bottom:30px;
+	}
+}
+
+

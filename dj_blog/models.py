@@ -1,46 +1,41 @@
 from django.db import models
-from taggit.managers import TaggableManager
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-class User(models.Model):
+# Account model extends from User (built-in-Model) and add some extra fields
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     TYPE_CHOICES = (('user','User'),('admin','Admin'))
-    username = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
     user_type = models.CharField(max_length=50,choices=TYPE_CHOICES)
-    password = models.CharField(max_length=20)
     avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
     
-    def __str__(self):  
+    def __str__(self):
         return self.username
-    
-    # USERNAME_FIELD = 'username'
-    # REQUIRED_FIELDS = ['username','password']
 
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
+    user = models.ManyToManyField(User,related_name='categories')
 
     def __str__(self):
         return self.cat_name
 
-# class Tags(models.Model):
-#     tag=models.CharField(max_length=100)
-    
-#     def __str__(self):
-#         return self.tag
+class PostTags(models.Model):
+    tag_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.tag_name
     
 class Post(models.Model):
-    title=models.CharField(max_length=50,null=True)
-    picture=models.ImageField(null=True,upload_to='dj_blog/static/img/Posts Images/')
-    content=models.CharField(max_length=255)
-    likes=models.IntegerField(null=True)
-    dislikes=models.IntegerField(null=True)
-    date_of_publish=models.DateField(null=True)
-    user_id =models.ForeignKey(User,on_delete=models.CASCADE)
-    cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
-    # tag_id=models.ForeignKey(Tags, on_delete=models.CASCADE,null=True)
-    tags = TaggableManager()
-
+    title = models.CharField(max_length=50)
+    picture = models.ImageField(null=True,upload_to='dj_blog/static/img/Posts Images/')
+    content = models.CharField(max_length=255)
+    likes = models.ManyToManyField(User,blank=True,related_name='likes')
+    dislikes = models.ManyToManyField(User,blank=True,related_name='dislikes')
+    date_of_publish = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    tag = models.ManyToManyField(PostTags,blank=True)
+      
     def __str__(self):
         return self.title
     
@@ -58,7 +53,5 @@ class Reply(models.Model):
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
 
-class UserCategory(models.Model):
-    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
-    cat_id=models.ForeignKey(Category, on_delete=models.CASCADE)
+
 

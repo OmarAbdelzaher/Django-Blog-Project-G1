@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'djproj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blogdb_1',
+        'NAME': 'blogdb',
         'User':'omar',
         'PASSWORD':'Password1234#@!',
     }
