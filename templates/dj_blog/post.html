@@ -52,6 +52,33 @@
                         
                         </div>
                     </div>
+
+                    <div class="card my-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form method="POST" action="{% url 'comment' post.id %}"> {% csrf_token %}
+                                <div class="form-group">
+                                    <textarea class="form-control" name="text" rows="3" required></textarea>                                </div>
+                                <button class="btn btn-primary" type="submit">Comment</button>
+                            </form>
+                        </div>
+                    </div>
+                        
+                        <!-- Single Comments -->
+                        {% for comment in post.comments.all %}
+                            <div class="media mb-4">
+                                <img class="d-flex mr-3 rounded-circle article-img" src="" alt="">
+                                <div class="media-body">
+                                    <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user }}</a></h5>
+                                        {{ comment.comment_body|linebreaks }}
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="alert alert-secondary" role="alert">
+                                No Comment has been posted.
+                            </div>
+                        {% endfor %}
+
                     <div class="post-footer">
                         <div class="input-group"> 
                             <input class="form-control" placeholder="Add a comment" type="text">

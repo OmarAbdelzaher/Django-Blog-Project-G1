@@ -44,6 +44,9 @@ class Comment(models.Model):
     user_id=models.ForeignKey(User,on_delete=models.CASCADE)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE)     
     
+    def __str__(self):
+        return self.comment_body
+    
 #  Reply Table   
 class Reply(models.Model):
     reply_body=models.CharField(max_length=100)
