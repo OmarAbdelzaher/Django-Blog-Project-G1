@@ -18,5 +18,6 @@ urlpatterns = [
     path('post/<post_id>',views.PostPage,name='post'),
     path('post-like/<post_id>',views.AddLike,name='like'),
     path('post-dislike/<post_id>',views.AddDislike,name='dislike'),
+    path('search/', views.search, name="search"),
       
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

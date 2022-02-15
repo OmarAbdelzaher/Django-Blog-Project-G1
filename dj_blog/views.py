@@ -20,6 +20,8 @@ from django.core.paginator import Paginator
 
 
 
+
+
 def registerpage(request):
     # handling the checking for already logged in later
     user_form = RegistrationForm()
@@ -225,3 +227,17 @@ def AddDislike(request,post_id):
     post.save()
     
     return redirect('post',post_id)
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        posts = Post.objects.filter(title=searched)
+        tags = Post.objects.filter(tag__tag_name=searched)
+        tag = PostTags.objects.filter(tag_name=searched)
+
+        context = {'searched':searched, 'posts':posts, 'tags':tags, 'tag':tag}
+        
+        return render(request, 'dj_blog/search.html',context)
+    else:
+        return render(request, 'dj_blog/search.html',{})
