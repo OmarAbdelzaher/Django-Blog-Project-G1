@@ -15,20 +15,19 @@
             <div class="col-sm-8">
                 <div class="timeline">
                     <!-- BLOG POST - START -->
-                    {% for post,image,names in mylist %}
+                    {% for post in posts %}
                     <div class="blog-post">
                         <div class="blog-info">
                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
                             alt="avatar-img">
-                            <div>{{names}}</div>
+                            <div>{{post.user.username}}</div>
                         </div>
                         <h3><a href="{% url 'like' post.id %}">{{post.title}}</a></h3>
                         <div class="date-xs">{{post.date_of_publish}}</div>
                         <p>
                             <a href="{% url 'like' post.id %}" target="_self">
-                                <img class="img-responsive pull-right" src={% static 'img/Posts Images/' %}{{image}}
-                                alt="post-img"> </a>
-                            {{post.content}}
+                                <img class="img-responsive pull-right" src={% static post.picture %} alt="post-img"></a>
+                                {{post.content}}
                         </p>
                         <!--
                             <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">

@@ -50,19 +50,19 @@ def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
     
-    names = []
-    for post in posts:
-        names.append(User.objects.get(id=post.user_id))
+    # names = []
+    # for post in posts:
+        # names.append(User.objects.get(id=post.user_id))
         
-    imgs = Post.objects.values_list('picture', flat=True)
-    imageBases = []
+    # imgs = Post.objects.values_list('picture', flat=True)
+    # imageBases = []
 
-    for i in range(len(imgs)):
-        imageBases.append(os.path.basename(imgs[i]))
+    # for i in range(len(imgs)):
+        # imageBases.append(os.path.basename(imgs[i]))
 
-    my_list = zip(posts, imageBases, names)
+    # my_list = zip(posts,names)
 
-    context = {'mylist': my_list,'categories': categories}
+    context = {'posts': posts,'categories': categories}
     return render(request, 'dj_blog/landing.html', context)
 
 # def post(request):

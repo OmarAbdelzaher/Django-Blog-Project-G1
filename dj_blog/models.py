@@ -27,7 +27,7 @@ class PostTags(models.Model):
     
 class Post(models.Model):
     title = models.CharField(max_length=50)
-    picture = models.ImageField(null=True,upload_to='dj_blog/static/img/Posts Images/')
+    picture = models.ImageField(null=True,upload_to='images/')
     content = models.CharField(max_length=255)
     likes = models.ManyToManyField(User,blank=True,related_name='likes')
     dislikes = models.ManyToManyField(User,blank=True,related_name='dislikes')

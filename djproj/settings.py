@@ -28,11 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Setting MEDIA_URL and MEDIA_ROOT for the image upload 
-# MEDIA_URL = '/Posts Images/'
-# MEDIA_ROOT = os.path.join(BASE_DIR,'/dj_blog/static/img/Posts Images/') # The root for the media storage
+# Setting MEDIA_URL and MEDIA_ROOT for the image upload
+MEDIA_URL = '/dj_blog/static/'
 
-# AUTH_USER_MODEL = 'dj_blog.User'
+# The root for the media storage
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'dj_blog/static/'))
 
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'User':'noura',
-        'PASSWORD':'noura',
+        'User':'omar',
+        'PASSWORD':'Password1234#@!',
     }
 }
 
