@@ -1,0 +1,46 @@
+{% extends 'dj_blog/base.html' %}
+
+
+{% block main_block %}
+    <h1>Your Result</h1>
+    {% if searched %}
+        {% if posts or tags%}
+            {% for post in posts %}
+                <div class="blog-info">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar" alt="avatar-img">
+                    <div>{{post.user.username}}</div>
+                </div>
+                <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+                <div class="date-xs">{{post.date_of_publish}}</div>
+                <p>
+                    {{post.content}}
+                </p>
+             
+            {% endfor %}
+
+            {% for post in tags %}
+                <div class="blog-info">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar" alt="avatar-img">
+                    <div>{{post.user.username}}</div>
+                </div>
+                <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+                <div class="date-xs">{{post.date_of_publish}}</div>
+                <p>
+                    {{post.content}}
+                </p>
+                {%for posttags in tag%}
+                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
+                {%endfor%}
+
+            {% endfor %}
+
+        {% else %}
+            <h2>Nout Found!</h2>
+        {% endif %}
+
+    {% else %}
+        <h3>Please Enter the Post title or Tag name!</h3>
+    {%endif%}
+
+
+{% endblock %}
