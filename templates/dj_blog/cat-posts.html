@@ -6,7 +6,7 @@
 <link href="{% static 'css/post.css' %}" rel="stylesheet">
 
 <div class="container">
-    {% for post,image,names in mylist %}
+    {% for post in cat_post %}
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-white post">
@@ -16,7 +16,7 @@
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
-                                <a href="#"><b>{{names}}</b></a>
+                                <a href="#"><b>{{post.user.username}}</b></a>
                                 added a new post
                             </div>
                             <h6 class="text-muted time">{{post.date_of_publish}}</h6>
@@ -28,7 +28,7 @@
                         <h5>{{post.cat_id}}</h5>
                     </div>
                     <div class="post-image">
-                        <img src={% static 'img/Posts Images/' %}{{image}} class="post-img" alt="image post">
+                        <img src={% static post.picture %} class="post-img" alt="image post">
                     </div>
                     <div class="post-description">
                         <div class="stats">
@@ -52,16 +52,4 @@
                     </div>
         {% endfor %}
     </div>
-    {% comment %} <script>
-        var likes = 0
-        var dislikes = 0
-        function addLike(){
-            likes += 1
-            console.log(likes)
-        }
-        function addDislike(){
-            dislikes +=1
-            console.log(dislikes)
-        }
-    </script> {% endcomment %}
 {% endblock %}

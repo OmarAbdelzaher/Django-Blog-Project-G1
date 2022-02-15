@@ -22,10 +22,10 @@
                             alt="avatar-img">
                             <div>{{post.user.username}}</div>
                         </div>
-                        <h3><a href="{% url 'like' post.id %}">{{post.title}}</a></h3>
+                        <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
                         <div class="date-xs">{{post.date_of_publish}}</div>
                         <p>
-                            <a href="{% url 'like' post.id %}" target="_self">
+                            <a href="{% url 'post' post.id %}" target="_self">
                                 <img class="img-responsive pull-right" src={% static post.picture %} alt="post-img"></a>
                                 {{post.content}}
                         </p>

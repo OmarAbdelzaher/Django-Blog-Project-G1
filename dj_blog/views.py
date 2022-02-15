@@ -65,8 +65,10 @@ def landing(request):
     context = {'posts': posts,'categories': categories}
     return render(request, 'dj_blog/landing.html', context)
 
-# def post(request):
-#     return render(request, 'dj_blog/post.html')
+def PostPage(request,post_id):
+    post = Post.objects.get(id=post_id)
+    context = {'post':post}
+    return render(request, 'dj_blog/post.html',context)
 
 
 # def postPage(request):
@@ -103,9 +105,13 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
-    send_mail("subscribed to a new category",
-             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
-             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+    try:
+        send_mail("subscribed to a new category",
+                'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
+                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+    except Exception as ex:
+        log("couldn't send email message"+str(ex))
+        
     return redirect("landing")
 
 # catagories unsubscribe
@@ -142,22 +148,7 @@ def addPost(request):
 
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
-    
-    names = []
-    for post in cat_post:
-        names.append(User.objects.get(id=post.user_id))
-    
-    imgs = []
-    for post in cat_post:
-        imgs.append(str(post.picture))
-    
-    imageBases = []
-    for i in range(len(imgs)):
-        imageBases.append(os.path.basename(imgs[i]))
-    
-    my_list = zip(cat_post, imageBases, names)
-
-    context = {'mylist': my_list}
+    context = {'cat_post': cat_post}
     return render(request, 'dj_blog/cat-posts.html',context)
 
 # the user must be logged in to interact with the posts
@@ -166,12 +157,13 @@ def AddLike(request,post_id):
     # get the post that the user interacted with
     post = Post.objects.get(id=post_id)
     img = str(post.picture)
-    print(img)
     base_name = os.path.basename(img)
-    print(base_name)    
+      
+    
     # check if there is a dislike
     is_dislike = False
     for dislike in post.dislikes.all():
+        print(dislike)
         if dislike == request.user:
             is_dislike = True
             break
@@ -195,8 +187,8 @@ def AddLike(request,post_id):
     if is_like:
         post.likes.remove(request.user)
 
-    context = {'post':post,'image':base_name}
-    return render(request, 'dj_blog/post.html',context)
+    post.save()
+    return redirect('post',post_id)
 
 # the user must be logged in to interact with the posts
 @login_required(login_url='login')
@@ -230,5 +222,7 @@ def AddDislike(request,post_id):
     if is_dislike:
         post.dislikes.remove(request.user)
     
-    context = {'post':post}
-    return render(request, 'dj_blog/post.html',context)
+    
+    post.save()
+    
+    return redirect('post',post_id)
