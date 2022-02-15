@@ -9,6 +9,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from hitcount.views import HitCountDetailView
+from django.views.generic.edit import CreateView
+
+# import email confirmation stuff
+from django.core.mail import send_mail
+from django.conf import settings
+
+# import pagination stuff
+from django.core.paginator import Paginator
+
+# from django.utils.functional import SimpleLazyObject
+
 
 def registerpage(request):
     # handling the checking for already logged in later
@@ -48,21 +59,24 @@ def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
     
-    names = []
-    for post in posts:
-        names.append(User.objects.get(id=post.user_id))
-        
-    imgs = Post.objects.values_list('picture', flat=True)
-    imageBases = []
+    #set up pagination
+    num_of_posts=5
+    p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
+    page= request.GET.get('page')
+    pagination_posts=p.get_page(page)
 
-    for i in range(len(imgs)):
-        imageBases.append(os.path.basename(imgs[i]))
+    # End of setting pagination
 
-    my_list = zip(posts, imageBases, names)
+    nums= "a" * pagination_posts.paginator.num_pages
+    pg=pagination_posts
 
-    context = {'mylist': my_list,'categories': categories}
+    context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums}
     return render(request, 'dj_blog/landing.html', context)
 
+def PostPage(request,post_id):
+    post = Post.objects.get(id=post_id)
+    context = {'post':post}
+    return render(request, 'dj_blog/post.html',context)
 
 def logoutpage(request):
     auth.logout(request)
@@ -70,7 +84,7 @@ def logoutpage(request):
 
 
 def manageBlog(request):
-    return render(request, 'dj_blog/ManageBlog.html')
+    return render(request, 'dj_blog/manageblog.html')
 
 
 # catagories subscribe
@@ -78,6 +92,13 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
+    try:
+        send_mail("subscribed to a new category",
+                'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
+                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+    except Exception as ex:
+        log("couldn't send email message"+str(ex))
+        
     return redirect("landing")
 
 # catagories unsubscribe
@@ -105,7 +126,6 @@ def addPost(request):
                 newTag = PostTags.objects.create(tag_name = tag)
                 newTag.save()
                 obj.tag.add(newTag)
-                
             obj.save()
             return redirect('landing')
 
@@ -114,22 +134,7 @@ def addPost(request):
 
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
-    
-    names = []
-    for post in cat_post:
-        names.append(User.objects.get(id=post.user_id))
-    
-    imgs = []
-    for post in cat_post:
-        imgs.append(str(post.picture))
-    
-    imageBases = []
-    for i in range(len(imgs)):
-        imageBases.append(os.path.basename(imgs[i]))
-    
-    my_list = zip(cat_post, imageBases, names)
-
-    context = {'mylist': my_list}
+    context = {'cat_post': cat_post}
     return render(request, 'dj_blog/cat-posts.html',context)
 
 # the user must be logged in to interact with the posts
@@ -139,9 +144,11 @@ def AddLike(request,post_id):
     post = Post.objects.get(id=post_id)
     img = str(post.picture)
     base_name = os.path.basename(img)
+
     # check if there is a dislike
     is_dislike = False
     for dislike in post.dislikes.all():
+        print(dislike)
         if dislike == request.user:
             is_dislike = True
             break
@@ -165,8 +172,8 @@ def AddLike(request,post_id):
     if is_like:
         post.likes.remove(request.user)
 
-    context = {'post':post,'image':base_name}
-    return render(request, 'dj_blog/post.html',context)
+    post.save()
+    return redirect('post',post_id)
 
 # the user must be logged in to interact with the posts
 @login_required(login_url='login')
@@ -177,9 +184,8 @@ def AddDislike(request,post_id):
     # check if there is a like
     is_like = False
     for like in post.likes.all():
-        if like == request.user:
-            is_like = True
-            break
+        is_like = True
+        break
         
     # if the user clicked on the dislike button, remove the like
     if is_like:
@@ -200,63 +206,80 @@ def AddDislike(request,post_id):
     if is_dislike:
         post.dislikes.remove(request.user)
     
-    context = {'post':post}
-    return render(request, 'dj_blog/post.html',context)
-
-# def post(request):
-#     return render(request, 'dj_blog/post.html')
-
-
-# def postPage(request):
-#     posts = Post.objects.order_by('-date_of_publish')
+    post.save()
     
-#     names = []
-#     for post in posts:
-#         names.append(User.objects.get(id=post.user_id))
-        
-    
-#     imgs = Post.objects.values_list('picture', flat=True)
-#     imageBases = []
+    return redirect('post',post_id)
 
-#     for i in range(len(imgs)):
-#         imageBases.append(os.path.basename(imgs[i]))
+# class PostDetailView(HitCountDetailView):
+#     model = Post
+#     template_name = "dj_blog/post.html"
+#     slug_field = "slug"
+#     count_hit = True    
+#     form = CommentForm()
+#     print("helloo")
 
-#     my_list = zip(posts, imageBases,names)
+#     def post(self, request, *args, **kwargs):
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             post = self.get_object()
+#             form.instance.user = request.user
+#             form.instance.post = post
+#             form.save()            
+#             return redirect(reverse("post", kwargs={
+#             'slug': post.slug
+#             }))
+#         print("helloo samihaa")
 
-#     context = {'mylist': my_list}
-#     return render(request, 'dj_blog/posts-page.html', context)
+#     def get_context_data(self, **kwargs):
+#         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
+#         post_comments = Comment.objects.all().filter(post=self.object.id)
+#         context = super().get_context_data(**kwargs)
+#         print(post_comments)
+#         print(post_comments_count)
+#         print(context)
+#         print(self.form)
+#         context.update({
+#             'form': self.form,
+#             'post_comments': post_comments,
+#             'post_comments_count': post_comments_count,
+#         })
+#         print("helloo omarr")
+#         return context
+# @login_required(login_url='login')
+# class AddComment(CreateView):
+#     model = Comment
+#     template_name = "dj_blog/post.html"
+#     fields = '(comment_body,)'
+#     def commentform_valid(self,form):
+#         form.instance.user = request.user
+#         print(form.instance.user)
+#         return super().commentform_valid(form)
 
-class PostDetailView(HitCountDetailView):
-    model = Post
-    template_name = "dj_blog/post.html"
-    slug_field = "slug"
-    count_hit = True    
-    form = CommentForm()
-    print("helloo")
+# @login_required(login_url='login')
+# def AddComment(request,postId):
+#     comment_form = CommentForm()
+#     if request.method == 'POST':
+#         comment_form=CommentForm(request.POST)
+#         if comment_form.is_valid():
+#             comment_form.instance.user = request.user
+#             comment_form.instance.post_id = postId
+#             comment_form.save()  
+#     print(comment_form)
+#     print("hellooo")
+#     context = {"comment_form":comment_form}
+#     return redirect("post",postId)
 
-    def post(self, request, *args, **kwargs):
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            post = self.get_object()
-            form.instance.user = request.user
-            form.instance.post = post
-            form.save()            
-            return redirect(reverse("post", kwargs={
-            'slug': post.slug
-            }))
-        print("helloo samihaa")
-    def get_context_data(self, **kwargs):
-        post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
-        post_comments = Comment.objects.all().filter(post=self.object.id)
-        context = super().get_context_data(**kwargs)
-        print(post_comments)
-        print(post_comments_count)
-        print(context)
-        print(self.form)
-        context.update({
-            'form': self.form,
-            'post_comments': post_comments,
-            'post_comments_count': post_comments_count,
-        })
-        print("helloo omarr")
-        return context
+@login_required(login_url='login')
+def add_comment(request, post_id):
+    post = get_object_or_404(Post,id=post_id)
+    if request.method == 'POST':
+        # user = request.user = SimpleLazyObject(lambda: user)
+        user = request.user
+        print(user)
+        #user = request.user.is_authenticated()
+        comment_text = request.POST.get('text')
+        Comment(user=user , post_id=post, comment_body=comment_text).save() 
+    else:
+        return redirect('post', post_id)
+    return redirect('post', post_id)
+

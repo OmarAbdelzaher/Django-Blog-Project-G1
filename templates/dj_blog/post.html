@@ -9,28 +9,6 @@
 <div class="container">
 <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
-        {% comment %} <div class="panel panel-white profile-widget">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="image-container bg2" style="background:url(http://www.bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg)">  
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="avatar" alt="avatar"> 
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="details">
-                        <h4>John Smit Doe <i class="fa fa-sheild"></i></h4>
-                        <div>Works at Bootdey.com</div>
-                        <div>Attended University of Bootdey</div>
-                        <div>Lives in Medellin, Colombia</div>
-                        <div class="mg-top-10">
-                            <a href="#" class="btn btn-default">About Kevin</a>
-                            <a href="#" class="btn btn-success">Add Kevin</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> {% endcomment %}
-        
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-white post">
@@ -47,69 +25,65 @@
                         </div>
                     </div>
                     <div class="post-image">
-                        <img src={% static 'img/Posts Images/' %}{{image}} class="image" alt="image post" style="width:150px;">
+                        <img src={% static post.picture %} class="image" alt="image post" style="width:150px;">
                     </div>
                     <div class="post-description">
                         <h4>{{post.title}}</h4>
                         <p>{{post.content}}</p>
                         <h3>{{post.category}}</h3>
                         <div class="stats">
-                            <!--<a href="javascript:void(0);" class="btn btn-primary stat-item">
-                                <i class="fa fa-thumbs-up icon"></i>228
-                            </a>-->
-                            <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}
-                                <input type="hidden" name="next" value="{{ request.path }}">  
+                            <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
                                 <button type="submit" class="btn btn-primary stat-item">
                                     <i class="fa fa-thumbs-up icon">{{post.likes.all.count}}</i> 
                                 </button>
                             </form>
                             <form method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
-                                <input type="hidden" name="next" value="{{ request.path }}"> 
                                 <button type="submit" class="btn btn-danger stat-item">
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
                             </form>
-                            {% comment %} <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                <i class="fa fa-share icon"></i>128
-                            </a> {% endcomment %}
-                            
-                            <!--<a class="btn btn-danger stat-item" href="#!">
-                                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                                34
-                            </a>-->
-                        </div>
-                    </div>
-                    <div class="section ">
-                        <div class="container ">
-                            <h2>Comments: {{post_comments_count}}</h2>
-                            <div class="row ">
-                                {% for comment in post_comments %}
-                                <div class="col-lg-8 mx-auto ">
-                                    <!--display comment-->
-                                    <div class="media-list"> 
-                                        <div>
-                                            <img class="avatar avatar-sm mr-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">
-                                              <div class="media-body">
-                                                <div class="small-1">
-                                                    <b>{{comment.user}}</b>
-                                                    <time class="ml-4 opaciy-70 small-3">{{comment.comment_time}}</time>
-                                                </div>
-                                                <p> {{comment.comment_body}}</p>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-                                    </div>                            <!--display the form-->
-                                    <form method="POST" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            {{CommentForm}}
-                                        </div> 
-                                        <button class="btn btn-primary btn-block " type="submit">Comment</button>   
-                                    </form>
-                                </div>
+                            <div class="blog-post">
+                                <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
+                                    {% for tag in post.tag.all %}
+                                        <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
+                                    {% endfor %} 
+                                </ul> 
                             </div>
+                        
                         </div>
                     </div>
+                    
+                    <div class="card my-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form method="POST" action="{% url 'comment' post.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {% csrf_token %}
+                <div class="form-group">
+                    <textarea class="form-control" name="text" rows="3" required></textarea>
+                                <button class="btn btn-primary" type="submit">Comment</button>
+                            </form>
+                        </div>
+                    </div>
+                    <a href="{% url 'login' %}" class="btn btn-success btn-lg btn-block mb-4">
+                        Sign In for comment and like the post.
+                    </a>
+                
+                    <!-- Single Comments -->
+                    {% for comment in post.comments.all %}
+                    <div class="media mb-4">
+                        <img class="d-flex mr-3 rounded-circle article-img" src="" alt="">
+                        <div class="media-body">
+                            <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user }}</a></h5>
+                            {{ comment.comment_body|linebreaks }}
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="alert alert-secondary" role="alert">
+                        No Comment has been posted.
+                    </div>
+                    {% endfor %}
                             <!-- <li class="comment">
                                 <a class="pull-left" href="javascript:void(0);">
                                     <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
@@ -177,120 +151,6 @@
                     </div>
                 </div>
             </div>
-            
-            {% comment %} <div class="col-sm-12">
-                <div class="panel panel-white post">
-                    <div class="post-heading">
-                        <div class="pull-left image">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
-                        </div>
-                        <div class="pull-left meta">
-                            <div class="title h5">
-                                <a href="#"><b>John Doe</b></a>
-                                made a post.
-                            </div>
-                            <h6 class="text-muted time">1 minute ago</h6>
-                        </div>
-                    </div> 
-                    <div class="post-description"> 
-                        <p>Anyone who is interested in helping out with the Mark &amp; Markson dinner party, please let me know before the week is over.</p>
-                        <div class="stats">
-                            <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-up icon"></i>2
-                            </a>
-                            <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                <i class="fa fa-share icon"></i>12
-                            </a>
-                        </div>
-                    </div>
-                    <div class="post-footer">
-                        <div class="input-group"> 
-                            <input class="form-control" placeholder="Add a comment" type="text">
-                            <span class="input-group-addon">
-                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a>  
-                            </span>
-                        </div>
-                        <ul class="comments-list">
-                            <li class="comment">
-                                <a class="pull-left" href="javascript:void(0);">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">Gavino Free</h4>
-                                        <h5 class="time">5 minutes ago</h5>
-                                    </div>
-                                    <p>Sure, I'd help out.</p>
-                                </div>
-                                <ul class="comments-list">
-                                    <li class="comment">
-                                        <a class="pull-left" href="javascript:void(0);">
-                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
-                                        </a>
-                                        <div class="comment-body">
-                                            <div class="comment-heading">
-                                                <h4 class="user">John Doe</h4>
-                                                <h5 class="time">3 minutes ago</h5>
-                                            </div>
-                                            <p>I will email you the details.</p>
-                                        </div>
-                                    </li> 
-                                    <li class="comment">
-                                        <a class="pull-left" href="javascript:void(0);">
-                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="avatar">
-                                        </a>
-                                        <div class="comment-body">
-                                            <div class="comment-heading">
-                                                <h4 class="user">John Doe</h4>
-                                                <h5 class="time">3 minutes ago</h5>
-                                            </div>
-                                            <p>Ok, cool.</p>
-                                        </div>
-                                    </li> 
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> {% endcomment %}
-            
-            {% comment %} <div class="col-sm-12">
-                <div class="panel panel-white post">
-                    <div class="post-heading">
-                        <div class="pull-left image">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="img-circle avatar" alt="user profile image">
-                        </div>
-                        <div class="pull-left meta">
-                            <div class="title h5">
-                                <a href="#"><b>Yanique Robinson</b></a>
-                                shared a video.
-                            </div>
-                            <h6 class="text-muted time">1 minute ago</h6>
-                        </div>
-                    </div> 
-                    <div class="post-video">
-                        <div class="fluid-width-video-wrapper" style="padding-top: 56.2%;"><iframe src="https://player.vimeo.com/video/98417189" id="fitvid369523"></iframe></div>
-                    </div>
-                    <div class="post-description">  
-                        <div class="stats">
-                            <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-up icon"></i>2
-                            </a>
-                            <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                <i class="fa fa-share icon"></i>12
-                            </a>
-                        </div>
-                    </div>
-                    <div class="post-footer">
-                        <div class="input-group"> 
-                            <input class="form-control" placeholder="Add a comment" type="text">
-                            <span class="input-group-addon">
-                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a> 
-                            </span>
-                        </div> 
-                    </div>
-                </div>
-            </div> {% endcomment %}
             
         </div>
         

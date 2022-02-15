@@ -15,20 +15,22 @@
             <div class="col-sm-8">
                 <div class="timeline">
                     <!-- BLOG POST - START -->
-                    {% for post,image,names in mylist %}
+
+
+                    {% for post in pg %}
+
                     <div class="blog-post">
                         <div class="blog-info">
                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
                             alt="avatar-img">
-                            <div>{{names}}</div>
+                            <div>{{post.user.username}}</div>
                         </div>
-                        <h3><a href="{% url 'like' post.id %}">{{post.title}}</a></h3>
+                        <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
                         <div class="date-xs">{{post.date_of_publish}}</div>
                         <p>
-                            <a href="{% url 'like' post.id %}" target="_self">
-                                <img class="img-responsive pull-right" src={% static 'img/Posts Images/' %}{{image}}
-                                alt="post-img"> </a>
-                            {{post.content}}
+                            <a href="{% url 'post' post.id %}" target="_self">
+                                <img class="img-responsive pull-right" src={% static post.picture %} alt="post-img"></a>
+                                {{post.content}}
                         </p>
                         <!--
                             <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
@@ -113,5 +115,109 @@
 
 <!-- END of Home content -->
 
+<!-- Start of pagination -->
+
+    {% if pg.has_previous %}
+        <a href="?page=1">&laquo First</a>
+        <a href="?page={{pg.previous_page_number}}">Previous</a>
+
+    {% endif%}
+
+    Page {{pg.number}} of {{pg.paginator.num_pages}}
+
+    {% if pg.has_next%}
+        <a href="?page={{pg.next_page_number}}">next</a>
+        <a href="?page={{pg.paginator.num_pages}}">Last &raquo</a>
+    {% endif%}
+
+
+        <!-- <br>
+        {{pg }} <br>
+        Has Previous :{{ pg.has_previous}}<br>
+        Has Next :{{pg.has_next}} <br>
+        Number :{{pg.number}} <br>
+        pages :{{pg.paginator.num_pages}} <br>
+        <hr> <br> <br> -->
+
+        <!-- Previous Section  -->
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+
+            <!-- if page has previous show that  -->
+
+            {% if pg.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo First</a>
+                </li>
+                <li class="page-item " >
+                    <a class="page-link" href="?page={{pg.previous_page_number}}">Previous</a> 
+                </li> 
+
+                <!-- if not disable previous  -->
+                {%else%}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">
+                            &laquo First
+                        </a> 
+                    </li>
+                    <li class="page-item disabled" >
+                        <a class="page-link" >
+                            Previous
+                        </a>
+                    </li>
+            {% endif%}
+
+
+            <!-- <li class="page-item disabled"> <a href="#" class="page-link" >Page {{pg.number}} of {{pg.paginator.num_pages}} </a>  </li> -->
+        
+            <!-- SHOW available page numbers 1,2,3,4,......  -->
+
+            {%for i in nums %}
+
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ forloop.counter}}">
+                        {{forloop.counter}}
+                    </a> 
+                </li>
+
+            {% endfor %}
+
+            <!-- Next Section  -->
+
+            {% if pg.has_next%}
+
+                <!-- if page has next show that  -->
+
+                <li class="page-item">
+                    <a class="page-link" href="?page={{pg.next_page_number}}">
+                        next
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{pg.paginator.num_pages}}">
+                        Last &raquo
+                    </a>
+                </li>
+            {% else %}
+                 <!-- if not disable next button  -->
+
+                <li class="page-item disabled">
+                    <a class="page-link " >
+                        next
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{pg.paginator.num_pages}}">
+                        Last &raquo
+                    </a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+    </nav>
+    <!-- End of pagination -->
 
 {% endblock %}
+
