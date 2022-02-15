@@ -42,12 +42,17 @@
 					</form>
 
 				</div>
-
+				<!-- For Message errors types  -->
+					{% for message in messages %}
+						<p id="messages">{{ message }}</p>
+					{% endfor %}
+				<!-- For Validation Errors types -->
 				{% for field, errors in login_form.errors.items %}
 						   		{% for error in errors %}
 								   <p id="messages">{{ error }}</p>
 								   {% endfor %}
 							{% endfor %}
+
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">

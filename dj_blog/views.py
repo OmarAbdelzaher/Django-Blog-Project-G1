@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import *
@@ -8,7 +8,7 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-
+from dj_admin.views import islocked
 # import email confirmation stuff
 from django.core.mail import send_mail
 from django.conf import settings
@@ -26,7 +26,10 @@ def registerpage(request):
     if request.method == "POST":
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
-            user_form.save()
+            user = user_form.save()
+            account = Account.objects.create(user=user)
+            account.is_locked = False 
+            account.save()
             return redirect('login')
     context = {'user_form': user_form}
     return render(request, 'dj_blog/register.html', context)
@@ -45,12 +48,21 @@ def loginpage(request):
             password = request.POST["password"]
             user = authenticate(username=username, password=password)
             if user is not None:
-                # handling the checking for blocked users here later
-                login(request, user)
-                if request.GET.get('next') is not None:
-                    return redirect(request.GET.get('next'))
-                else:
-                    return redirect('landing')
+                # handling the checking for blocked users 
+                if (user.is_staff) : # to check first if the user is admin or not 
+                     login(request, user)
+                     if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                     else:
+                        return redirect('landing')
+                elif islocked(user): # to check if the user is blocked or not 
+                    messages.info(request,"This Account is blocked , Please contact the admin")
+                else :
+                    login(request, user)
+                    if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                    else:
+                        return redirect('landing')
     context = {"login_form": login_form}
     return render(request, 'dj_blog/login.html', context)
 

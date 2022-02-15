@@ -42,7 +42,7 @@ AUTHENTICATION_BACKENDS = (
 # Application definition
 
 INSTALLED_APPS = [
-    
+    'jazzmin',
     'dj_admin',
     'dj_blog',
     'django.contrib.admin',
@@ -95,8 +95,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'USER': 'omar',
-        'PASSWORD': 'Password1234#@!'
+        'USER': 'saeed',
+        'PASSWORD': 'passw0rd'
     }
 }
 

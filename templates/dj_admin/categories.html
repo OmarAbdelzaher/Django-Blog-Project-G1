@@ -1,0 +1,42 @@
+{% extends 'dj_admin/base_layout.html' %}
+
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Categories</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    <!-- Main content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6 md-6 sm-6">
+        <table style="text-align : center;" class="table table-lg table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Categories</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category in categories %}
+           <tr style="background-color:	#636e72">
+           <td>{{category.cat_name}}</td>         
+          </tr> 
+          {%endfor%}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}

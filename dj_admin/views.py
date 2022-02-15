@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from dj_blog.models import Account
+from dj_blog.models import Account,Category
 # Create your views here.
 
 def starter(request):
@@ -41,3 +41,12 @@ def unlockUser(request,id):
     user = User.objects.get(id=id)
     unlock_user(user)
     return redirect('starter')
+
+def islocked(user):
+    return user.account.is_locked
+
+def showCategory(request):
+    categories = Category.objects.all()
+    context = {'categories':categories}
+    return render(request,'dj_admin/categories.html',context)
+
