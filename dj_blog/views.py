@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import *
@@ -8,9 +8,7 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-from hitcount.views import HitCountDetailView
-from django.views.generic.edit import CreateView
-
+from dj_admin.views import islocked
 # import email confirmation stuff
 from django.core.mail import send_mail
 from django.conf import settings
@@ -21,13 +19,18 @@ from django.core.paginator import Paginator
 # from django.utils.functional import SimpleLazyObject
 
 
+
+
 def registerpage(request):
     # handling the checking for already logged in later
     user_form = RegistrationForm()
     if request.method == "POST":
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
-            user_form.save()
+            user = user_form.save()
+            account = Account.objects.create(user=user)
+            account.is_locked = False 
+            account.save()
             return redirect('login')
     context = {'user_form': user_form}
     return render(request, 'dj_blog/register.html', context)
@@ -45,12 +48,21 @@ def loginpage(request):
             password = request.POST["password"]
             user = authenticate(username=username, password=password)
             if user is not None:
-                # handling the checking for blocked users here later
-                login(request, user)
-                if request.GET.get('next') is not None:
-                    return redirect(request.GET.get('next'))
-                else:
-                    return redirect('landing')
+                # handling the checking for blocked users 
+                if (user.is_staff) : # to check first if the user is admin or not 
+                     login(request, user)
+                     if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                     else:
+                        return redirect('landing')
+                elif islocked(user): # to check if the user is blocked or not 
+                    messages.info(request,"This Account is blocked , Please contact the admin")
+                else :
+                    login(request, user)
+                    if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                    else:
+                        return redirect('landing')
     context = {"login_form": login_form}
     return render(request, 'dj_blog/login.html', context)
 
@@ -210,76 +222,29 @@ def AddDislike(request,post_id):
     
     return redirect('post',post_id)
 
-# class PostDetailView(HitCountDetailView):
-#     model = Post
-#     template_name = "dj_blog/post.html"
-#     slug_field = "slug"
-#     count_hit = True    
-#     form = CommentForm()
-#     print("helloo")
-
-#     def post(self, request, *args, **kwargs):
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             post = self.get_object()
-#             form.instance.user = request.user
-#             form.instance.post = post
-#             form.save()            
-#             return redirect(reverse("post", kwargs={
-#             'slug': post.slug
-#             }))
-#         print("helloo samihaa")
-
-#     def get_context_data(self, **kwargs):
-#         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
-#         post_comments = Comment.objects.all().filter(post=self.object.id)
-#         context = super().get_context_data(**kwargs)
-#         print(post_comments)
-#         print(post_comments_count)
-#         print(context)
-#         print(self.form)
-#         context.update({
-#             'form': self.form,
-#             'post_comments': post_comments,
-#             'post_comments_count': post_comments_count,
-#         })
-#         print("helloo omarr")
-#         return context
-# @login_required(login_url='login')
-# class AddComment(CreateView):
-#     model = Comment
-#     template_name = "dj_blog/post.html"
-#     fields = '(comment_body,)'
-#     def commentform_valid(self,form):
-#         form.instance.user = request.user
-#         print(form.instance.user)
-#         return super().commentform_valid(form)
-
-# @login_required(login_url='login')
-# def AddComment(request,postId):
-#     comment_form = CommentForm()
-#     if request.method == 'POST':
-#         comment_form=CommentForm(request.POST)
-#         if comment_form.is_valid():
-#             comment_form.instance.user = request.user
-#             comment_form.instance.post_id = postId
-#             comment_form.save()  
-#     print(comment_form)
-#     print("hellooo")
-#     context = {"comment_form":comment_form}
-#     return redirect("post",postId)
 
 @login_required(login_url='login')
 def add_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id)
     if request.method == 'POST':
-        # user = request.user = SimpleLazyObject(lambda: user)
         user = request.user
         print(user)
-        #user = request.user.is_authenticated()
         comment_text = request.POST.get('text')
         Comment(user=user , post_id=post, comment_body=comment_text).save() 
     else:
         return redirect('post', post_id)
     return redirect('post', post_id)
 
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        posts = Post.objects.filter(title=searched)
+        tags = Post.objects.filter(tag__tag_name=searched)
+        tag = PostTags.objects.filter(tag_name=searched)
+
+        context = {'searched':searched, 'posts':posts, 'tags':tags, 'tag':tag}
+        
+        return render(request, 'dj_blog/search.html',context)
+    else:
+        return render(request, 'dj_blog/search.html',{})
