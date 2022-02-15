@@ -15,20 +15,21 @@
             <div class="col-sm-8">
                 <div class="timeline">
                     <!-- BLOG POST - START -->
+
+
                     {% for post in pg %}
 
                     <div class="blog-post">
                         <div class="blog-info">
                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
-                            alt="avatar-img">
-                            <div>{{names}}</div>
+                                alt="avatar-img">
+                            <div>{{post.user.username}}</div>
                         </div>
                         <h3><a href="{% url 'like' post.id %}">{{post.title}}</a></h3>
                         <div class="date-xs">{{post.date_of_publish}}</div>
                         <p>
                             <a href="{% url 'like' post.id %}" target="_self">
-                                <img class="img-responsive pull-right" src={% static 'img/Posts Images/' %}{{image}}
-                                alt="post-img"> </a>
+                                <img class="img-responsive pull-right" src={% static post.picture %} alt="post-img"></a>
                             {{post.content}}
                         </p>
                         <!--
@@ -43,11 +44,11 @@
                             </ul>
                         -->
                     </div>
-                {% endfor %}
-                        </div>
-                    </div>
-                    <!-- End of Posts  -->
-                    
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- End of Posts  -->
+
             <!-- SIDEBAR - Section -->
             <div class="col-sm-4">
                 <!-- Categories Section  -->
@@ -115,32 +116,30 @@
 <!-- END of Home content -->
 
 <!-- Start of pagination -->
-<br>
+<!-- <br>
 {{pg }} <br>
 Has Previous :{{ pg.has_previous}}<br>
 Has Next :{{pg.has_next}} <br>
 Number :{{pg.number}} <br>
 pages :{{pg.paginator.num_pages}} <br>
-<hr> <br> <br>
+<hr> <br> <br> -->
 
-{% if pg.has_previous %}
-<a href="?page=1">&laquo First</a>
-<a href="?page={{pg.previous_page_number}}">Previous</a>
-{% endif%}
-<!-- {% for i in page.paginator.page_range %}
-{% if page.number == i %}
-  <li class="active page-item"><span class="page-link">{{ i }}</span></li>
-{% else %}
-  <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-{% endif %}
-{% endfor %} -->
+
+
+    {% if pg.has_previous %}
+        <a href="?page=1">&laquo First</a>
+        <a href="?page={{pg.previous_page_number}}">Previous</a>
+
+    {% endif%}
 
 Page {{pg.number}} of {{pg.paginator.num_pages}}
-{% if pg.has_next%}
-<a href="?page={{pg.next_page_number}}">next</a>
-<a href="?page={{pg.paginator.num_pages}}">Last &raquo</a>
 
-{% endif %}
+    {% if pg.has_next%}
+        <a href="?page={{pg.next_page_number}}">next</a>
+        <a href="?page={{pg.paginator.num_pages}}">Last &raquo</a>
+    {% endif%}
 
+
+<!-- End of pagination -->
 
 {% endblock %}

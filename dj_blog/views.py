@@ -8,6 +8,11 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+
+# import email confirmation stuff
+from django.core.mail import send_mail
+from django.conf import settings
+
 # import pagination stuff
 from django.core.paginator import Paginator
 
@@ -54,28 +59,15 @@ def landing(request):
     num_of_posts=1
     p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
     page= request.GET.get('page')
-    all=p.page(p.num_pages)
-    print(page)
-    # End of setting pagination
-    names = []
-    for post in posts:
-        names.append(User.objects.get(id=post.user_id))
-        
-    imgs = Post.objects.values_list('picture', flat=True)
-    imageBases = []
-
-    for i in range(len(imgs)):
-        imageBases.append(os.path.basename(imgs[i]))
-
-    my_list = zip( imageBases)
-
     lists=p.get_page(page)
 
+    # End of setting pagination
+
+
+
     pg=lists
-    # lists=zip(posts, imageBases, names)
 
-
-    context = {'mylist': my_list,'categories': categories, 'pg':pg}
+    context = {'posts': posts,'categories': categories,'pg':pg }
     return render(request, 'dj_blog/landing.html', context)
 
 # def post(request):
@@ -108,7 +100,7 @@ def logoutpage(request):
 
 
 def manageBlog(request):
-    return render(request, 'dj_blog/ManageBlog.html')
+    return render(request, 'dj_blog/manageblog.html')
 
 
 # catagories subscribe
@@ -116,6 +108,9 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
+    send_mail("subscribed to a new category",
+             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
+             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
     return redirect("landing")
 
 # catagories unsubscribe

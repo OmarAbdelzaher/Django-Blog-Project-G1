@@ -28,11 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Setting MEDIA_URL and MEDIA_ROOT for the image upload 
-# MEDIA_URL = '/Posts Images/'
-# MEDIA_ROOT = os.path.join(BASE_DIR,'/dj_blog/static/img/Posts Images/') # The root for the media storage
+# Setting MEDIA_URL and MEDIA_ROOT for the image upload
+MEDIA_URL = '/dj_blog/static/'
 
-# AUTH_USER_MODEL = 'dj_blog.User'
+# The root for the media storage
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'dj_blog/static/'))
 
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
@@ -42,6 +42,8 @@ AUTHENTICATION_BACKENDS = (
 # Application definition
 
 INSTALLED_APPS = [
+    
+    'dj_admin',
     'dj_blog',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,3 +147,15 @@ STATIC_URL = os.path.join(BASE_DIR,'dj_blog/static/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+from django.core.mail import send_mail
+from django.conf import settings
+#Sednding mail to user
+DEFAULT_FROM_EMAIL = '<djangoapp50@gmail.com>'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '<djangoapp50@gmail.com>'
+EMAIL_HOST_PASSWORD = '<NSZOS123>'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
