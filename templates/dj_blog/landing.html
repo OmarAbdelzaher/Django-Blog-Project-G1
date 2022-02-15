@@ -15,11 +15,14 @@
             <div class="col-sm-8">
                 <div class="timeline">
                     <!-- BLOG POST - START -->
-                    {% for post in posts %}
+
+
+                    {% for post in pg %}
+
                     <div class="blog-post">
                         <div class="blog-info">
                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
-                            alt="avatar-img">
+                                alt="avatar-img">
                             <div>{{post.user.username}}</div>
                         </div>
                         <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
@@ -27,7 +30,7 @@
                         <p>
                             <a href="{% url 'post' post.id %}" target="_self">
                                 <img class="img-responsive pull-right" src={% static post.picture %} alt="post-img"></a>
-                                {{post.content}}
+                            {{post.content}}
                         </p>
                         <!--
                             <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
@@ -41,11 +44,11 @@
                             </ul>
                         -->
                     </div>
-                {% endfor %}
-                        </div>
-                    </div>
-                    <!-- End of Posts  -->
-                    
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- End of Posts  -->
+
             <!-- SIDEBAR - Section -->
             <div class="col-sm-4">
                 <!-- Categories Section  -->
@@ -112,5 +115,31 @@
 
 <!-- END of Home content -->
 
+<!-- Start of pagination -->
+<!-- <br>
+{{pg }} <br>
+Has Previous :{{ pg.has_previous}}<br>
+Has Next :{{pg.has_next}} <br>
+Number :{{pg.number}} <br>
+pages :{{pg.paginator.num_pages}} <br>
+<hr> <br> <br> -->
+
+
+
+    {% if pg.has_previous %}
+        <a href="?page=1">&laquo First</a>
+        <a href="?page={{pg.previous_page_number}}">Previous</a>
+
+    {% endif%}
+
+Page {{pg.number}} of {{pg.paginator.num_pages}}
+
+    {% if pg.has_next%}
+        <a href="?page={{pg.next_page_number}}">next</a>
+        <a href="?page={{pg.paginator.num_pages}}">Last &raquo</a>
+    {% endif%}
+
+
+<!-- End of pagination -->
 
 {% endblock %}

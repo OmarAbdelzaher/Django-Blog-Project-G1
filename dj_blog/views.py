@@ -8,8 +8,13 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+
+# import email confirmation stuff
 from django.core.mail import send_mail
 from django.conf import settings
+
+# import pagination stuff
+from django.core.paginator import Paginator
 
 def registerpage(request):
     # handling the checking for already logged in later
@@ -49,20 +54,20 @@ def loginpage(request):
 def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
-    
-    # names = []
-    # for post in posts:
-        # names.append(User.objects.get(id=post.user_id))
-        
-    # imgs = Post.objects.values_list('picture', flat=True)
-    # imageBases = []
 
-    # for i in range(len(imgs)):
-        # imageBases.append(os.path.basename(imgs[i]))
+    #set up pagination
+    num_of_posts=1
+    p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
+    page= request.GET.get('page')
+    lists=p.get_page(page)
 
-    # my_list = zip(posts,names)
+    # End of setting pagination
 
-    context = {'posts': posts,'categories': categories}
+
+
+    pg=lists
+
+    context = {'posts': posts,'categories': categories,'pg':pg }
     return render(request, 'dj_blog/landing.html', context)
 
 def PostPage(request,post_id):
