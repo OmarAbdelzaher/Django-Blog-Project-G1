@@ -8,6 +8,8 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+# import pagination stuff
+from django.core.paginator import Paginator
 
 def registerpage(request):
     # handling the checking for already logged in later
@@ -47,7 +49,14 @@ def loginpage(request):
 def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
-    
+
+    #set up pagination
+    num_of_posts=1
+    p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
+    page= request.GET.get('page')
+    all=p.page(p.num_pages)
+    print(page)
+    # End of setting pagination
     names = []
     for post in posts:
         names.append(User.objects.get(id=post.user_id))
@@ -58,9 +67,15 @@ def landing(request):
     for i in range(len(imgs)):
         imageBases.append(os.path.basename(imgs[i]))
 
-    my_list = zip(posts, imageBases, names)
+    my_list = zip( imageBases)
 
-    context = {'mylist': my_list,'categories': categories}
+    lists=p.get_page(page)
+
+    pg=lists
+    # lists=zip(posts, imageBases, names)
+
+
+    context = {'mylist': my_list,'categories': categories, 'pg':pg}
     return render(request, 'dj_blog/landing.html', context)
 
 # def post(request):
