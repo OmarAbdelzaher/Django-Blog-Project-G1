@@ -42,6 +42,14 @@
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
                             </form>
+                            <div class="blog-post">
+                                <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
+                                    {% for tag in post.tag.all %}
+                                        <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
+                                    {% endfor %} 
+                                </ul> 
+                            </div>
+                        
                         </div>
                     </div>
                     <div class="post-footer">

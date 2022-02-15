@@ -56,17 +56,12 @@ def landing(request):
     posts = Post.objects.order_by('-date_of_publish')
 
     #set up pagination
-    num_of_posts=1
+    num_of_posts=5
     p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
     page= request.GET.get('page')
     lists=p.get_page(page)
-
     # End of setting pagination
-
-
-
     pg=lists
-
     context = {'posts': posts,'categories': categories,'pg':pg }
     return render(request, 'dj_blog/landing.html', context)
 
@@ -74,27 +69,6 @@ def PostPage(request,post_id):
     post = Post.objects.get(id=post_id)
     context = {'post':post}
     return render(request, 'dj_blog/post.html',context)
-
-
-# def postPage(request):
-#     posts = Post.objects.order_by('-date_of_publish')
-    
-#     names = []
-#     for post in posts:
-#         names.append(User.objects.get(id=post.user_id))
-        
-    
-#     imgs = Post.objects.values_list('picture', flat=True)
-#     imageBases = []
-
-#     for i in range(len(imgs)):
-#         imageBases.append(os.path.basename(imgs[i]))
-
-#     my_list = zip(posts, imageBases,names)
-
-#     context = {'mylist': my_list}
-#     return render(request, 'dj_blog/posts-page.html', context)
-
 
 def logoutpage(request):
     auth.logout(request)

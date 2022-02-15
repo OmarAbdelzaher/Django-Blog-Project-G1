@@ -116,23 +116,13 @@
 <!-- END of Home content -->
 
 <!-- Start of pagination -->
-<!-- <br>
-{{pg }} <br>
-Has Previous :{{ pg.has_previous}}<br>
-Has Next :{{pg.has_next}} <br>
-Number :{{pg.number}} <br>
-pages :{{pg.paginator.num_pages}} <br>
-<hr> <br> <br> -->
-
-
-
     {% if pg.has_previous %}
         <a href="?page=1">&laquo First</a>
         <a href="?page={{pg.previous_page_number}}">Previous</a>
 
     {% endif%}
 
-Page {{pg.number}} of {{pg.paginator.num_pages}}
+    Page {{pg.number}} of {{pg.paginator.num_pages}}
 
     {% if pg.has_next%}
         <a href="?page={{pg.next_page_number}}">next</a>
