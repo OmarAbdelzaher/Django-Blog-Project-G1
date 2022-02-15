@@ -16,6 +16,10 @@ from django.conf import settings
 # import pagination stuff
 from django.core.paginator import Paginator
 
+
+
+
+
 def registerpage(request):
     # handling the checking for already logged in later
     user_form = RegistrationForm()
@@ -54,15 +58,19 @@ def loginpage(request):
 def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
-
+    
     #set up pagination
     num_of_posts=5
     p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
     page= request.GET.get('page')
-    lists=p.get_page(page)
+    pagination_posts=p.get_page(page)
+
     # End of setting pagination
-    pg=lists
-    context = {'posts': posts,'categories': categories,'pg':pg }
+
+    nums= "a" * pagination_posts.paginator.num_pages
+    pg=pagination_posts
+
+    context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums}
     return render(request, 'dj_blog/landing.html', context)
 
 def PostPage(request,post_id):
