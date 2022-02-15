@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect,get_object_or_404, reverse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import *
 from .models import *
@@ -7,9 +7,8 @@ from django.contrib import messages
 import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
-
-# validation to the registration form
-
+from django.contrib.auth.decorators import login_required
+from hitcount.views import HitCountDetailView
 
 def registerpage(request):
     # handling the checking for already logged in later
@@ -44,37 +43,25 @@ def loginpage(request):
     context = {"login_form": login_form}
     return render(request, 'dj_blog/login.html', context)
 
-
-# Experimental Page
-def home(request):
-    return HttpResponse('<h1>Welcome Home Page </h1>')
-
 # Home Page
-
-
 def landing(request):
     categories = Category.objects.all()
-    context = {'categories': categories}
-    return render(request, 'dj_blog/landing.html', context)
-
-
-def post(request):
-    return render(request, 'dj_blog/post.html')
-
-
-def postPage(request):
-    posts = Post.objects.all()
+    posts = Post.objects.order_by('-date_of_publish')
+    
+    names = []
+    for post in posts:
+        names.append(User.objects.get(id=post.user_id))
+        
     imgs = Post.objects.values_list('picture', flat=True)
-
     imageBases = []
 
     for i in range(len(imgs)):
         imageBases.append(os.path.basename(imgs[i]))
 
-    my_list = zip(posts, imageBases)
+    my_list = zip(posts, imageBases, names)
 
-    context = {'mylist': my_list}
-    return render(request, 'dj_blog/posts-page.html', context)
+    context = {'mylist': my_list,'categories': categories}
+    return render(request, 'dj_blog/landing.html', context)
 
 
 def logoutpage(request):
@@ -94,10 +81,182 @@ def subscribe(request, cat_id):
     return redirect("landing")
 
 # catagories unsubscribe
-
-
 def unsubscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.remove(user)
     return redirect("landing")
+
+def addPost(request):
+    post_form = PostForm()
+    tag_form = TagsForm()
+    
+    if request.method == 'POST':
+        post_form = PostForm(request.POST,request.FILES)
+        tag_form = TagsForm(request.POST)
+        if post_form.is_valid() and tag_form.is_valid():
+            obj = post_form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            
+            tag_obj = tag_form.save(commit=False)
+            splitted_tags = str(tag_obj).split(',')
+            for tag in splitted_tags:
+                newTag = PostTags.objects.create(tag_name = tag)
+                newTag.save()
+                obj.tag.add(newTag)
+                
+            obj.save()
+            return redirect('landing')
+
+    context = {'post':post_form,'tag':tag_form}
+    return render(request,'dj_blog/add-post.html',context)
+
+def catPosts(request,CatId):
+    cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
+    
+    names = []
+    for post in cat_post:
+        names.append(User.objects.get(id=post.user_id))
+    
+    imgs = []
+    for post in cat_post:
+        imgs.append(str(post.picture))
+    
+    imageBases = []
+    for i in range(len(imgs)):
+        imageBases.append(os.path.basename(imgs[i]))
+    
+    my_list = zip(cat_post, imageBases, names)
+
+    context = {'mylist': my_list}
+    return render(request, 'dj_blog/cat-posts.html',context)
+
+# the user must be logged in to interact with the posts
+@login_required(login_url='login')
+def AddLike(request,post_id):
+    # get the post that the user interacted with
+    post = Post.objects.get(id=post_id)
+    img = str(post.picture)
+    base_name = os.path.basename(img)
+    # check if there is a dislike
+    is_dislike = False
+    for dislike in post.dislikes.all():
+        if dislike == request.user:
+            is_dislike = True
+            break
+        
+    # if the user clicked on the like button, remove the dislike
+    if is_dislike:
+        post.dislikes.remove(request.user)
+    
+    # check if there is a like
+    is_like = False
+    for like in post.likes.all():
+        if like == request.user:
+            is_like = True
+            break
+        
+    # if the user clicked on the like button, add the like
+    if not is_like:
+        post.likes.add(request.user)
+    
+    # if the user clicked on the like button (already liked), remove the like
+    if is_like:
+        post.likes.remove(request.user)
+
+    context = {'post':post,'image':base_name}
+    return render(request, 'dj_blog/post.html',context)
+
+# the user must be logged in to interact with the posts
+@login_required(login_url='login')
+def AddDislike(request,post_id):
+    # get the post that the user interacted with
+    post = Post.objects.get(id=post_id)
+    
+    # check if there is a like
+    is_like = False
+    for like in post.likes.all():
+        if like == request.user:
+            is_like = True
+            break
+        
+    # if the user clicked on the dislike button, remove the like
+    if is_like:
+        post.likes.remove(request.user)
+    
+    # check if there is a dislike
+    is_dislike = False
+    for dislike in post.dislikes.all():
+        if dislike == request.user:
+            is_dislike = True
+            break
+    
+    # if the user clicked on the dislike button, add the dislike
+    if not is_dislike:
+        post.dislikes.add(request.user)
+    
+    # if the user clicked on the dislike button (already disliked), remove the dislike
+    if is_dislike:
+        post.dislikes.remove(request.user)
+    
+    context = {'post':post}
+    return render(request, 'dj_blog/post.html',context)
+
+# def post(request):
+#     return render(request, 'dj_blog/post.html')
+
+
+# def postPage(request):
+#     posts = Post.objects.order_by('-date_of_publish')
+    
+#     names = []
+#     for post in posts:
+#         names.append(User.objects.get(id=post.user_id))
+        
+    
+#     imgs = Post.objects.values_list('picture', flat=True)
+#     imageBases = []
+
+#     for i in range(len(imgs)):
+#         imageBases.append(os.path.basename(imgs[i]))
+
+#     my_list = zip(posts, imageBases,names)
+
+#     context = {'mylist': my_list}
+#     return render(request, 'dj_blog/posts-page.html', context)
+
+class PostDetailView(HitCountDetailView):
+    model = Post
+    template_name = "dj_blog/post.html"
+    slug_field = "slug"
+    count_hit = True    
+    form = CommentForm()
+    print("helloo")
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post = self.get_object()
+            form.instance.user = request.user
+            form.instance.post = post
+            form.save()            
+            return redirect(reverse("post", kwargs={
+            'slug': post.slug
+            }))
+        print("helloo samihaa")
+    def get_context_data(self, **kwargs):
+        post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
+        post_comments = Comment.objects.all().filter(post=self.object.id)
+        context = super().get_context_data(**kwargs)
+        print(post_comments)
+        print(post_comments_count)
+        print(context)
+        print(self.form)
+        context.update({
+            'form': self.form,
+            'post_comments': post_comments,
+            'post_comments_count': post_comments_count,
+        })
+        print("helloo omarr")
+        return context

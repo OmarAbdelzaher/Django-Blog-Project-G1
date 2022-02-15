@@ -32,11 +32,18 @@ ALLOWED_HOSTS = []
 # MEDIA_URL = '/Posts Images/'
 # MEDIA_ROOT = os.path.join(BASE_DIR,'/dj_blog/static/img/Posts Images/') # The root for the media storage
 
+# AUTH_USER_MODEL = 'dj_blog.User'
+
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Application definition
 
 INSTALLED_APPS = [
     'dj_blog',
+    'hitcount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -135,3 +142,4 @@ STATIC_URL = os.path.join(BASE_DIR,'dj_blog/static/')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

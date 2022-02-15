@@ -9,7 +9,7 @@ class Account(models.Model):
     user_type = models.CharField(max_length=50,choices=TYPE_CHOICES)
     avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
     
-    def __str__(self):  
+    def __str__(self):
         return self.username
 
 class Category(models.Model):
@@ -19,36 +19,35 @@ class Category(models.Model):
     def __str__(self):
         return self.cat_name
 
-class Tags(models.Model):
-    tag=models.CharField(max_length=100)
+class PostTags(models.Model):
+    tag_name = models.CharField(max_length=100)
+
     def __str__(self):
-        return self.tag
-
+        return self.tag_name
+    
 class Post(models.Model):
-    title=models.CharField(max_length=50,null=True)
-    picture=models.ImageField(null=True)
-    content=models.CharField(max_length=255)
-    likes=models.IntegerField(null=True)
-    dislikes=models.IntegerField(null=True)
-    date_of_publish=models.DateField(null=True)
-    user_id =models.ForeignKey(User,on_delete=models.CASCADE)
-    cat_id=models.ForeignKey(Category,on_delete=models.CASCADE)
-    tag_id=models.ForeignKey(Tags,on_delete=models.CASCADE)
-
-    # return post title
+    title = models.CharField(max_length=50)
+    picture = models.ImageField(null=True,upload_to='dj_blog/static/img/Posts Images/')
+    content = models.CharField(max_length=255)
+    likes = models.ManyToManyField(User,blank=True,related_name='likes')
+    dislikes = models.ManyToManyField(User,blank=True,related_name='dislikes')
+    date_of_publish = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    tag = models.ManyToManyField(PostTags,blank=True)
+      
+    def __str__(self):
+        return self.title
     
 class Comment(models.Model):
     comment_body=models.CharField(max_length=100)
-    comment_time=models.DateField(null=True)
-    user_id=models.ForeignKey(User,on_delete=models.CASCADE)
-    post_id=models.ForeignKey(Post,on_delete=models.CASCADE)     
+    comment_time=models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    post_id=models.ForeignKey(Post,on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return self.comment_body
     
-#  Reply Table   
-class Reply(models.Model):
-    reply_body=models.CharField(max_length=100)
-    reply_time=models.TimeField(null=True)
-    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
-    comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
 
 

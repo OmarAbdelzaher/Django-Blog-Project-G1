@@ -22,3 +22,35 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password...'}))
 
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title','picture','content','category']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'picture': forms.FileInput(attrs={'class': 'form-control'}),
+            'content':forms.TextInput(attrs={'class': 'form-control'}),
+            'category' : forms.Select(attrs={'class':'form-control'}),
+        }
+
+class TagsForm(forms.ModelForm):
+    class Meta:
+        model = PostTags
+        fields = ['tag_name']
+        widgets = {
+            'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput'})
+        }
+        
+# comment form
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment_body', )
+        widgets = {
+        "comment_body":forms.TextInput(attrs={
+        'class': 'md-textarea form-control',
+        'placeholder': 'comment here ...',
+        'rows': '4',
+    })}
+            
+
