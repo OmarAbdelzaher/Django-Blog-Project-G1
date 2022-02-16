@@ -167,6 +167,18 @@ def updatePost(request,post_id):
 
     return render(request,'dj_blog/updatePost.html',context)
 
+# Delete post
+def DeletePost(request,post_id):
+    post=Post.objects.get(id=post_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect ('landing')
+
+
+    context={'post':post}
+
+    return render(request,'dj_blog/delete-post.html',context)
+
 
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
