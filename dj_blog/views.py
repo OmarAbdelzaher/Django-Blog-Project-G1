@@ -16,7 +16,6 @@ from django.conf import settings
 # import pagination stuff
 from django.core.paginator import Paginator
 
-# from django.utils.functional import SimpleLazyObject
 
 
 
@@ -104,12 +103,12 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
-    try:
-        send_mail("subscribed to a new category",
-                'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
-                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
-    except Exception as ex:
-        log("couldn't send email message"+str(ex))
+    # try:
+    #     send_mail("subscribed to a new category",
+    #             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
+    #             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+    # except Exception as ex:
+    #     log("couldn't send email message"+str(ex))
         
     return redirect("landing")
 
@@ -222,18 +221,18 @@ def AddDislike(request,post_id):
     
     return redirect('post',post_id)
 
-
+# Add Comment
 @login_required(login_url='login')
 def add_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id)
     if request.method == 'POST':
         user = request.user
-        print(user)
         comment_text = request.POST.get('text')
-        Comment(user=user , post_id=post, comment_body=comment_text).save() 
+        Comment(user=user , post_id=post, comment_body=comment_text).save()
     else:
         return redirect('post', post_id)
     return redirect('post', post_id)
+
 
 
 def search(request):
@@ -242,7 +241,6 @@ def search(request):
         posts = Post.objects.filter(title=searched)
         tags = Post.objects.filter(tag__tag_name=searched)
         tag = PostTags.objects.filter(tag_name=searched)
-
         context = {'searched':searched, 'posts':posts, 'tags':tags, 'tag':tag}
         
         return render(request, 'dj_blog/search.html',context)
