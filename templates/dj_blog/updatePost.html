@@ -1,0 +1,14 @@
+{% extends 'dj_blog/base.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Title  -->
+<h1> Edit Post</h1>
+    <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
+     <!-- {{form}} -->
+     {{form.as_p}}
+     {{tag.as_p}}
+        <input type="submit" value="Edit Post" class="btn btn-success mt-4"/>
+        <input type="reset" value="Clear" class="btn btn-danger mt-4"/>
+    </form>
+{% endblock %}
