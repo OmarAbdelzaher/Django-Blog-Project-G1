@@ -143,42 +143,6 @@ def addPost(request):
     context = {'post':post_form,'tag':tag_form}
     return render(request,'dj_blog/add-post.html',context)
 
-# Edit Post
-def updatePost(request,post_id):
-
-    post=Post.objects.get(id=post_id)
-    form=PostForm(instance=post)
-    tag_form = TagsForm()
-    # tags=PostTags.objects.get(tag_name=post.tag)
-    # tags= TagsForm(instance=frmtag)
-
-    if request.method == 'POST':
-        post = PostForm(request.POST,request.FILES,instance=post)
-        # tag_form = TagsForm(request.POST)
-        if post.is_valid():
-            obj = post.save(commit=False)
-            obj.user = request.user
-            obj.save()
-            return redirect('landing')
-
-
-    context={'form':form}
-
-    return render(request,'dj_blog/updatePost.html',context)
-
-# Delete post
-def DeletePost(request,post_id):
-    post=Post.objects.get(id=post_id)
-    if request.method == "POST":
-        post.delete()
-        return redirect ('landing')
-
-
-    context={'post':post}
-
-    return render(request,'dj_blog/delete-post.html',context)
-
-
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
     context = {'cat_post': cat_post}

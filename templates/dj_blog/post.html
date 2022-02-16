@@ -62,7 +62,7 @@
                                 <div class="form-group">
                                     {% csrf_token %}
                 <div class="form-group">
-                    <textarea class="form-control" name="text" rows="3" required></textarea>
+                    <textarea class="form-control" name="text" rows="2" required></textarea>
                                 <button class="btn btn-primary" type="submit">Comment</button>
                             </form>
                         </div>
@@ -78,8 +78,16 @@
                             <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user}}</a></h5>
                             <p>{{comment.comment_time}}</p>
                             <h5>{{ comment.comment_body|linebreaks }}</h4>
-                            
                             <hr>
+                            <form method="POST" action="{% url 'comment' post.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {% csrf_token %}
+                <div class="form-group">
+                    <textarea class="form-control" name="text" rows="1" required></textarea>
+                    <input type="hidden" name='parent_id' value='{{comment.id}}'>
+                                <button class="btn btn-primary" type="submit">Reply</button>
+                            </form>
                         </div>
                     </div>
                     {% endfor %}
