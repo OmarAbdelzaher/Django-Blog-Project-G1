@@ -3,14 +3,17 @@
 
 {% block main_block %}
 <!-- Title  -->
-<h1> Delete Post</h1>
-    <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
-<h3>Are you sure you want to delete {{post.title}} post ? </h3>
-<h4>{{post.title}}</h4>
-<p>{{post.content}}</p>
+    <form class="container text-center" method='POST' enctype="multipart/form-data" >{% csrf_token %}
+        <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Delete Post</h3>
+        <div class="row shadow p-3 mb-4 ">
+            <div>
+                <h3 style="color: red;" >Are you sure you want to delete this post ?! </h3>
+                <h5>{{post.title}}</h5>
+                <p>{{post.content}}</p>
+            </div>
+        </div>
 <!-- <img src={% static 'img/Posts Images/' %}{{image}} class="post-img" alt="image post"> -->
-
-        <input type="submit" value="Delete Post" class="btn btn-danger mt-4"/>
-        <a href="{% url 'landing'%}" class="btn btn-primary mt-4">Cancel </a>
+        <input  type="submit" value="Delete Post" class="btn btn-success mt-4"/>
+        <a href="{% url 'landing'%}"  class="btn btn-secondary mt-4">Cancel </a>
     </form>
 {% endblock %}
