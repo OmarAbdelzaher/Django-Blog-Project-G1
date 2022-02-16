@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django import forms
 from .models import *
 from django.contrib.auth.models import User
@@ -40,3 +41,28 @@ class TagsForm(forms.ModelForm):
         widgets = {
             'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput'})
         }
+        
+# Comment Form
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment_body', )
+        widgets = {
+        "comment_body":forms.TextInput(attrs={
+        'class': 'md-textarea form-control',
+        'placeholder': 'comment here ...',
+        'rows': '4',
+    })}
+            
+
+
+class CategoryForm(forms.ModelForm):
+    cat_name = forms.CharField(widget=forms.TextInput())
+    class Meta:
+        model = Category
+        fields = ('cat_name',)
+    def clean(self):
+        cleaned_data = super(CategoryForm, self).clean()
+        cat_name = cleaned_data.get("cat_name")
+        if Category.objects.filter(cat_name = cat_name).exists():
+            raise ValidationError("Category Already exists !")
