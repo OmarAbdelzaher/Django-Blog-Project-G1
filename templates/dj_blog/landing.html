@@ -43,8 +43,10 @@
                                                 </a><br>
                                                 <br>
                                                 <div class="btn-group">
+                                                    {% if user.is_authenticated %}
                                                     <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'updatePost' post.id %}">EDIT</a>
                                                     <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
+                                                    {%endif%}
                                                 </div>
                                             </div>
                                             <div class="col-md-8">

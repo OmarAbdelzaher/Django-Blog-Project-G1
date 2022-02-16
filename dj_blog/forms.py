@@ -24,6 +24,7 @@ class LoginForm(AuthenticationForm):
 
 
 class PostForm(forms.ModelForm):
+    content = forms.TextInput(attrs={'class': 'form-control'})
     class Meta:
         model = Post
         fields = ['title','picture','content','category']
@@ -34,6 +35,7 @@ class PostForm(forms.ModelForm):
             'category' : forms.Select(attrs={'class':'form-control'}),
         }
 
+                
 class TagsForm(forms.ModelForm):
     class Meta:
         model = PostTags
@@ -66,3 +68,15 @@ class CategoryForm(forms.ModelForm):
         cat_name = cleaned_data.get("cat_name")
         if Category.objects.filter(cat_name = cat_name).exists():
             raise ValidationError("Category Already exists !")
+
+class ForbiddenWordsForm(forms.ModelForm):
+    forbidden_word=forms.CharField(widget=forms.TextInput())
+    class Meta:
+        model = ForbiddenWords
+        fields = ('forbidden_word',)
+    def clean(self):
+        cleaned_data = super(ForbiddenWordsForm, self).clean()
+        forbidden_word = cleaned_data.get("forbidden_word")
+        if ForbiddenWords.objects.filter(forbidden_word = forbidden_word).exists():
+            raise ValidationError("This Word Already exists !")
+    

@@ -1,8 +1,9 @@
+from ast import For
 from unicodedata import category
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from dj_blog.models import Account,Category
-from dj_blog.forms import CategoryForm
+from dj_blog.models import Account,Category,ForbiddenWords
+from dj_blog.forms import CategoryForm, ForbiddenWordsForm
 # Create your views here.
 
 def starter(request):
@@ -84,3 +85,40 @@ def editCategory(request,cat_id):
             return redirect('category')
     context = {"cat_form":form}
     return render (request,"dj_admin/editcategory.html",context)
+
+
+
+
+
+
+def addForbidden(request):
+    form = ForbiddenWordsForm()
+    if request.method == 'POST':
+        form = ForbiddenWordsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("forbiddenwords")
+    context = {"word_form": form}
+    return render(request, "dj_admin/forbiddenwordform.html", context)
+
+
+def showForbidden(request):
+    forbidden_words = ForbiddenWords.objects.all()
+    context = {'forbidden_words' : forbidden_words}
+    return render(request, "dj_admin/forbiddenwords.html", context)
+
+def delForbidden(request,word_id):
+    forbidden_words = ForbiddenWords.objects.get(id = word_id)
+    forbidden_words.delete()
+    return redirect('forbiddenwords')
+
+def editForbidden(request,word_id):
+    forbidden_words = ForbiddenWords.objects.get(id= word_id)
+    form = ForbiddenWordsForm(instance=forbidden_words)
+    if request.method == 'POST':
+        form = ForbiddenWordsForm(request.POST,instance=forbidden_words)
+        if form.is_valid():
+            form.save()
+            return redirect('forbiddenwords')
+    context = {"word_form":form}
+    return render (request,"dj_admin/editforbiddenwords.html",context)
