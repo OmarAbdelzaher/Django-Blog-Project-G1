@@ -44,7 +44,7 @@ class TagsForm(forms.ModelForm):
             'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput'})
         }
         
-# comment form
+# Comment Form
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

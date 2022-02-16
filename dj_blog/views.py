@@ -16,7 +16,6 @@ from django.conf import settings
 # import pagination stuff
 from django.core.paginator import Paginator
 
-# from django.utils.functional import SimpleLazyObject
 
 
 
@@ -110,12 +109,12 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
-    try:
-        send_mail("subscribed to a new category",
-                'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
-                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
-    except Exception as ex:
-        log("couldn't send email message"+str(ex))
+    # try:
+    #     send_mail("subscribed to a new category",
+    #             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
+    #             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+    # except Exception as ex:
+    #     log("couldn't send email message"+str(ex))
         
     return redirect("landing")
 
@@ -206,6 +205,18 @@ def updatePost(request,post_id):
 
     return render(request,'dj_blog/updatePost.html',context)
 
+# Delete post
+def DeletePost(request,post_id):
+    post=Post.objects.get(id=post_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect ('landing')
+
+
+    context={'post':post}
+
+    return render(request,'dj_blog/delete-post.html',context)
+
 
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
@@ -285,7 +296,7 @@ def AddDislike(request,post_id):
     
     return redirect('post',post_id)
 
-
+# Add Comment
 @login_required(login_url='login')
 def add_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id)
@@ -304,13 +315,13 @@ def add_comment(request, post_id):
         return redirect('post', post_id)
 
 
+
 def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         posts = Post.objects.filter(title=searched)
         tags = Post.objects.filter(tag__tag_name=searched)
         tag = PostTags.objects.filter(tag_name=searched)
-
         context = {'searched':searched, 'posts':posts, 'tags':tags, 'tag':tag}
         
         return render(request, 'dj_blog/search.html',context)

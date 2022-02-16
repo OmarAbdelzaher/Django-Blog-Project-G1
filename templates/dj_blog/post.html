@@ -52,7 +52,8 @@
                         
                         </div>
                     </div>
-                    
+
+                     <!-- Add Comment Form -->
                     <div class="card my-4">
                         <h5 class="card-header">Leave a Comment:</h5>
                         <div class="card-body">
@@ -66,88 +67,23 @@
                             </form>
                         </div>
                     </div>
-                    <a href="{% url 'login' %}" class="btn btn-success btn-lg btn-block mb-4">
-                        Sign In for comment and like the post.
-                    </a>
+
                 
-                    <!-- Single Comments -->
+                    <!-- Display Comments -->
+                    <h1>comments ({{post.comments.all.count}})</h1>
                     {% for comment in post.comments.all %}
                     <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle article-img" src="" alt="">
+                        <img class="d-flex mr-3 rounded-circle article-img" src="" class="img-circle avatar" alt="">
                         <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user }}</a></h5>
-                            {{ comment.comment_body|linebreaks }}
+                            <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user}}</a></h5>
+                            <p>{{comment.comment_time}}</p>
+                            <h5>{{ comment.comment_body|linebreaks }}</h4>
+                            
                             <hr>
                         </div>
                     </div>
-                    <div class="alert alert-secondary" role="alert">
-                        No Comment has been posted.
-                    </div>
                     {% endfor %}
-                            <!-- <li class="comment">
-                                <a class="pull-left" href="javascript:void(0);">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">John Doe</h4>
-                                        <h5 class="time">3 minutes ago</h5>
-                                    </div>
-                                    <p>I think I might you this for one of my projects.</p>
-                                </div>
-                            </li>
-                            <li class="comment">
-                                <a class="pull-left" href="javascript:void(0);">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">John Doe</h4>
-                                        <h5 class="time">10 seconds ago</h5>
-                                    </div>
-                                    <p>Wow! This is gorgeous.</p>
-                                </div>
-                                <ul class="comments-list">
-                                    <li class="comment">
-                                        <a class="pull-left" href="javascript:void(0);">
-                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                                        </a>
-                                        <div class="comment-body">
-                                            <div class="comment-heading">
-                                                <h4 class="user">Gavino Free</h4>
-                                                <h5 class="time">5 minutes ago</h5>
-                                            </div>
-                                            <p>Sure, I'd help out.</p>
-                                        </div>
-                                        <ul class="comments-list">
-                                            <li class="comment">
-                                                <a class="pull-left" href="javascript:void(0);">
-                                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
-                                                </a>
-                                                <div class="comment-body">
-                                                    <div class="comment-heading">
-                                                        <h4 class="user">John Doe</h4>
-                                                        <h5 class="time">3 minutes ago</h5>
-                                                    </div>
-                                                    <p>I will email you the details.</p>
-                                                </div>
-                                            </li> 
-                                            <li class="comment">
-                                                <a class="pull-left" href="javascript:void(0);">
-                                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="avatar">
-                                                </a>
-                                                <div class="comment-body">
-                                                    <div class="comment-heading">
-                                                        <h4 class="user">John Doe</h4>
-                                                        <h5 class="time">3 minutes ago</h5>
-                                                    </div>
-                                                    <p>Ok, cool.</p>
-                                                </div>
-                                            </li>  -->
-                                        <!-- </ul>
-                            </li>
-                         </ul> -->
-                       
+                            
                     </div>
                 </div>
             </div>

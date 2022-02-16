@@ -1,0 +1,31 @@
+{% extends 'dj_blog/base.html' %}
+{% load static %}
+
+{% block main_block %}
+
+{% if user.is_authenticated %}
+
+        <!-- Title  -->
+        <h1> Delete Post</h1>
+            <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
+        <h4>Are you sure you want to delete<strong class="text-danger"><b> {{post.title}} </b></strong> post ? </h4>
+        <h4>{{post.title}}</h4>
+        <p>{{post.content}}</p>
+        <!-- <img src={% static 'img/Posts Images/' %}{{image}} class="post-img" alt="image post"> -->
+
+                <input type="submit" value="Delete Post" class="btn btn-danger mt-4"/>
+                <a href="{% url 'landing'%}" class="btn btn-primary mt-4">Cancel </a>
+            </form>
+{% else %}
+
+     <!-- Show message if user try delete link when logout  -->
+
+        <h3> You are not allowed to be here in
+            <stong class="text-primary">Delete Page </stong> 
+            please go and Login here 
+            <a href="{% url 'login' %}">login</a> 
+        </h3>
+
+
+{% endif %}
+{% endblock %}
