@@ -47,7 +47,11 @@ class Comment(models.Model):
     def __str__(self):
         return self.user.username
 
-    
+class ForbiddenWords(models.Model):
+    forbidden_word=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.forbidden_word    
 
 
 

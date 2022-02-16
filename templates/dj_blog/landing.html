@@ -44,8 +44,13 @@
                                                 <br>
                                                 <div class="btn-group">
                                                     {% if user.is_authenticated %}
-                                                    <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'updatePost' post.id %}">EDIT</a>
-                                                    <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
+
+                                                    <!-- Edit Link  -->
+                                                        <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'updatePost' post.id %}">EDIT</a>
+                                                                                                           
+                                                        <!-- Delete Link  -->
+
+                                                        <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
                                                     {%endif%}
                                                 </div>
                                             </div>
@@ -57,6 +62,7 @@
                                                             href="{% url 'post' post.id %}">{{post.title}}</a>
                                                             
                                                     </h3>
+                                                    
                                                     <p class="text-muted">{{post.date_of_publish}}</p>
 
                                                     <p class="card-text">
@@ -73,40 +79,6 @@
                                         </div>
                                     </div>
                             </div>
-                            <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-
-                            {% if user.is_authenticated %}
-                             <!-- Edit link  -->
-
-                                <a href="{% url 'updatePost' post.id %}">EDIT</a>
-
-                             <!-- Delete link  -->
-
-                                <a href="{% url 'delete-post' post.id %}">Delete</a>
-
-                            {% endif %}
-
-                            <div class="date-xs">{{post.date_of_publish}}</div>
-                            <p>
-                                <a href="{% url 'post' post.id %}" target="_self">
-                                    <img class="img-responsive pull-right" src={% static post.picture %}
-                                        alt="post-img"></a>
-                                {{post.content}}
-                            </p>
-
-                            
-                            <!--
-                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>book</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>music</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
-                                </li>
-                            </ul>
-                        -->
-                        </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -134,42 +106,30 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                    </div>
-
-                    <!-- Recent Posts Section  -->
-                      
-
-                    <h3>Recent Posts</h3>
-                    <div class="box posts">
-
-                        <ul class="list-unstyled">
-                        {% for post in posts|slice:":3"  %}
-
-
-                            <li><i class="fa fa-chevron-right"></i><a href="{% url 'post' post.id %}">{{post.title}}</a>
-                                <div>{{post.date_of_publish}}</div>
-                            </li>
-                        {% endfor %}
-
-                            <!-- <li><i class="fa fa-chevron-right"></i><a href="#">{{post.title}}</a>
-                                <div>{{post.date_of_publish}}</div>
-                            </li> -->
-                            <!-- <li><i class="fa fa-chevron-right"></i><a href="#">{{post.title}}</a>
-                                <div>05/02/2014</div>
-                            </li> -->
-                        </ul>
-                    </div>
-
-                    <!-- Tags Section  -->
-
-                    <h3>Tags</h3>
-                    <div class="box tags">
-                        <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                            {% for posttags in tags %}
-                                <li><a class="btn btn-sm btn-success all-tags " href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
-                            {% endfor %} 
-                        </ul> 
-                    
+                        <h3>Recent Posts</h3>
+                        <div class="box posts">
+                            <ul class="list-unstyled">
+                                <h3>Recent Posts</h3>
+                                <div class="box posts">
+            
+                                    {% for post in posts|slice:":3"  %}
+            
+            
+                                        <li><i class="fa fa-chevron-right"></i><a href="{% url 'post' post.id %}">{{post.title}}</a>
+                                            <div>{{post.date_of_publish}}</div>
+                                        </li>
+                                    {% endfor %}
+                            </ul>
+                        </div>
+                        <h3>Tags</h3>
+                        
+                        <div class="box tags">
+                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
+                                {% for posttags in tags %}
+                                    <li><a class="btn btn-sm btn-success all-tags " href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
+                                {% endfor %} 
+                            </ul> 
+                        </div>
                     </div>
                 </div>
                 <!-- SIDEBAR - END -->
