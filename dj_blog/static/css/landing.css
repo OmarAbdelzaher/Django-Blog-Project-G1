@@ -106,11 +106,12 @@ body{margin-top:20px;}
 	box-shadow:0 0 2px 1px rgba(0,0,0,0.2);
 }
 
+
 /* User avatar image */
 
 .blog-post .blog-info .user-avatar{
-    width: 15vw;
-    height: 30vh;
+    width: 10vw;
+    height: 20vh;
 }
 
 .blog-post .blog-info:after {
@@ -126,7 +127,7 @@ body{margin-top:20px;}
 }
 
 .blog-post .blog-info .date {
-	background-color:#FFFFFF;
+	background-color:black;
 	font-size:16px;
 }
 
@@ -184,18 +185,16 @@ body{margin-top:20px;}
 /* Subscribe Buttons */
 
 .sidebar .categories .subBtn{
-    background-color: #35858B;
-    border: none;
-    margin: 0 30px;
+	margin: 0 0 0 50%;
     align-content:space-around;
+	right: 0%;
 }
 /* unsubscribe  */
 
 .sidebar .categories .un-sub{
-	background-color: red;
-	border: none;
-    margin: 0 30px;
+	margin: 0 0 0 50%;
     align-content:space-around;
+	right: 0%;
 }
 
 
@@ -230,6 +229,8 @@ body{margin-top:20px;}
 ul.blog-tags li {
 	padding:7px 0;
 }
+
+
 /* tags of posts Style */
 div ul.blog-tags .all-tags{
     margin: 0 4px;

@@ -2,45 +2,84 @@
 
 
 {% block main_block %}
-    <h1>Your Result</h1>
-    {% if searched %}
-        {% if posts or tags%}
-            {% for post in posts %}
-                <div class="blog-info">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar" alt="avatar-img">
-                    <div>{{post.user.username}}</div>
-                </div>
-                <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-                <div class="date-xs">{{post.date_of_publish}}</div>
-                <p>
-                    {{post.content}}
-                </p>
-             
-            {% endfor %}
+<head>
 
-            {% for post in tags %}
-                <div class="blog-info">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar" alt="avatar-img">
-                    <div>{{post.user.username}}</div>
-                </div>
-                <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-                <div class="date-xs">{{post.date_of_publish}}</div>
-                <p>
-                    {{post.content}}
-                </p>
-                {%for posttags in tag%}
-                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
-                {%endfor%}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-            {% endfor %}
+</head>
+<body>
+    <div class="container">
+
+        <h1 class="bg-success text-light fw-light bg-opacity-75 shadow p-2 mb-4 text-center">Your Result</h1>
+        {% if searched %}
+            {% if posts or tags%}
+                {% for post in posts %}
+                <center>
+                    
+                    <div class="card mb-3 shadow p-3 mb-4 " style="max-width: 540px;"> 
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" rounded-circle img-fluid user-avatar"
+                            alt="avatar-img">
+                        <div class="bg-success text-center bg-opacity-75 text-light">{{post.user.username}}</div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="card-header bg-success bg-opacity-75">
+                                        <p class="text-light card-text">{{post.date_of_publish}}</p>
+                                    </div>
+                                    <h3 class="card-title"><a class="text-dark fw-normal" style="text-decoration: none;" href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+                                    
+                                    <p class="card-text">
+                                        {{post.content}}
+                                    </p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                        
+                </center>
+                {% endfor %}
+
+                {% for post in tags %}
+                <center>
+                    <div class="card shadow p-3 mb-4 " style="max-width: 540px;"> 
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle img-fluid user-avatar"
+                            alt="avatar-img">
+                        <div class="bg-success text-center bg-opacity-75 text-light">{{post.user.username}}</div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="card-header bg-success bg-opacity-75">
+                                        <p class="text-light card-text">{{post.date_of_publish}}</p>
+                                    </div>
+                                    <h3 class="card-title"><a class="text-dark fw-normal" style="text-decoration: none;" href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+                                    
+                                    <p class="card-text">
+                                        {{post.content}}
+                                    </p>
+                                    {%for posttags in tag%}
+                                        <li><a class="btn btn-sm btn-secondary all-tags" href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
+                                    {%endfor%}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </center>
+                {% endfor %}
+
+            {% else %}
+                <h2 style="color: red;" class=" text-center shadow p-2 mb-4 ">Nout Found!</h2>
+            {% endif %}
 
         {% else %}
-            <h2>Nout Found!</h2>
-        {% endif %}
-
-    {% else %}
-        <h3>Please Enter the Post title or Tag name!</h3>
-    {%endif%}
-
-
+            <h2 style="color: red;" class=" text-center shadow p-2 mb-4 ">Please Enter the Post title or Tag name!</h2>
+        {%endif%}
+    </div>
+</body>
 {% endblock %}
