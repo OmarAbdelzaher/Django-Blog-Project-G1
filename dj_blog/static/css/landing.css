@@ -311,4 +311,17 @@ div .box.tags ul li i {
 	}
 }
 
+/* footer */
 
+footer .footer-pagination  {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    /* background-color: #aa2222; */
+    color: white;
+    font-style: italic;
+    text-align: center;
+    margin-bottom:0px !important;
+	margin-top: 40%;
+}

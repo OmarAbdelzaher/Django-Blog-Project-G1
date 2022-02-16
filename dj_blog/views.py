@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import *
@@ -10,6 +10,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 import logging
 
+from dj_admin.views import islocked
 # import email confirmation stuff
 from django.core.mail import send_mail
 from django.conf import settings
@@ -17,13 +18,22 @@ from django.conf import settings
 # import pagination stuff
 from django.core.paginator import Paginator
 
+
+
+
+
+
+
 def registerpage(request):
     # handling the checking for already logged in later
     user_form = RegistrationForm()
     if request.method == "POST":
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
-            user_form.save()
+            user = user_form.save()
+            account = Account.objects.create(user=user)
+            account.is_locked = False 
+            account.save()
             return redirect('login')
     context = {'user_form': user_form}
     return render(request, 'dj_blog/register.html', context)
@@ -42,12 +52,21 @@ def loginpage(request):
             password = request.POST["password"]
             user = authenticate(username=username, password=password)
             if user is not None:
-                # handling the checking for blocked users here later
-                login(request, user)
-                if request.GET.get('next') is not None:
-                    return redirect(request.GET.get('next'))
-                else:
-                    return redirect('landing')
+                # handling the checking for blocked users 
+                if (user.is_staff) : # to check first if the user is admin or not 
+                     login(request, user)
+                     if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                     else:
+                        return redirect('landing')
+                elif islocked(user): # to check if the user is blocked or not 
+                    messages.info(request,"This Account is blocked , Please contact the admin")
+                else :
+                    login(request, user)
+                    if request.GET.get('next') is not None:
+                        return redirect(request.GET.get('next'))
+                    else:
+                        return redirect('landing')
     context = {"login_form": login_form}
     return render(request, 'dj_blog/login.html', context)
 
@@ -67,7 +86,8 @@ def landing(request):
     nums= "a" * pagination_posts.paginator.num_pages
     pg=pagination_posts
 
-    context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums}
+    loggedUser = request.user
+    context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums,'loggeduser':loggedUser}
     return render(request, 'dj_blog/landing.html', context)
 
 def PostPage(request,post_id):
@@ -178,6 +198,8 @@ def AddLike(request,post_id):
     if is_like:
         post.likes.remove(request.user)
 
+    # print(post.dislikes.all.count)
+    
     post.save()
     return redirect('post',post_id)
 
@@ -215,4 +237,19 @@ def AddDislike(request,post_id):
     
     
     post.save()
+    
     return redirect('post',post_id)
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        posts = Post.objects.filter(title=searched)
+        tags = Post.objects.filter(tag__tag_name=searched)
+        tag = PostTags.objects.filter(tag_name=searched)
+
+        context = {'searched':searched, 'posts':posts, 'tags':tags, 'tag':tag}
+        
+        return render(request, 'dj_blog/search.html',context)
+    else:
+        return render(request, 'dj_blog/search.html',{})

@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django import forms
 from .models import *
 from django.contrib.auth.models import User
@@ -16,7 +17,7 @@ class RegistrationForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Email already exist !")
 
-# login form inherits from built-in authenticationform 
+        # login form inherits from built-in authenticationform 
 class LoginForm(AuthenticationForm): 
     username = UsernameField( widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username..'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password...'}))
@@ -40,3 +41,14 @@ class TagsForm(forms.ModelForm):
         widgets = {
             'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput'})
         }
+
+class CategoryForm(forms.ModelForm):
+    cat_name = forms.CharField(widget=forms.TextInput())
+    class Meta:
+        model = Category
+        fields = ('cat_name',)
+    def clean(self):
+        cleaned_data = super(CategoryForm, self).clean()
+        cat_name = cleaned_data.get("cat_name")
+        if Category.objects.filter(cat_name = cat_name).exists():
+            raise ValidationError("Category Already exists !")
