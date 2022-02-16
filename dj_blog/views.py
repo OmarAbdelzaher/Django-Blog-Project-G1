@@ -313,6 +313,8 @@ def add_comment(request, post_id):
         Comment(user=user,post_id=post, comment_body=comment_text).save() 
     else:
         return redirect('post', post_id)
+    return redirect('post', post_id)
+
 
 
 
