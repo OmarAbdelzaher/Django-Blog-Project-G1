@@ -15,52 +15,65 @@
 
 <body>
     <!-- Home Content  -->
-    <section class="content-item grey" id="blog-timeline">
+    <section class="content-item bg-light" id="blog-timeline">
         <div class="container">
             <div class="row">
-                <h2>Welcome to SONSZ-Blog</h2>
+                <h2 class="bg-success text-light fw-light bg-opacity-75 shadow p-3 mb-4 text-center">Welcome to SONSZ-Blog</h2>
                 <!-- BLOG POSTS - START -->
                 <div class="col-sm-8">
                     <div class="timeline">
                         <!-- BLOG POST - START -->
-
-
                         {% for post in pg %}
 
-                        <div class="blog-post">
-                            <div class="blog-info">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
-                                    alt="avatar-img">
-                                <div>{{post.user.username}}</div>
-                            </div>
-                            <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-                            <div class="date-xs">{{post.date_of_publish}}</div>
-                            <p>
-                                <a href="{% url 'post' post.id %}" target="_self">
-                                    <img class="img-responsive pull-right" src={% static post.picture %}
-                                        alt="post-img"></a>
-                                {{post.content}}
-                            </p>
+                            <div class="blog-post ">
+                                <div class="blog-info ">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" user-avatar"
+                                        alt="avatar-img">
+                                    <div class="bg-success bg-opacity-75 text-light">{{post.user.username}}</div>
+                                </div>
+                                <div class="card mb-3 shadow p-3 mb-4 " style="max-width: 540px;"> 
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <a href="{% url 'post' post.id %}" target="_self">
+                                                <img class="img-fluid rounded-start" src={% static post.picture %}
+                                                    alt="post-img">
+                                            </a>
+                                           
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
 
-                            
-                            <!--
-                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>book</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>music</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                                <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
-                                </li>
-                            </ul>
-                        -->
-                        </div>
+                                                <h3 class="card-title bg-light"><a class="text-dark fw-normal" style="text-decoration: none;" href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+                                               
+                                                <p class="text-muted">{{post.date_of_publish}}</p>
+                                                
+                                                <p class="card-text">
+                                                    {{post.content}}
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!--
+                                <ul class="blog-tags list-unstyled list-inline d-flex flex-row  ">
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>book</a></li>
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>music</a></li>
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
+                                    </li>
+                                </ul>
+                            -->
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
                 <!-- End of Posts  -->
                 <!-- SIDEBAR - Section -->
-                <div class="col-sm-4">
+                <div class="col-sm-4 bg-light shadow p-3 mb-4 ">
                     <!-- Categories Section  -->
                     <div class="sidebar">
                         <h3>Categories</h3>
@@ -69,13 +82,13 @@
                             <ul class="list-unstyled">
                                 {% for category in categories %}
                                 <li>
-                                    <a href={% url "cat-posts" category.id %}><span>{{ category.cat_name }} </span></a>
+                                    <a class="text-dark" style="text-decoration: none;" href={% url "cat-posts" category.id %}><span>{{ category.cat_name }} </span></a>
                                     {% if user.is_authenticated %}
                                     {% if user in category.user.all %}
-                                    <a type="button" class="btn un-sub"
+                                    <a type="button" class="btn un-sub btn-success"
                                         href="{% url 'unsubscribe' category.id %}">Unsubscribe</a>
                                     {% else %}
-                                    <a type="button" class="btn subBtn"
+                                    <a type="button" class="btn subBtn btn-outline-success"
                                         href="{% url 'subscribe' category.id %}">Subscribe</a>
                                     {% endif %}
                                     {% endif %}
@@ -108,12 +121,12 @@
                     <h3>Tags</h3>
                     <div class="box tags">
                         <ul class="blog-tags list-unstyled list-inline d-flex flex-wrap ">
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>book</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>music</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
-                            <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
+                            <li><a class="btn btn-success all-tags " href="#"><i class="fa fa-tag"></i>book</a></li>
+                            <li><a class="btn btn-success all-tags " href="#"><i class="fa fa-tag"></i>music</a></li>
+                            <li><a class="btn btn-success all-tags " href="#"><i class="fa fa-tag"></i>nature</a></li>
+                            <li><a class="btn btn-success all-tags " href="#"><i class="fa fa-tag"></i>read</a></li>
+                            <li><a class="btn btn-success all-tags " href="#"><i class="fa fa-tag"></i>songs</a></li>
+                            <li><a class="btn btn-success all-tags " href="#"><i class="fa fa-tag"></i>sunshine</a>
                             </li>
                         </ul>
                     </div>

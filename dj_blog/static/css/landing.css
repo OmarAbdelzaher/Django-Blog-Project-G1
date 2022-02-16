@@ -126,7 +126,7 @@ body{margin-top:20px;}
 }
 
 .blog-post .blog-info .date {
-	background-color:#FFFFFF;
+	background-color:black;
 	font-size:16px;
 }
 
@@ -184,17 +184,14 @@ body{margin-top:20px;}
 /* Subscribe Buttons */
 
 .sidebar .categories .subBtn{
-    background-color: #35858B;
-    border: none;
-    margin: 0 30px;
+	margin: 0 0 0 50%;
     align-content:space-around;
 }
 /* unsubscribe  */
 
 .sidebar .categories .un-sub{
-	background-color: red;
 	border: none;
-    margin: 0 30px;
+	margin: 0 0 0 50%;
     align-content:space-around;
 }
 
