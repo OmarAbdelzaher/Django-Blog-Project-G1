@@ -23,12 +23,16 @@
       <div class="row">
         <div class="col-8 md-8 sm-8">
 
-            <form method="POST" action=""> 
+            <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
                 <div class="input-group mb-3">
                     {{ post_form.as_p }}
                     {{ tag_form.as_p }}
-
+                    {% comment %} {% for i in counter %} {% endcomment %}
+                        {{tag_form1}}
+                        {{tag_form2}}
+                        {{tag_form3}}
+                    {% comment %} {% endfor %} {% endcomment %}
                 </div>
                 <div>
                     <input class="btn btn-dark" type="submit" value="Submit">

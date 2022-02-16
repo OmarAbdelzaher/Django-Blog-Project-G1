@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from dj_blog.models import *
 from dj_blog.forms import *
+
 # Create your views here.
 
 def starter(request):
@@ -119,22 +120,17 @@ def addPost(request):
 def editPost(request,post_id):
     post = Post.objects.get(id= post_id)
     post_form = PostForm(instance=post)
-    # tagInstance = []
+    context = {}
+    context['post_form'] = post_form
+    count = 0
     for tag in post.tag.all():
         print(tag)
         newTag = PostTags.objects.get(tag_name=tag)
         tag_form = TagsForm(instance=newTag)
-        # tagInstance.append(newTag)
- 
-    # print(tagInstance)
-    
-    
-    # if request.method == 'POST':
-    #     form = PostForm(request.POST,instance=post)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('post')
-    context = {"post_form":post_form,'tag_form':tag_form}
+        count += 1
+        context['tag_form'+str(count)] = TagsForm(instance=newTag)
+    context['tag_form_counter'] = count
+    context['counter'] = range(1,count+1)
     return render (request,"dj_admin/editpost.html",context)
 
 def deletePost(request,post_id):
