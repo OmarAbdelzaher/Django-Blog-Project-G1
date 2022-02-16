@@ -1,3 +1,4 @@
+from ast import For
 from unicodedata import category
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
@@ -129,11 +130,62 @@ def editPost(request,post_id):
         tag_form = TagsForm(instance=newTag)
         count += 1
         context['tag_form'+str(count)] = TagsForm(instance=newTag)
+    
+    if request.method == 'POST':
+        post_form = PostForm(request.POST,instance=post)
+        tag_form = TagsForm(request.POST,instance=newTag)
+        if post_form.is_valid():
+            post_form.save()
+            
+            tag_obj = tag_form.save(commit=False)
+            splitted_tags = str(tag_obj).split(',')
+            for tag in splitted_tags:
+                newTag = PostTags.objects.create(tag_name = tag)
+                newTag.save()
+                post_form.tag.add(newTag)
+                
+            post_form.save()
+            return redirect('post')
+    
     context['tag_form_counter'] = count
     context['counter'] = range(1,count+1)
+    
     return render (request,"dj_admin/editpost.html",context)
 
 def deletePost(request,post_id):
     post = Post.objects.get(id=post_id)
     post.delete()
     return redirect("post")
+
+
+def addForbidden(request):
+    form = ForbiddenWordsForm()
+    if request.method == 'POST':
+        form = ForbiddenWordsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("forbiddenwords")
+    context = {"word_form": form}
+    return render(request, "dj_admin/forbiddenwordform.html", context)
+
+
+def showForbidden(request):
+    forbidden_words = ForbiddenWords.objects.all()
+    context = {'forbidden_words' : forbidden_words}
+    return render(request, "dj_admin/forbiddenwords.html", context)
+
+def delForbidden(request,word_id):
+    forbidden_words = ForbiddenWords.objects.get(id = word_id)
+    forbidden_words.delete()
+    return redirect('forbiddenwords')
+
+def editForbidden(request,word_id):
+    forbidden_words = ForbiddenWords.objects.get(id= word_id)
+    form = ForbiddenWordsForm(instance=forbidden_words)
+    if request.method == 'POST':
+        form = ForbiddenWordsForm(request.POST,instance=forbidden_words)
+        if form.is_valid():
+            form.save()
+            return redirect('forbiddenwords')
+    context = {"word_form":form}
+    return render (request,"dj_admin/editforbiddenwords.html",context)

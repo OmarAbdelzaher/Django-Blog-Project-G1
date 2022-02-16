@@ -24,48 +24,54 @@ from django.core.paginator import Paginator
 
 def registerpage(request):
     # handling the checking for already logged in later
-    user_form = RegistrationForm()
-    if request.method == "POST":
-        user_form = RegistrationForm(request.POST)
-        if user_form.is_valid():
-            user = user_form.save()
-            account = Account.objects.create(user=user)
-            account.is_locked = False 
-            account.save()
-            return redirect('login')
-    context = {'user_form': user_form}
-    return render(request, 'dj_blog/register.html', context)
+    if not request.user.is_authenticated :
+        user_form = RegistrationForm()
+        if request.method == "POST":
+            user_form = RegistrationForm(request.POST)
+            if user_form.is_valid():
+                user = user_form.save()
+                account = Account.objects.create(user=user)
+                account.is_locked = False 
+                account.save()
+                return redirect('login')
+        context = {'user_form': user_form}
+        return render(request, 'dj_blog/register.html', context)
+    else :
+        return redirect("landing")
 
 # validation to the login page (check user already logged in if not -> authenticate the username and password )
 
 @csrf_exempt
 def loginpage(request):
     # handling the checking for already logged in later
-    login_form = LoginForm()
-    if request.method == "POST":
-        login_form = LoginForm(data=request.POST)
-        if(login_form.is_valid()):
-            username = request.POST['username']
-            password = request.POST["password"]
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                # handling the checking for blocked users 
-                if (user.is_staff) : # to check first if the user is admin or not 
-                     login(request, user)
-                     if request.GET.get('next') is not None:
-                        return redirect(request.GET.get('next'))
-                     else:
-                        return redirect('landing')
-                elif islocked(user): # to check if the user is blocked or not 
-                    messages.info(request,"This Account is blocked , Please contact the admin")
-                else :
-                    login(request, user)
-                    if request.GET.get('next') is not None:
-                        return redirect(request.GET.get('next'))
-                    else:
-                        return redirect('landing')
-    context = {"login_form": login_form}
-    return render(request, 'dj_blog/login.html', context)
+    if not request.user.is_authenticated :
+        login_form = LoginForm()
+        if request.method == "POST":
+            login_form = LoginForm(data=request.POST)
+            if(login_form.is_valid()):
+                username = request.POST['username']
+                password = request.POST["password"]
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    # handling the checking for blocked users 
+                    if (user.is_staff) : # to check first if the user is admin or not 
+                        login(request, user)
+                        if request.GET.get('next') is not None:
+                            return redirect(request.GET.get('next'))
+                        else:
+                            return redirect('landing')
+                    elif islocked(user): # to check if the user is blocked or not 
+                        messages.info(request,"This Account is blocked , Please contact the admin")
+                    else :
+                        login(request, user)
+                        if request.GET.get('next') is not None:
+                            return redirect(request.GET.get('next'))
+                        else:
+                            return redirect('landing')
+        context = {"login_form": login_form}
+        return render(request, 'dj_blog/login.html', context)
+    else :
+        return redirect("landing")
 
 # Home Page
 def landing(request):
@@ -137,7 +143,23 @@ def addPost(request):
         post_form = PostForm(request.POST,request.FILES)
         tag_form = TagsForm(request.POST)
         if post_form.is_valid() and tag_form.is_valid():
+            forbidden_words = ForbiddenWords.objects.all()
+            content = request.POST.get("content")
+            title = request.POST.get("title")
+            for word in forbidden_words :
+                content_replaced = ""
+                title_replaced=""
+                if word.forbidden_word in content : 
+                    for char in word.forbidden_word :
+                        content_replaced +="*"
+                    content = content.replace(word.forbidden_word,content_replaced)
+                if word.forbidden_word in title :
+                    for char in word.forbidden_word :
+                        title_replaced +="*"
+                    title = title.replace(word.forbidden_word,title_replaced)
             obj = post_form.save(commit=False)
+            obj.content =content
+            obj.title =title
             obj.user = request.user
             obj.save()
             
@@ -166,7 +188,24 @@ def updatePost(request,post_id):
         post = PostForm(request.POST,request.FILES,instance=post)
         # tag_form = TagsForm(request.POST)
         if post.is_valid():
+            forbidden_words = ForbiddenWords.objects.all()
+            content = request.POST.get("content")
+            title = request.POST.get("title")
+            for word in forbidden_words :
+                replaced = ""
+                title_replaced =""
+                if word.forbidden_word in content : 
+                    for char in word.forbidden_word :
+                        replaced +="*"
+                    content = content.replace(word.forbidden_word,replaced)
+                if word.forbidden_word in title :
+                    for char in word.forbidden_word :
+                        title_replaced +="*"
+                    title = title.replace(word.forbidden_word,title_replaced)
+            
             obj = post.save(commit=False)
+            obj.content = content
+            obj.title = title
             obj.user = request.user
             obj.save()
             return redirect('landing')
@@ -273,13 +312,21 @@ def AddDislike(request,post_id):
 @login_required(login_url='login')
 def add_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id)
+    forbidden_words = ForbiddenWords.objects.all()
     if request.method == 'POST':
         user = request.user
         comment_text = request.POST.get('text')
-        Comment(user=user , post_id=post, comment_body=comment_text).save()
+        for word in forbidden_words :
+            replaced = ""
+            if word.forbidden_word in comment_text :
+                for char in word.forbidden_word :
+                    replaced +="*"
+                comment_text = comment_text.replace(word.forbidden_word,replaced)
+        Comment(user=user,post_id=post, comment_body=comment_text).save() 
     else:
         return redirect('post', post_id)
     return redirect('post', post_id)
+
 
 
 

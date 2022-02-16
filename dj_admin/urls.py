@@ -15,4 +15,9 @@ urlpatterns = [
     path('postform/', views.addPost,name="addpost"),
     path('deletepost/<post_id>', views.deletePost,name="deletepost"),
     path('editpost/<post_id>', views.editPost,name="editpost"),
+    path('forbiddenwords/', views.showForbidden,name="forbiddenwords"),
+    path('forbiddenwordform/', views.addForbidden,name="addforbiddenwords"),
+    path('delforbidden/<word_id>', views.delForbidden,name="delforbiddenwords"),
+    path('editforbidden/<word_id>', views.editForbidden,name="editforbiddenwords"),
+
 ]
