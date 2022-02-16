@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import *
@@ -22,8 +22,6 @@ from django.core.paginator import Paginator
 
 
 
-
-
 def registerpage(request):
     # handling the checking for already logged in later
     user_form = RegistrationForm()
@@ -39,7 +37,6 @@ def registerpage(request):
     return render(request, 'dj_blog/register.html', context)
 
 # validation to the login page (check user already logged in if not -> authenticate the username and password )
-
 
 @csrf_exempt
 def loginpage(request):
@@ -150,12 +147,47 @@ def addPost(request):
                 newTag = PostTags.objects.create(tag_name = tag)
                 newTag.save()
                 obj.tag.add(newTag)
-                
             obj.save()
             return redirect('landing')
 
     context = {'post':post_form,'tag':tag_form}
     return render(request,'dj_blog/add-post.html',context)
+
+# Edit Post
+def updatePost(request,post_id):
+
+    post=Post.objects.get(id=post_id)
+    form=PostForm(instance=post)
+    tag_form = TagsForm()
+    # tags=PostTags.objects.get(tag_name=post.tag)
+    # tags= TagsForm(instance=frmtag)
+
+    if request.method == 'POST':
+        post = PostForm(request.POST,request.FILES,instance=post)
+        # tag_form = TagsForm(request.POST)
+        if post.is_valid():
+            obj = post.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            return redirect('landing')
+
+
+    context={'form':form}
+
+    return render(request,'dj_blog/updatePost.html',context)
+
+# Delete post
+def DeletePost(request,post_id):
+    post=Post.objects.get(id=post_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect ('landing')
+
+
+    context={'post':post}
+
+    return render(request,'dj_blog/delete-post.html',context)
+
 
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
@@ -169,8 +201,7 @@ def AddLike(request,post_id):
     post = Post.objects.get(id=post_id)
     img = str(post.picture)
     base_name = os.path.basename(img)
-      
-    
+
     # check if there is a dislike
     is_dislike = False
     for dislike in post.dislikes.all():
@@ -212,9 +243,8 @@ def AddDislike(request,post_id):
     # check if there is a like
     is_like = False
     for like in post.likes.all():
-        if like == request.user:
-            is_like = True
-            break
+        is_like = True
+        break
         
     # if the user clicked on the dislike button, remove the like
     if is_like:
@@ -235,10 +265,22 @@ def AddDislike(request,post_id):
     if is_dislike:
         post.dislikes.remove(request.user)
     
-    
     post.save()
     
     return redirect('post',post_id)
+
+# Add Comment
+@login_required(login_url='login')
+def add_comment(request, post_id):
+    post = get_object_or_404(Post,id=post_id)
+    if request.method == 'POST':
+        user = request.user
+        comment_text = request.POST.get('text')
+        Comment(user=user , post_id=post, comment_body=comment_text).save()
+    else:
+        return redirect('post', post_id)
+    return redirect('post', post_id)
+
 
 
 def search(request):
@@ -247,7 +289,6 @@ def search(request):
         posts = Post.objects.filter(title=searched)
         tags = Post.objects.filter(tag__tag_name=searched)
         tag = PostTags.objects.filter(tag_name=searched)
-
         context = {'searched':searched, 'posts':posts, 'tags':tags, 'tag':tag}
         
         return render(request, 'dj_blog/search.html',context)

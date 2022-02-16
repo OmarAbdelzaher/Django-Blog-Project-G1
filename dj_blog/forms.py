@@ -41,6 +41,20 @@ class TagsForm(forms.ModelForm):
         widgets = {
             'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput'})
         }
+        
+# Comment Form
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment_body', )
+        widgets = {
+        "comment_body":forms.TextInput(attrs={
+        'class': 'md-textarea form-control',
+        'placeholder': 'comment here ...',
+        'rows': '4',
+    })}
+            
+
 
 class CategoryForm(forms.ModelForm):
     cat_name = forms.CharField(widget=forms.TextInput())
