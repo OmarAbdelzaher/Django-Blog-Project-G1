@@ -76,10 +76,10 @@ def landing(request):
     page= request.GET.get('page')
     pagination_posts=p.get_page(page)
 
-    # End of setting pagination
 
     nums= "a" * pagination_posts.paginator.num_pages
     pg=pagination_posts
+    # End of setting pagination
 
     context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums}
     return render(request, 'dj_blog/landing.html', context)

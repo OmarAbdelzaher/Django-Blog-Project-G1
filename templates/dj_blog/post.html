@@ -20,10 +20,25 @@
                             <div class="title h5">
                                 <a href="#"><b>{{post.user}}</b></a>
                                 added a new post
+
+                                <a class="ms-5 ">
+                                    {% if user.is_authenticated %}
+                                    <!-- Edit link  -->
+                
+                                       <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
+                
+                                    <!-- Delete link  -->
+                
+                                       <a href="{% url 'delete-post' post.id %}">Delete</a>
+                
+                                   {% endif %}
+                                </a>
                             </div>
+         
                             <h6 class="text-muted time">{{post.date_of_publish}}</h6>
                         </div>
                     </div>
+                   
                     <div class="post-image">
                         <img src={% static post.picture %} class="image" alt="image post" style="width:150px;">
                     </div>
@@ -31,6 +46,7 @@
                         <h4>{{post.title}}</h4>
                         <p>{{post.content}}</p>
                         <h3>{{post.category}}</h3>
+
                         <div class="stats">
                             <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
                                 <button type="submit" class="btn btn-primary stat-item">

@@ -34,7 +34,7 @@
                                 <div>{{post.user.username}}</div>
                             </div>
                             <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-                            
+
                             {% if user.is_authenticated %}
                              <!-- Edit link  -->
 
@@ -98,20 +98,26 @@
                     </div>
 
                     <!-- Recent Posts Section  -->
+                      
 
                     <h3>Recent Posts</h3>
                     <div class="box posts">
+
                         <ul class="list-unstyled">
-                            <li><i class="fa fa-chevron-right"></i><a href="#">Introducing WordPress 4.0 “Benny”</a>
-                                <div>27/02/2014</div>
+                        {% for post in posts|slice:":3"  %}
+
+
+                            <li><i class="fa fa-chevron-right"></i><a href="{% url 'post' post.id %}">{{post.title}}</a>
+                                <div>{{post.date_of_publish}}</div>
                             </li>
-                            <li><i class="fa fa-chevron-right"></i><a href="#">Nature Center: Earth Day Festival</a>
-                                <div>18/02/2014</div>
-                            </li>
-                            <li><i class="fa fa-chevron-right"></i><a href="#">Two New Stores Set to Open in
-                                    Downtown</a>
+                        {% endfor %}
+
+                            <!-- <li><i class="fa fa-chevron-right"></i><a href="#">{{post.title}}</a>
+                                <div>{{post.date_of_publish}}</div>
+                            </li> -->
+                            <!-- <li><i class="fa fa-chevron-right"></i><a href="#">{{post.title}}</a>
                                 <div>05/02/2014</div>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
 
