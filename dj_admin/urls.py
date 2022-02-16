@@ -11,7 +11,9 @@ urlpatterns = [
     path('categoryform/', views.addCategory,name="addcategory"),
     path('deletecat/<cat_id>', views.deleteCategory,name="deletecat"),
     path('editcat/<cat_id>', views.editCategory,name="editcat"),
-
-
+    path('forbiddenwords/', views.showForbidden,name="forbiddenwords"),
+    path('forbiddenwordform/', views.addForbidden,name="addforbiddenwords"),
+    path('delforbidden/<word_id>', views.delForbidden,name="delforbiddenwords"),
+    path('editforbidden/<word_id>', views.editForbidden,name="editforbiddenwords"),
 
 ]
