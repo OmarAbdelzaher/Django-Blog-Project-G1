@@ -22,5 +22,7 @@ urlpatterns = [
     path('post-like/<post_id>',views.AddLike,name='like'),
     path('post-dislike/<post_id>',views.AddDislike,name='dislike'),
     path('search/', views.search, name="search"),
+    path('updatePost/<post_id>',views.updatePost,name='updatePost') ,
+
       
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

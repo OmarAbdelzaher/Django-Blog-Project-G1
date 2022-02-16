@@ -44,7 +44,7 @@ AUTHENTICATION_BACKENDS = (
 INSTALLED_APPS = [
     'dj_admin',
     'dj_blog',
-    'hitcount',
+    # 'hitcount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,8 +95,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'USER':'samiha',
-        'PASSWORD':'password',
+        'USER':'zeina',
+        'PASSWORD':'12345',
     }
 }
 
