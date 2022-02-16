@@ -34,11 +34,17 @@
                                 <div>{{post.user.username}}</div>
                             </div>
                             <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-                            <!-- Edit link  -->
-                            <a href="{% url 'updatePost' post.id %}">EDIT</a>
-                            <br>
-                            <!-- Delete link -->
-                            <a href="{% url 'delete-post' post.id %}">Delete</a>
+                            
+                            {% if user.is_authenticated %}
+                             <!-- Edit link  -->
+
+                                <a href="{% url 'updatePost' post.id %}">EDIT</a>
+
+                             <!-- Delete link  -->
+
+                                <a href="{% url 'delete-post' post.id %}">Delete</a>
+
+                            {% endif %}
 
                             <div class="date-xs">{{post.date_of_publish}}</div>
                             <p>

@@ -2,13 +2,30 @@
 {% load static %}
 
 {% block main_block %}
-<!-- Title  -->
-<h1> Edit Post</h1>
-    <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
-     <!-- {{form}} -->
-     {{form.as_p}}
-     {{tag.as_p}}
-        <input type="submit" value="Edit Post" class="btn btn-success mt-4"/>
-        <input type="reset" value="Clear" class="btn btn-danger mt-4"/>
-    </form>
+
+{% if user.is_authenticated %}
+
+    <!-- Title  -->
+    <h1> Edit Post</h1>
+
+        <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
+        <!-- {{form}} -->
+        {{form.as_p}}
+        {{tag.as_p}}
+            <input type="submit" value="Edit Post" class="btn btn-success mt-4"/>
+            <input type="reset" value="Clear" class="btn btn-danger mt-4"/>
+        </form>
+
+{% else %}
+
+        <!-- Show message if user try edit link when logout  -->
+    <h3> You are not allowed to be here in 
+        <stong class="text-primary">Edit Page </stong> 
+        please go and Login here 
+        <a href="{% url 'login' %}">login</a> 
+    </h3>
+
+{% endif %}
+
+
 {% endblock %}
