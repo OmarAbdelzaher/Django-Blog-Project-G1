@@ -47,6 +47,64 @@ Then you are Good To Go ...
 
 ## Navigate our Blog
 
+### Registration and Login
+
+![register](./dj_blog/static/Django-Blog-Screenshots/register.jpeg)
+
+![login](./dj_blog/static/Django-Blog-Screenshots/login.jpeg)
+
+### Landing page
+
+![landing](./dj_blog/static/Django-Blog-Screenshots/landing.jpeg)
+
+![footer](./dj_blog/static/Django-Blog-Screenshots/footer.jpeg)
+
+### Categories page
+
+![categories](./dj_blog/static/Django-Blog-Screenshots/categories.jpeg)
+
+### Post page
+
+![post](./dj_blog/static/Django-Blog-Screenshots/post.jpeg)
+
+### Search result
+
+![search](./dj_blog/static/Django-Blog-Screenshots/search.jpeg)
+
+### Forbidden Words example
+
+![search](./dj_blog/static/Django-Blog-Screenshots/Forbidden-post.jpeg)
+
+### Admin Page
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-info.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-user-info.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-posts.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-categories.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-forbiddens.jpeg)
+
+
+#### Admin CRUD Operations
+
+##### Add & Edit Posts
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-add-post.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-edit-post.jpeg)
+
+##### Add & Edit Categories
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-add-category.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-edit-category.jpeg)
+
+##### Add & Edit Forbidden Words
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-add-forbidden.jpeg)
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-edit-forbidden.jpeg)
+
 ## Features
 
 ### - Header (NavBar)

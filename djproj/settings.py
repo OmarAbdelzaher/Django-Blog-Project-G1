@@ -94,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'USER': 'noura',
-        'PASSWORD': 'noura'
+        'USER': 'omar',
+        'PASSWORD': 'Password1234#@!'
     }
 }
 
