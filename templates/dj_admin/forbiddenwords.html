@@ -35,10 +35,12 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Put all the forbidden words in the table  -->
             {% for word in forbidden_words %}
            <tr style="background-color:	#636e72">
            <td>{{word.forbidden_word}}</td>
            <td style="background-color:	#636e72" colspan="5" style="text-align:center; padding:15px;">
+            <!-- Two Buttons for delete and edit the forbidden words -->
            <a class="btn" style="background-color: #ffc507; " href="/dj_admin/delforbidden/{{ word.id }}">Delete</a>
            <a class="btn" style="background-color: #ffc507; " href="/dj_admin/editforbidden/{{ word.id }}">Edit</a>
            </td>         
