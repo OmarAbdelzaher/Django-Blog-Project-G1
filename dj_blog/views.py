@@ -75,8 +75,7 @@ def loginpage(request):
 def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
-    tags= PostTags.objects.all() 
-
+    tags=PostTags.objects.all()
     
     #set up pagination
     num_of_posts=5
@@ -89,7 +88,7 @@ def landing(request):
     pg=pagination_posts
     # End of setting pagination
 
-    context = {'posts': posts,'categories': categories,'tags': tags,'pg':pg ,'nums':nums}
+    context = {'posts': posts,'tags':tags,'categories': categories,'pg':pg ,'nums':nums}
     return render(request, 'dj_blog/landing.html', context)
 
 def PostPage(request,post_id):
@@ -289,6 +288,14 @@ def AddDislike(request,post_id):
     # if the user clicked on the dislike button, add the dislike
     if not is_dislike:
         post.dislikes.add(request.user)
+        print("hai")
+        # Delete if dislikes greater than 10
+        num_of_dislikes=post.dislikes.all().count()
+ 
+        if num_of_dislikes == 10:
+            print("hello")
+            post.delete()
+            return redirect ('landing')
     
     # if the user clicked on the dislike button (already disliked), remove the dislike
     if is_dislike:
