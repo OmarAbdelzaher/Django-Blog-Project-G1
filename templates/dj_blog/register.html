@@ -24,27 +24,32 @@
 					<form method="POST" action=""> 
 						{% csrf_token %}
 						<div class="input-group mb-3">
+							<!--  show all the register form field in order to make the user register to the blog successfully -->
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
+							<!-- username of the form  -->
                             {{ user_form.username }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
 							</div>
+								<!-- Email of the form  -->
                             {{ user_form.email }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
+							<!-- Password  -->
                             {{ user_form.password1 }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
+							<!-- Confirm Password -->
                             {{ user_form.password2 }}
 						</div>
 
@@ -59,7 +64,7 @@
 							{% endfor %}
 					</form>
 				</div>
-						
+						<!--  if the user have account , he can go to the login page to sign in  -->
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>

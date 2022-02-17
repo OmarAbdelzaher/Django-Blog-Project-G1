@@ -23,16 +23,19 @@
 				<div class="d-flex justify-content-center form_container">
 					<form method="POST" action="">
 						{% csrf_token %}
+						<!-- Login Form to the user  -->
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
+							<!-- Username of the login form  -->
 							{{ login_form.username }}
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
+							<!-- Password of the login form -->
 							{{ login_form.password }}
 						</div>
 

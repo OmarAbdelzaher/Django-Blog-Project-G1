@@ -21,10 +21,10 @@
     <div class="container-fluid">
       <div class="row shadow p-3 mb-4 ">
         <div class="col-8 md-8 sm-8">
-
+          <!-- Start add new post form -->
             <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
-                
+                <!-- Add post details -->
                 <div class="mb-3 col-12 shadow p-3 mb-4" style="margin-left: 20%;">
                   <label class="form-label col-12">{{post_form.title.label}} {{post_form.title}}</label>
                   <label class="form-label col-12">{{post_form.picture.label}} {{post_form.picture}}</label>
@@ -38,6 +38,7 @@
                 </div>
             </form>
             <div>
+              <!-- Handling the post form errors  -->
                 {% for field, errors in post_form.errors.items %}
                                {% for error in errors %}
                                <p class="text-danger">{{ error }}</p>
