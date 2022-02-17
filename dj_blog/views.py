@@ -254,11 +254,6 @@ def updatePost(request,post_id):
             return redirect('landing')
 
 
-            # obj.save()
-            # return redirect('landing')
-
-
-    # context={'form':form}
 
     return render(request,'dj_blog/updatePost.html',context)
 
