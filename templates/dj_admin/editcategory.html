@@ -34,6 +34,7 @@
                 </div>
             </form>
             <div>
+              <!-- Handling the category form errors  -->
                 {% for field, errors in cat_form.errors.items %}
                     {% for error in errors %}
                       <p class="text-danger">{{ error }}</p>

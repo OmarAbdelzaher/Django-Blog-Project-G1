@@ -19,5 +19,5 @@ urlpatterns = [
     path('forbiddenwordform/', views.addForbidden,name="addforbiddenwords"),
     path('delforbidden/<word_id>', views.delForbidden,name="delforbiddenwords"),
     path('editforbidden/<word_id>', views.editForbidden,name="editforbiddenwords"),
-
+    
 ]

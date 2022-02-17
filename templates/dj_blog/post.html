@@ -15,7 +15,7 @@
                     <div class="card-header post-heading">
                        
                         <div class="pull-left image">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle img-fluid avatar" alt="user profile image">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
@@ -43,7 +43,6 @@
                     <div class="">
                         <img src={% static post.picture %} class="image" alt="image post" style="width:100%;">
                     </div>
-
                     <div class="post-description">
                         <br>
                         <h4>{{post.title}}</h4>
@@ -75,6 +74,14 @@
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
                             </form>
+                            <div class="blog-post">
+                                <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
+                                    {% for tag in post.tag.all %}
+                                        <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
+                                    {% endfor %} 
+                                </ul> 
+                            </div>
+                        
                         </div>
                     </div>
 
@@ -130,14 +137,6 @@
 
                 </div>
             </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
-    </div>
-    
-</div>
-</div>
 {% endblock %}
+
+
