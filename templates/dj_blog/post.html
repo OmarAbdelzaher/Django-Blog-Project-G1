@@ -22,14 +22,16 @@
                                 <h6 class="fw-light">Added a new post</h6>
                                 <a class="ms-5 ">
                                     {% if user.is_authenticated %}
-                                    <!-- Edit link  -->
-                
-                                       <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
-                
-                                    <!-- Delete link  -->
-                
-                                       <a href="{% url 'delete-post' post.id %}">Delete</a>
-                
+                                        <!-- only author post can modify post -->
+                                        {% if user.id == post.user.id  %}
+                                                <!-- Edit link  -->
+                        
+                                            <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
+                        
+                                                <!-- Delete link  -->
+                        
+                                            <a href="{% url 'delete-post' post.id %}">Delete</a>
+                                       {% endif %}
                                    {% endif %}
                                 </a>
                             </div>
@@ -42,8 +44,10 @@
                     </div>
 
                     <div class="post-description">
-                        
-                        <h4>{{post.title}}</h4>
+                        current user: {{user.username}} {{user.id}}
+                        <br>
+                        author user:{{post.user}} {{post.user.id}}
+                        <h4>{{post.title}}-{{post.user}}</h4>
                         <p class="card-body">{{post.content}}</p>
                         <div>
                             <span class="btn btn-success all-tags ">{{post.category}}</span>

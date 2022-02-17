@@ -44,8 +44,17 @@
                                                 <br>
                                                 <div class="btn-group">
                                                     {% if user.is_authenticated %}
-                                                    <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'updatePost' post.id %}">EDIT</a>
-                                                    <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
+                                                        <!-- only author post can modify post -->
+                                                        {% if user.id == post.user.id  %}
+
+                                                                <!-- Edit Link  -->
+                                                            <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'updatePost' post.id %}">EDIT</a>
+                                                                                                            
+                                                                <!-- Delete Link  -->
+
+                                                            <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
+                                                        
+                                                        {%endif%}
                                                     {%endif%}
                                                 </div>
                                             </div>
@@ -60,7 +69,7 @@
                                                     <p class="text-muted">{{post.date_of_publish}}</p>
 
                                                     <p class="card-text">
-                                                        {{post.content}}
+                                                        {{post.content|slice:":100" }}... <a href="{% url 'post' post.id %}" >  <small >Reade more</small></a>
                                                     </p>
                                                     
                                                     <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
@@ -125,18 +134,19 @@
     </section>
     <!-- End Section -->
 
-    <!-- Start Footer Sesction -->
+    <!-- Start Footer Section -->
 
-    <footer class=" pt-5 mt-4 ">
+    <footer >
 
         <!-- Start of pagination -->
 
-        <div class="footer-pagination pt-5  ">
+        <!-- <div class="footer-pagination  "> -->
+        <div class=" ">
 
             <!-- Previous Section  -->
 
             <nav aria-label="Page navigation example">
-                <ul class="pagination">
+                <ul class="pagination justify-content-center">
 
                     <!-- if page has previous show that  -->
 
