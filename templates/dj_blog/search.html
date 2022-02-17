@@ -3,33 +3,43 @@
 
 {% block main_block %}
 <head>
-
+    <!-- Bootstrap Link   -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 <body>
+    <!-- Start of Srearch Panel  -->
     <div class="container">
 
         <h1 class="bg-success text-light fw-light bg-opacity-75 shadow p-2 mb-4 text-center">Your Result</h1>
+
+        <!-- Check if user search  -->
         {% if searched %}
+            <!-- check if search about title or tags -->
             {% if posts or tags%}
+                <!-- if search about title  -->
                 {% for post in posts %}
                 <center>
                     
+
                     <div class="card mb-3 shadow p-3 mb-4 " style="max-width: 540px;"> 
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" rounded-circle img-fluid user-avatar"
                             alt="avatar-img">
+                        <!-- Show post user name  -->
                         <div class="bg-success text-center bg-opacity-75 text-light">{{post.user.username}}</div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
+                                    <!-- Show date -->
                                     <div class="card-header bg-success bg-opacity-75">
                                         <p class="text-light card-text">{{post.date_of_publish}}</p>
                                     </div>
-                                    <h3 class="card-title"><a class="text-dark fw-normal" style="text-decoration: none;" href="{% url 'post' post.id %}">{{post.title}}</a></h3>
                                     
+                                    <!-- post title -->
+                                    <h3 class="card-title"><a class="text-dark fw-normal" style="text-decoration: none;" href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+                                    <!-- Show post content  -->
                                     <p class="card-text">
                                         {{post.content}}
                                     </p>
@@ -42,25 +52,31 @@
                 </center>
                 {% endfor %}
 
+                <!-- If search about tags -->
                 {% for post in tags %}
                 <center>
                     <div class="card shadow p-3 mb-4 " style="max-width: 540px;"> 
+                        <!-- Post details  -->
                         <div class="row g-0">
                             <div class="col-md-4">
+                                <!-- post image -->
                                 <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle img-fluid user-avatar"
                             alt="avatar-img">
+                        <!-- post username -->
                         <div class="bg-success text-center bg-opacity-75 text-light">{{post.user.username}}</div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
+                                    <!-- post date -->
                                     <div class="card-header bg-success bg-opacity-75">
                                         <p class="text-light card-text">{{post.date_of_publish}}</p>
                                     </div>
                                     <h3 class="card-title"><a class="text-dark fw-normal" style="text-decoration: none;" href="{% url 'post' post.id %}">{{post.title}}</a></h3>
-                                    
+                                    <!-- post content -->
                                     <p class="card-text">
                                         {{post.content}}
                                     </p>
+                                    <!-- Tags section  -->
                                     <ul class="blog-tags list-unstyled list-inline">
                                         <li>
                                             {%for posttags in tag%}
@@ -76,14 +92,15 @@
                     
                 </center>
                 {% endfor %}
-
+            <!-- if search with invalid titles/tags -->
             {% else %}
                 <h2 style="color: red;" class=" text-center shadow p-2 mb-4 ">Nout Found!</h2>
             {% endif %}
-
+        <!-- if search was empty   -->
         {% else %}
             <h2 style="color: red;" class=" text-center shadow p-2 mb-4 ">Please Enter the Post title or Tag name!</h2>
         {%endif%}
     </div>
+    <!-- End of Search  -->
 </body>
 {% endblock %}
