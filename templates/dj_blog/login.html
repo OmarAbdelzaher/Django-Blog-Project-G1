@@ -42,11 +42,11 @@
 					</form>
 
 				</div>
-				<!-- For Message errors types  -->
+				<!-- For Message errors types (if the user is blocked ) -->
 					{% for message in messages %}
 						<p id="messages">{{ message }}</p>
 					{% endfor %}
-				<!-- For Validation Errors types -->
+				<!-- For Validation Errors types ( any validation errors except blocked users errors ) -->
 				{% for field, errors in login_form.errors.items %}
 						   		{% for error in errors %}
 								   <p id="messages">{{ error }}</p>

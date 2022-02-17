@@ -3,54 +3,6 @@
 
 {% block main_block %}
 
-<!-- {% if user.is_authenticated %} -->
-
-    <!-- {% if user.id == post.user.id  %} -->
-    <!-- <h1> Edit Post</h1>
-
-
-        <form  method='POST' class="container" enctype="multipart/form-data" >{% csrf_token %}
-            <div class="row shadow p-3 mb-4 ">
-                <div class="col-6">
-                    <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Edit Post</h3>
-                        {{form.as_p}}
-                        {{tag.as_p}}
-                </div>
-            </div><br>
-
-            <input type="submit" value="Edit " class=" btn btn-success"/>
-            
-            <a href="{% url 'landing'%}"  class="btn btn-secondary">Cancel </a>
-
-        </form> -->
-<!-- {% else %}
-            <div class="container shadow p-3 mb-4 ">
-                <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Edit Post</h3> 
-
-                <h3 style="color: red;"> You are not allowed to be here in
-                    <stong class="text-primary">Edit Page </stong> 
-                    please go and Login here 
-                    <a href="{% url 'login' %}">login</a> 
-                </h3>
-
-            </div> -->
-
-    <!-- {% endif %} -->
-<!-- {% else %} -->
-         <!-- Show message if user try edit link when logout  -->
-
-        <!-- <div class="container shadow p-3 mb-4 ">
-            <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Edit Post</h3> 
-
-            <h3 style="color: red;"> You are not allowed to be here in
-                <stong class="text-primary">Edit Page </stong> 
-                please go and Login here 
-                <a href="{% url 'login' %}">login</a> 
-            </h3>
-
-        </div>
-
-{% endif %}  -->
 
 
     {% if user.is_authenticated %}
@@ -59,11 +11,18 @@
 
         <form method='POST' class="container" enctype="multipart/form-data" >{% csrf_token %}
             <div class="row shadow p-3 mb-4 ">
-                <div class="col-6">
+                <div class="col-6  ">
                     <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Edit Post</h3>
 
-                    {{form.as_p}}
-                    {{tag.as_p}}
+                   <div class="my-4"> {{post_form.title.label}}        {{post_form.title}} </div> 
+                   <div class="mb-4"> {{post_form.content.label}}     {{post_form.content}} </div> 
+                   <div class="mb-4"> {{post_form.picture.label}}     {{post_form.picture}} </div> 
+                   <div class="mb-4"> {{post_form.category.label}}     {{post_form.category}} </div> 
+                   <div class="mb-4"> {{post_form.tag.label}}     {{post_form.tag}} </div>  
+
+                    {{tag_form.as_p}}
+
+                    
                 </div>
             </div>
             <br>

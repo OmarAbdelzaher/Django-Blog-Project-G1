@@ -11,9 +11,8 @@
     <div class="col-sm-8 col-sm-offset-2">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card panel panel-white post shadow">
+                <div class="card panel panel-white post">
                     <div class="card-header post-heading">
-                       
                         <div class="pull-left image">
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle img-fluid avatar" alt="user profile image">
                         </div>
@@ -21,60 +20,58 @@
                             <div class="title h5">
                                 <a style="text-decoration: none;" href="#"><b>{{post.user}}</b></a>
                                 <h6 class="fw-light">Added a new post</h6>
-                                <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
-
+                                <a class="ms-5 ">
+                                    {% if user.is_authenticated %}
+                                        <!-- only author post can modify post -->
+                                        {% if user.id == post.user.id  %}
+                                                <!-- Edit link  -->
+                        
+                                            <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
+                        
+                                                <!-- Delete link  -->
+                        
+                                            <a href="{% url 'delete-post' post.id %}">Delete</a>
+                                       {% endif %}
+                                   {% endif %}
+                                </a>
                             </div>
-                        </div>
-                        <div class="btn-group" style="margin-left: 345px;">
-                            {% if user.is_authenticated %}
-                                <!-- only author post can modify post -->
-                                {% if user.id == post.user.id  %}
-                                        <!-- Edit link  -->
-                
-                                    <a  class="btn btn-sm btn-outline-success rounded-pill" style="text-decoration: none;"  href="{% url 'updatePost' post.id %}">EDIT</a>
-                
-                                        <!-- Delete link  -->
-                
-                                    <a  class="btn btn-sm btn-outline-secondary rounded-pill" style="text-decoration: none;"  href="{% url 'delete-post' post.id %}">Delete</a>
-                            {% endif %}
-                        {% endif %}
+                            <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
                         </div>
                     </div>
-                    <div class="">
-                        <img src={% static post.picture %} class="image" alt="image post" style="width:100%;">
+                   
+                    <div class="post-image">
+                        <img src={% static post.picture %} class="image" alt="image post" style="width:150px;">
                     </div>
 
                     <div class="post-description">
+                        current user: {{user.username}} {{user.id}}
                         <br>
-                        <h4>{{post.title}}</h4>
+                        author user:{{post.user}} {{post.user.id}}
+                        <h4>{{post.title}}-{{post.user}}</h4>
                         <p class="card-body">{{post.content}}</p>
                         <div>
-                            <span class="btn btn-secondary all-tags ">{{post.category}}</span>
-                        </div>
-                       
-                        <div class="">
-                            <ul class="blog-tags list-unstyled list-inline ">
-                                
-                                    <li>
-                                        {% for tag in post.tag.all %}
-                                        <a class="btn btn-success all-tags" style="margin: .5%;"  href="#"><i class="fa fa-tag "></i>{{tag}}</a>
-                                        {% endfor %} 
-                                    </li>
-                                
-                            </ul> 
+                            <span class="btn btn-success all-tags ">{{post.category}}</span>
 
                         </div>
-                        <div class="stats" >
-                            <form class="stat-item" method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
-                                <button type="submit" class="btn btn-primary ">
+                        <div class="stats">
+                            <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
+                                <button type="submit" class="btn btn-primary stat-item">
                                     <i class="fa fa-thumbs-up icon">{{post.likes.all.count}}</i> 
                                 </button>
                             </form>
-                            <form class="stat-item" method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
-                                <button type="submit" class="btn btn-secondary">
+                            <form method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
+                                <button type="submit" class="btn btn-danger stat-item">
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
                             </form>
+                        </div>
+                        <div class="">
+                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
+                                {% for tag in post.tag.all %}
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
+                                {% endfor %} 
+                            </ul> 
+
                         </div>
                     </div>
 
@@ -108,26 +105,9 @@
                             
                             <hr>
                         </div>
-                        <h5>Comments ({{post.comments.all.count}})...</h5>
-                        {% for comment in post.comments.all %}
-                        <ul class="comments-list">
-                            <li class="comment">
-                                <a class="pull-left" href="javascript:void(0);">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user"><a href="{% url 'post' comment.user.id%}">{{ comment.user}}</a></h4>
-                                        <h5 class="time">{{comment.comment_time}}</h5>
-                                    </div>
-                                    <p>{{comment.comment_body|linebreaks }}</p>
-                                </div>
-                            </li>
-                        </ul>
-                    {% endfor %}
                     </div>
-                </div>
-            </div>
+                    {% endfor %}
+                            
                     </div>
                 </div>
             </div>
@@ -138,4 +118,5 @@
     
 </div>
 </div>
+
 {% endblock %}
