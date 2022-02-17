@@ -4,7 +4,6 @@ from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm ,UsernameField
 from django.core.exceptions import ValidationError
-# from django.forms import inlineformset_factory
 
 # register form based on built-in usercreationform
 class RegistrationForm(UserCreationForm):
@@ -18,12 +17,12 @@ class RegistrationForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Email already exist !")
 
-        # login form inherits from built-in authenticationform 
+# login form inherits from built-in authenticationform 
 class LoginForm(AuthenticationForm): 
     username = UsernameField( widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username..'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password...'}))
 
-
+# Post Form 
 class PostForm(forms.ModelForm):
     content = forms.TextInput(attrs={'class': 'form-control'})
     class Meta:
@@ -36,7 +35,7 @@ class PostForm(forms.ModelForm):
             'category' : forms.Select(attrs={'class':'form-control'}),
         }
 
-                
+# Tags Form    
 class TagsForm(forms.ModelForm):
     class Meta:
         model = PostTags
@@ -45,8 +44,6 @@ class TagsForm(forms.ModelForm):
             'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput','required':'False'})
         }
         
-# TagFormSet = inlineformset_factory(PostTags, Post, fields=('tag_name',))      
-
 # Comment Form
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -59,8 +56,7 @@ class CommentForm(forms.ModelForm):
         'rows': '4',
     })}
             
-
-
+# Category Form
 class CategoryForm(forms.ModelForm):
     cat_name = forms.CharField(widget=forms.TextInput())
     class Meta:
@@ -72,6 +68,7 @@ class CategoryForm(forms.ModelForm):
         if Category.objects.filter(cat_name = cat_name).exists():
             raise ValidationError("Category Already exists !")
 
+# Forbidden Words Form
 class ForbiddenWordsForm(forms.ModelForm):
     forbidden_word=forms.CharField(widget=forms.TextInput())
     class Meta:
