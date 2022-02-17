@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('updatePost/<post_id>',views.updatePost,name='updatePost') ,
     path('delete-post/<post_id>',views.DeletePost,name='delete-post') ,
+    path('comment-reply/<post_id>/<comment_id>',views.add_reply,name='reply'),
 
 
       

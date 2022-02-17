@@ -6,10 +6,10 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Edit Post</h1>
+      <div class="container-fluid bg-dark shadow-lg p-2">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1 class="text-center text-ligh fw-light">Edit Post</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div>
@@ -20,17 +20,22 @@
 
     <!-- Main content -->
     <div class="container-fluid">
-      <div class="row">
+      <div class="row shadow p-3 mb-4 ">
         <div class="col-8 md-8 sm-8">
 
             <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
-                <div class="input-group mb-3">
-                    {{ post_form.as_p }}
-                    <label>Tag Name:</label>
+                <div class="mb-3 col-12 shadow p-3 mb-4" style="margin-left: 20%;">
+                  <label class="form-label col-12">{{post_form.title.label}} {{post_form.title}}</label>
+                  <label class="form-label col-12">{{post_form.picture.label}} {{post_form.picture}}</label>
+                  <label class="form-label col-12">{{post_form.content.label}} {{post_form.content}}</label>
+                  <label class="form-label col-12">{{post_form.category.label}} {{post_form.category}}</label>
+                  <label class="form-label col-12">{{post_form.tag.label}} {{post_form.tag}}</label>
+                    <!-- {{ post_form.as_p }} -->
+                    <label class="form-label col-12">Tag Name:</label>
                     <input type="text" name="tag_name" class="form-control" data-role="tagsinput" maxlength="100" id="id_tag_name" style="display: none;">
                 </div>
-                <div>
+                <div style="margin-left: 20%;">
                     <input class="btn btn-dark" type="submit" value="Submit">
                 </div>
             </form>
