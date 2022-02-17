@@ -68,7 +68,7 @@ def loginpage(request):
                         else:
                             return redirect('landing')
                     elif islocked(user): # to check if the user is blocked or not 
-                        messages.info(request,"This Account is blocked , Please contact the admin")
+                        messages.info(request,"This Account is blocked , Please contact the admin at djblog2022@gmail.com")
                     else :
                         # this else if the user isn't an admin or a blocked user 
                         login(request, user)
