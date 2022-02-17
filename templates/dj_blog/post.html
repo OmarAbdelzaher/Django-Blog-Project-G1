@@ -33,7 +33,7 @@
                         <!-- Delete and Edit buttons if logged in  -->
                         <div class="btn-group" style="margin-left: 45%;">
                             {% if user.is_authenticated %}
-                                <!-- only author post can modify post -->
+                                 <!-- Check if the user is logged in so, only author post can modify posts -->
                                 {% if user.id == post.user.id  %}
                                         <!-- Edit link  -->
                 

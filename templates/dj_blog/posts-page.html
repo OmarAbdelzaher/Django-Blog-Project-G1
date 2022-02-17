@@ -6,6 +6,7 @@
 <link href="{% static 'css/post.css' %}" rel="stylesheet">
 
 <div class="container">
+    <!-- Retrieve all details of the posts -->
     {% for post,image,names in mylist %}
     {% comment %} <h1>{{tags}}</h1> {% endcomment %}
         <div class="row">
@@ -13,7 +14,8 @@
                 <div class="panel panel-white post">
                     <div class="post-heading">
                         <div class="pull-left image">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle avatar" alt="user profile image">
+                            <!-- Start post details -->
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
@@ -24,19 +26,19 @@
                         </div>
                     </div>
                     <div>
-
-                        {% if user.is_authenticated %}
-                        <!-- Edit link  -->
                         
-    
+                        <!-- Check if the user is logged in so, only author post can modify posts -->
+                        {% if user.is_authenticated %}
+                        <!-- Delete and Edit buttons if logged in  -->
+                        <!-- Edit link  -->
                            <a href="{% url 'updatePost' post.id %}">EDIT</a>
-    
                         <!-- Delete link  -->
     
                            <a href="{% url 'delete-post' post.id %}">Delete</a>
     
                        {% endif %}
                     </div>
+                    <!-- Start post post description -->
                     <div class="post-description">
                         <h4>{{post.title}}</h4>
                         <p>{{post.content}}</p>
