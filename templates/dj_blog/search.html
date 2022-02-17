@@ -61,9 +61,13 @@
                                     <p class="card-text">
                                         {{post.content}}
                                     </p>
-                                    {%for posttags in tag%}
-                                        <li><a class="btn btn-sm btn-secondary all-tags" href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
-                                    {%endfor%}
+                                    <ul class="blog-tags list-unstyled list-inline">
+                                        <li>
+                                            {%for posttags in tag%}
+                                            <a class="btn btn-sm btn-secondary all-tags" style="margin: 1%;" href="#"><i class="fa fa-tag "></i>{{posttags}}</a>
+                                            {%endfor%}
+                                        </li>
+                                    </ul>
                                 </div>
                                 
                             </div>
