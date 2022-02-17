@@ -58,7 +58,8 @@ class Reply(models.Model):
     reply_time=models.TimeField(null=True)
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
     comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE)
-    
+
+
 class ForbiddenWords(models.Model):
     forbidden_word=models.CharField(max_length=100)
 
