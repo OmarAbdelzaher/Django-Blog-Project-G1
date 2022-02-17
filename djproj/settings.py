@@ -102,8 +102,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'USER': 'omar',
-        'PASSWORD': 'Password1234#@!'
+        'USER': 'saeed',
+        'PASSWORD': 'passw0rd',
     }
 }
 
@@ -153,9 +153,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # sending mail to the user firstly we should do some configurations 
 
-EMAIL_USE_TLS = True #
-EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_USE_TLS = True  #(TLS) is a security protocol that encrypts email for privacy
+EMAIL_HOST = 'smtp.gmail.com' # Mail is sent using the SMTP host 
 EMAIL_HOST_USER = 'djblog2022@gmail.com'
 EMAIL_HOST_PASSWORD = 'djangogroup1'
-EMAIL_PORT = '587'
-EMAIL_USE_SSL = False
+EMAIL_PORT = '587'  # the port we use it to send emails 
+EMAIL_USE_SSL = False  # SSL stands for Secure Sockets Layer, and is a protocol that protects communication over the internet

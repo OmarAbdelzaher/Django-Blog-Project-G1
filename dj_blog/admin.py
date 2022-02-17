@@ -8,17 +8,17 @@ admin.site.register(Comment)
 admin.site.register(Category)
 admin.site.register(PostTags)
 
-
+# customizing the main admin page 
 class UserAccount(admin.ModelAdmin):
     list_display =['user','is_locked']
 admin.site.register(Account,UserAccount)
 
 
 class UserPanel(UserAdmin):
-    list_display = ('id','username','email', 'first_name', 'last_name', 'is_active', 'date_joined', 'is_staff')
+    list_display = ('id','username','email', 'is_active', 'date_joined', 'is_staff')
     add_fieldsets = (
         ('Personal Information', {
-            'fields': ('username','first_name','last_name','email',
+            'fields': ('username','email',
                        'password1', 'password2',)}
         ),
         ('Permissions',{

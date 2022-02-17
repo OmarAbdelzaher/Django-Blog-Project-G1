@@ -1,16 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
-from django.http import HttpResponse,HttpResponseRedirect
-from django.contrib.auth import login, logout, authenticate
 from .forms import *
 from .models import *
 from django.contrib import messages
 import os
+from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-import logging
-
 from dj_admin.views import islocked
+
 # import email confirmation stuff
 from django.core.mail import send_mail
 from django.conf import settings
@@ -21,14 +19,17 @@ from django.core.paginator import Paginator
 
 
 
-
+# resgistration page 
 def registerpage(request):
-    # handling the checking for already logged in later
+    # checking if the user is already logged or not 
     if not request.user.is_authenticated :
+        # creating resgistration form 
         user_form = RegistrationForm()
+
         if request.method == "POST":
             user_form = RegistrationForm(request.POST)
             if user_form.is_valid():
+                # if the form is valid , save the form then create an account for the user and initialize account is locked equal false         
                 user = user_form.save()
                 account = Account.objects.create(user=user)
                 account.is_locked = False 
@@ -36,6 +37,7 @@ def registerpage(request):
                 return redirect('login')
         context = {'user_form': user_form}
         return render(request, 'dj_blog/register.html', context)
+
     else :
         return redirect("landing")
 
@@ -43,19 +45,24 @@ def registerpage(request):
 
 @csrf_exempt
 def loginpage(request):
-    # handling the checking for already logged in later
+    # checking if the user is already logged or not  
     if not request.user.is_authenticated :
+
         login_form = LoginForm()
         if request.method == "POST":
             login_form = LoginForm(data=request.POST)
+            # checking if the login form is valid or not 
+            
             if(login_form.is_valid()):
+                # get the data for username and password from the post request then checking if they exists in the database  
                 username = request.POST['username']
                 password = request.POST["password"]
                 user = authenticate(username=username, password=password)
+
                 if user is not None:
-                    # handling the checking for blocked users 
                     if (user.is_staff) : # to check first if the user is admin or not 
                         login(request, user)
+                        # checking if the next object is have a specific url or not if have we will redirect it 
                         if request.GET.get('next') is not None:
                             return redirect(request.GET.get('next'))
                         else:
@@ -63,11 +70,13 @@ def loginpage(request):
                     elif islocked(user): # to check if the user is blocked or not 
                         messages.info(request,"This Account is blocked , Please contact the admin")
                     else :
+                        # this else if the user isn't an admin or a blocked user 
                         login(request, user)
                         if request.GET.get('next') is not None:
                             return redirect(request.GET.get('next'))
                         else:
                             return redirect('landing')
+
         context = {"login_form": login_form}
         return render(request, 'dj_blog/login.html', context)
     else :
@@ -95,7 +104,9 @@ def landing(request):
 
 def PostPage(request,post_id):
     post = Post.objects.get(id=post_id)
-    context = {'post':post}
+    replies = Reply.objects.get(id=post_id)
+
+    context = {'post':post,'replies':replies}
     return render(request, 'dj_blog/post.html',context)
 
 def logoutpage(request):
@@ -112,6 +123,7 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
+    # sending email to the user 
     try:
         send_mail("subscribed to a new category",
                 'hello ,\nyou have just subscribed successfully to category '+category.cat_name,
@@ -135,12 +147,19 @@ def addPost(request):
         post_form = PostForm(request.POST,request.FILES)
         tag_form = TagsForm(request.POST)
         if post_form.is_valid() and tag_form.is_valid():
+
+            # get all the forbidden words as objects then get the post title and content that exist in the post request
             forbidden_words = ForbiddenWords.objects.all()
             content = request.POST.get("content")
             title = request.POST.get("title")
+
+            # looping through the forbidden words 
             for word in forbidden_words :
                 content_replaced = ""
                 title_replaced=""
+                #check if the forbidden word already exist in post content and post title 
+                # if the word exists , we use the replace function to replace the forbidden word with asteriks 
+
                 if word.forbidden_word in content : 
                     for char in word.forbidden_word :
                         content_replaced +="*"
@@ -149,7 +168,9 @@ def addPost(request):
                     for char in word.forbidden_word :
                         title_replaced +="*"
                     title = title.replace(word.forbidden_word,title_replaced)
+
             obj = post_form.save(commit=False)
+            #assign the new post content and title that we changed to the form 
             obj.content =content
             obj.title =title
             obj.user = request.user
@@ -180,9 +201,15 @@ def updatePost(request,post_id):
         post = PostForm(request.POST,request.FILES,instance=post)
         # tag_form = TagsForm(request.POST)
         if post.is_valid():
+            #get all the forbidden words as objects then get the post title and content that exist in the post request
+
             forbidden_words = ForbiddenWords.objects.all()
             content = request.POST.get("content")
             title = request.POST.get("title")
+
+             #check if the forbidden word already exist in post content and post title 
+            # if the word exists , we use the replace function to replace the forbidden word with asteriks 
+
             for word in forbidden_words :
                 replaced = ""
                 title_replaced =""
@@ -196,6 +223,7 @@ def updatePost(request,post_id):
                     title = title.replace(word.forbidden_word,title_replaced)
             
             obj = post.save(commit=False)
+            #assign the new post content and title that we changed to the form 
             obj.content = content
             obj.title = title
             obj.user = request.user
@@ -312,10 +340,13 @@ def AddDislike(request,post_id):
 @login_required(login_url='login')
 def add_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id)
+    # get all the forbidden words as objects 
     forbidden_words = ForbiddenWords.objects.all()
     if request.method == 'POST':
         user = request.user
         comment_text = request.POST.get('text')
+        # looping through the forbidden words objects then checking if the forbidden word is already exist in the comment or not 
+        # if the word exist replace it with asteriks
         for word in forbidden_words :
             replaced = ""
             if word.forbidden_word in comment_text :
@@ -341,3 +372,4 @@ def search(request):
         return render(request, 'dj_blog/search.html',context)
     else:
         return render(request, 'dj_blog/search.html',{})
+
