@@ -13,14 +13,16 @@
             <div class="row shadow p-3 mb-4 ">
                 <div class="col-6  ">
                     <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Edit Post</h3>
-
+                    <!-- fields in edit form  -->
                    <div class="my-4"> {{post_form.title.label}}        {{post_form.title}} </div> 
                    <div class="mb-4"> {{post_form.content.label}}     {{post_form.content}} </div> 
                    <div class="mb-4"> {{post_form.picture.label}}     {{post_form.picture}} </div> 
                    <div class="mb-4"> {{post_form.category.label}}     {{post_form.category}} </div> 
                    <div class="mb-4"> {{post_form.tag.label}}     {{post_form.tag}} </div>  
 
-                    {{tag_form.as_p}}
+                   <!-- Tag name input  -->
+                   <label class="form-label col-12">Tag Name:</label>
+                   <input type="text" name="tag_name" class="form-control" data-role="tagsinput" maxlength="100" id="id_tag_name" style="display: none;">
 
                     
                 </div>

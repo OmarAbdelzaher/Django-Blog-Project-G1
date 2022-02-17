@@ -89,12 +89,13 @@ def landing(request):
     tags=PostTags.objects.all()
     
     #set up pagination
+    # number posts in one page
     num_of_posts=5
     p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
     page= request.GET.get('page')
     pagination_posts=p.get_page(page)
 
-
+    # To show number of pages (1,2,3,...)
     nums= "a" * pagination_posts.paginator.num_pages
     pg=pagination_posts
     # End of setting pagination
@@ -195,8 +196,6 @@ def updatePost(request,post_id):
     post_form = PostForm(instance=post)
 
     tag_form = TagsForm()
-    # tags=PostTags.objects.get(tag_name=post.tag)
-    # tags= TagsForm(instance=frmtag)
 
     context = {}
     context['post_form'] = post_form
@@ -206,7 +205,6 @@ def updatePost(request,post_id):
         post_form = PostForm(request.POST,request.FILES,instance=post)
         tag_form = TagsForm(request.POST)
 
-        # tag_form = TagsForm(request.POST)
         if post_form.is_valid():
             #get all the forbidden words as objects then get the post title and content that exist in the post request
 
@@ -263,7 +261,6 @@ def DeletePost(request,post_id):
     if request.method == "POST":
         post.delete()
         return redirect ('landing')
-
 
     context={'post':post}
 
