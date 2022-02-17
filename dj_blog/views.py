@@ -179,18 +179,33 @@ def addPost(request):
 def updatePost(request,post_id):
 
     post=Post.objects.get(id=post_id)
-    form=PostForm(instance=post)
+    tags = post.tag.all()
+
+    post_form = PostForm(instance=post)
+
     tag_form = TagsForm()
     # tags=PostTags.objects.get(tag_name=post.tag)
     # tags= TagsForm(instance=frmtag)
 
+    context = {}
+    context['post_form'] = post_form
+    context['tag_form'] = tag_form
+
     if request.method == 'POST':
-        post = PostForm(request.POST,request.FILES,instance=post)
+        post_form = PostForm(request.POST,request.FILES,instance=post)
+        tag_form = TagsForm(request.POST)
+
         # tag_form = TagsForm(request.POST)
-        if post.is_valid():
+        if post_form.is_valid():
             forbidden_words = ForbiddenWords.objects.all()
             content = request.POST.get("content")
             title = request.POST.get("title")
+            # obj = post_form.save(commit = False)
+            # obj.user = request.user
+            # obj.tag.clear()
+            # obj.save()
+            # tags = post_form.cleaned_data['tag']
+
             for word in forbidden_words :
                 replaced = ""
                 title_replaced =""
@@ -203,15 +218,35 @@ def updatePost(request,post_id):
                         title_replaced +="*"
                     title = title.replace(word.forbidden_word,title_replaced)
             
-            obj = post.save(commit=False)
+            obj = post_form.save(commit=False)
             obj.content = content
             obj.title = title
             obj.user = request.user
+            obj.tag.clear()
+            tags = post_form.cleaned_data['tag']
+
+            for tag in tags:
+                newTag = PostTags.objects.get(tag_name = tag)
+                obj.tag.add(newTag)
+                obj.save()
+                    
+            tag_obj = request.POST.get('tag_name')
+            splitted_tags = str(tag_obj).split(',')
+
+            if splitted_tags[0] != '':
+                for tag in splitted_tags:
+                    newTag = PostTags.objects.create(tag_name = tag)
+                    newTag.save()
+                    obj.tag.add(newTag)
             obj.save()
             return redirect('landing')
 
 
-    context={'form':form}
+            # obj.save()
+            # return redirect('landing')
+
+
+    # context={'form':form}
 
     return render(request,'dj_blog/updatePost.html',context)
 

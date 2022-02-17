@@ -20,6 +20,7 @@ urlpatterns = [
     path('post-like/<post_id>',views.AddLike,name='like'),
     path('post-dislike/<post_id>',views.AddDislike,name='dislike'),
     path('search/', views.search, name="search"),
+
     path('updatePost/<post_id>',views.updatePost,name='updatePost') ,
     path('delete-post/<post_id>',views.DeletePost,name='delete-post') ,
 
