@@ -86,10 +86,10 @@ def landing(request):
     page= request.GET.get('page')
     pagination_posts=p.get_page(page)
 
-    # End of setting pagination
 
     nums= "a" * pagination_posts.paginator.num_pages
     pg=pagination_posts
+    # End of setting pagination
 
     loggedUser = request.user
     context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums,'loggeduser':loggedUser}

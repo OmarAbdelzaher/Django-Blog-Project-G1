@@ -120,36 +120,45 @@ def addPost(request):
 
 def editPost(request,post_id):
     post = Post.objects.get(id= post_id)
+    tags = post.tag.all()
+    print(tags)
     post_form = PostForm(instance=post)
+    tag_form = TagsForm()
+    
     context = {}
     context['post_form'] = post_form
-    count = 0
-    for tag in post.tag.all():
-        print(tag)
-        newTag = PostTags.objects.get(tag_name=tag)
-        tag_form = TagsForm(instance=newTag)
-        count += 1
-        context['tag_form'+str(count)] = TagsForm(instance=newTag)
+    context['tag_form'] = tag_form
     
     if request.method == 'POST':
-        post_form = PostForm(request.POST,instance=post)
-        tag_form = TagsForm(request.POST,instance=newTag)
+        post_form = PostForm(request.POST,request.FILES,instance=post)
+        tag_form = TagsForm(request.POST)
+        print(post_form)
         if post_form.is_valid():
-            post_form.save()
+            obj = post_form.save(commit = False)
             
-            tag_obj = tag_form.save(commit=False)
+            obj.user = request.user
+            obj.tag.clear()
+            obj.save()
+            tags = post_form.cleaned_data['tag']
+            
+            for tag in tags:
+                print(tag)
+                newTag = PostTags.objects.get(tag_name = tag)
+                obj.tag.add(newTag)
+                obj.save()
+                    
+            tag_obj = request.POST.get('tag_name')
             splitted_tags = str(tag_obj).split(',')
-            for tag in splitted_tags:
-                newTag = PostTags.objects.create(tag_name = tag)
-                newTag.save()
-                post_form.tag.add(newTag)
-                
-            post_form.save()
+            print(splitted_tags)
+            
+            if splitted_tags[0] != '':
+                for tag in splitted_tags:
+                    newTag = PostTags.objects.create(tag_name = tag)
+                    newTag.save()
+                    obj.tag.add(newTag)
+            obj.save()
             return redirect('post')
-    
-    context['tag_form_counter'] = count
-    context['counter'] = range(1,count+1)
-    
+ 
     return render (request,"dj_admin/editpost.html",context)
 
 def deletePost(request,post_id):
