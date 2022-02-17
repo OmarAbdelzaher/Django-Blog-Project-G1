@@ -13,6 +13,7 @@
             <div class="col-sm-12">
                 <div class="card panel panel-white post shadow">
                     <div class="card-header post-heading">
+                       
                         <div class="pull-left image">
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle img-fluid avatar" alt="user profile image">
                         </div>
@@ -20,22 +21,23 @@
                             <div class="title h5">
                                 <a style="text-decoration: none;" href="#"><b>{{post.user}}</b></a>
                                 <h6 class="fw-light">Added a new post</h6>
-                                <a class="ms-5 ">
-                                    {% if user.is_authenticated %}
-                                        <!-- only author post can modify post -->
-                                        {% if user.id == post.user.id  %}
-                                                <!-- Edit link  -->
-                        
-                                            <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
-                        
-                                                <!-- Delete link  -->
-                        
-                                            <a href="{% url 'delete-post' post.id %}">Delete</a>
-                                       {% endif %}
-                                   {% endif %}
-                                </a>
+                                <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
+
                             </div>
-                            <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
+                        </div>
+                        <div class="btn-group" style="margin-left: 345px;">
+                            {% if user.is_authenticated %}
+                                <!-- only author post can modify post -->
+                                {% if user.id == post.user.id  %}
+                                        <!-- Edit link  -->
+                
+                                    <a  class="btn btn-sm btn-outline-success rounded-pill" style="text-decoration: none;"  href="{% url 'updatePost' post.id %}">EDIT</a>
+                
+                                        <!-- Delete link  -->
+                
+                                    <a  class="btn btn-sm btn-outline-secondary rounded-pill" style="text-decoration: none;"  href="{% url 'delete-post' post.id %}">Delete</a>
+                            {% endif %}
+                        {% endif %}
                         </div>
                     </div>
                     <div class="">
