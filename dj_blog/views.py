@@ -89,12 +89,13 @@ def landing(request):
     tags=PostTags.objects.all()
     
     #set up pagination
+    # number posts in one page
     num_of_posts=5
     p= Paginator(Post.objects.order_by('-date_of_publish'), num_of_posts)
     page= request.GET.get('page')
     pagination_posts=p.get_page(page)
 
-
+    # To show number of pages (1,2,3,...)
     nums= "a" * pagination_posts.paginator.num_pages
     pg=pagination_posts
     # End of setting pagination
@@ -195,8 +196,6 @@ def updatePost(request,post_id):
     post_form = PostForm(instance=post)
 
     tag_form = TagsForm()
-    # tags=PostTags.objects.get(tag_name=post.tag)
-    # tags= TagsForm(instance=frmtag)
 
     context = {}
     context['post_form'] = post_form
@@ -206,7 +205,6 @@ def updatePost(request,post_id):
         post_form = PostForm(request.POST,request.FILES,instance=post)
         tag_form = TagsForm(request.POST)
 
-        # tag_form = TagsForm(request.POST)
         if post_form.is_valid():
             #get all the forbidden words as objects then get the post title and content that exist in the post request
 
@@ -263,7 +261,6 @@ def DeletePost(request,post_id):
     if request.method == "POST":
         post.delete()
         return redirect ('landing')
-
 
     context={'post':post}
 
@@ -359,42 +356,47 @@ def AddDislike(request,post_id):
     return redirect('post',post_id)
 
 # Add Comment
+# Only logged in users can add comment on the post
 @login_required(login_url='login')
 def add_comment(request, post_id):
+     # Interacted with specific post by id
     post = get_object_or_404(Post,id=post_id)
-    # get all the forbidden words as objects 
+    # Retrieve all from forbidden words table
     forbidden_words = ForbiddenWords.objects.all()
+    # Check for the request method then assign the user and text to the request user
     if request.method == 'POST':
         user = request.user
         comment_text = request.POST.get('text')
-        # looping through the forbidden words objects then checking if the forbidden word is already exist in the comment or not 
-        # if the word exist replace it with asteriks
+        # Retrieve all words from forbidden_words 
         for word in forbidden_words :
             replaced = ""
+            # Check for the forbidden words in each comment and replace it with * 
             if word.forbidden_word in comment_text :
                 for char in word.forbidden_word :
                     replaced +="*"
                 comment_text = comment_text.replace(word.forbidden_word,replaced)
+                 # Save the comments 
         Comment(user=user,post_id=post, comment_body=comment_text).save() 
     else:
         return redirect('post', post_id)
     return redirect('post', post_id)
 
 # Add Reply
+# Only logged in users can reply on the comment
 @login_required(login_url='login')
 def add_reply(request, post_id,comment_id):
+     # Interacted with specific post by id
     post = Post.objects.get(id=post_id)
+    # Retrieve all from comment table and assign them to the parent comment
     parent_comment = Comment.objects.get(id=comment_id)
+    # Check for the request method then assign the user and reply to the request user
     if request.method == "POST":
         reply_body=request.POST.get('reply')
         author = request.user
-        print(parent_comment)
-        print(reply_body)
+        # Save the replies 
         Comment(user=author , post_id=post, comment_body=reply_body).save()
         reply_comment=Comment.objects.filter(comment_body=reply_body)
-        print(reply_comment)
         reply_comment.parent=parent_comment
-        print(reply_comment.parent)
     else:
         return redirect('post', post_id)
     context={
