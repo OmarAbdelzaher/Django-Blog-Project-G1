@@ -26,6 +26,7 @@
         <table style="text-align : center;" class="table table-lg table-dark">
           <thead>
             <tr>
+              <!-- Admin Table Structure -->
               <th scope="col">ID</th>
               <th scope="col">Username</th>
               <th scope="col">Email Address</th>
@@ -33,6 +34,7 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Put all admin details in the table -->
             {% for admin in admins %}
            <tr style="background-color:	#5DBCD2">
            <td>{{admin.id}}</td>
