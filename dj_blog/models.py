@@ -11,6 +11,7 @@ class Account(models.Model):
     def __str__(self):
         return self.user.username
 
+# Category Model
 class Category(models.Model):
     cat_name=models.CharField(max_length=100)
     user = models.ManyToManyField(User,related_name='categories')
@@ -18,12 +19,14 @@ class Category(models.Model):
     def __str__(self):
         return self.cat_name
 
+# Tags Model
 class PostTags(models.Model):
     tag_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.tag_name
-    
+
+# Post Model    
 class Post(models.Model):
     title = models.CharField(max_length=50)
     picture = models.ImageField(null=True,upload_to='images/')
@@ -37,8 +40,8 @@ class Post(models.Model):
       
     def __str__(self):
         return self.title
-    
-# Table Comments
+
+# Comment Model    
 class Comment(models.Model):
     comment_body=models.CharField(max_length=100)
     comment_time=models.DateTimeField(auto_now_add=True,null=True,blank=True)
@@ -49,7 +52,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.user.username
     
-#  Reply Table   
+# Reply Model  
 class Reply(models.Model):
     reply_body=models.CharField(max_length=100)
     reply_time=models.TimeField(null=True)
