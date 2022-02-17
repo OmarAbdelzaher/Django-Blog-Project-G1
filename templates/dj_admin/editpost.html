@@ -27,13 +27,8 @@
                 {% csrf_token %}
                 <div class="input-group mb-3">
                     {{ post_form.as_p }}
-                    {% comment %} {{ tag_form.as_p }} {% endcomment %}
                     <label>Tag Name:</label>
                     <input type="text" name="tag_name" class="form-control" data-role="tagsinput" maxlength="100" id="id_tag_name" style="display: none;">
-                    {% comment %} {{ tag_form.as_p }} {% endcomment %}
-                    {% for i in counter %}
-                        {{tag_form_|add:i}}
-                    {% endfor %}
                 </div>
                 <div>
                     <input class="btn btn-dark" type="submit" value="Submit">

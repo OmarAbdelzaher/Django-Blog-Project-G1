@@ -121,7 +121,6 @@ def addPost(request):
 def editPost(request,post_id):
     post = Post.objects.get(id= post_id)
     tags = post.tag.all()
-    print(tags)
     post_form = PostForm(instance=post)
     tag_form = TagsForm()
     
@@ -132,7 +131,6 @@ def editPost(request,post_id):
     if request.method == 'POST':
         post_form = PostForm(request.POST,request.FILES,instance=post)
         tag_form = TagsForm(request.POST)
-        print(post_form)
         if post_form.is_valid():
             obj = post_form.save(commit = False)
             
@@ -142,14 +140,12 @@ def editPost(request,post_id):
             tags = post_form.cleaned_data['tag']
             
             for tag in tags:
-                print(tag)
                 newTag = PostTags.objects.get(tag_name = tag)
                 obj.tag.add(newTag)
                 obj.save()
                     
             tag_obj = request.POST.get('tag_name')
             splitted_tags = str(tag_obj).split(',')
-            print(splitted_tags)
             
             if splitted_tags[0] != '':
                 for tag in splitted_tags:
