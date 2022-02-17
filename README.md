@@ -211,7 +211,7 @@ page
   - A reply to each Comment
   - Likes and Unlikes to comments and replies
 
-## Who are we
+## Who we are
 - ITI Students & Teammates, we are a Full Stack Web Development students at ITI - Python Back-end Track
 
 - We are introducing a Django Blog with many features using Django Templates as a front-end and mysql as a database manager
