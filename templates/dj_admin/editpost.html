@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Edit Category</h1>
+            <h1 class="m-0">Edit Post</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div>
@@ -23,20 +23,21 @@
       <div class="row">
         <div class="col-8 md-8 sm-8">
 
-            <form method="POST" action=""> 
+            <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
                 <div class="input-group mb-3">
-                    <label class="" >Category Name</label>
-                     <span>{{ cat_form.cat_name }}</span>
+                    {{ post_form.as_p }}
+                    <label>Tag Name:</label>
+                    <input type="text" name="tag_name" class="form-control" data-role="tagsinput" maxlength="100" id="id_tag_name" style="display: none;">
                 </div>
                 <div>
                     <input class="btn btn-dark" type="submit" value="Submit">
                 </div>
             </form>
             <div>
-                {% for field, errors in cat_form.errors.items %}
+                {% for field, errors in post_form.errors.items %}
                     {% for error in errors %}
-                      <p class="text-danger">{{ error }}</p>
+                        <p class="text-danger">{{ error }}</p>
                     {% endfor %} 
                 {% endfor %}
             </div>

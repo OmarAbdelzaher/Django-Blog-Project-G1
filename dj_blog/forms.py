@@ -4,6 +4,7 @@ from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm ,UsernameField
 from django.core.exceptions import ValidationError
+# from django.forms import inlineformset_factory
 
 # register form based on built-in usercreationform
 class RegistrationForm(UserCreationForm):
@@ -27,7 +28,7 @@ class PostForm(forms.ModelForm):
     content = forms.TextInput(attrs={'class': 'form-control'})
     class Meta:
         model = Post
-        fields = ['title','picture','content','category']
+        fields = ['title','picture','content','category','tag']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'picture': forms.FileInput(attrs={'class': 'form-control'}),
@@ -41,9 +42,11 @@ class TagsForm(forms.ModelForm):
         model = PostTags
         fields = ['tag_name']
         widgets = {
-            'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput'})
+            'tag_name': forms.TextInput(attrs={'class': 'form-control', 'data-role': 'tagsinput','required':'False'})
         }
         
+# TagFormSet = inlineformset_factory(PostTags, Post, fields=('tag_name',))      
+
 # Comment Form
 class CommentForm(forms.ModelForm):
     class Meta:

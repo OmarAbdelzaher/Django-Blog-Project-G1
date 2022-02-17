@@ -23,6 +23,20 @@
                             <h6 class="text-muted time">{{post.date_of_publish}}</h6>
                         </div>
                     </div>
+                    <div>
+
+                        {% if user.is_authenticated %}
+                        <!-- Edit link  -->
+                        
+    
+                           <a href="{% url 'updatePost' post.id %}">EDIT</a>
+    
+                        <!-- Delete link  -->
+    
+                           <a href="{% url 'delete-post' post.id %}">Delete</a>
+    
+                       {% endif %}
+                    </div>
                     <div class="post-description">
                         <h4>{{post.title}}</h4>
                         <p>{{post.content}}</p>

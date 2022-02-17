@@ -1,0 +1,51 @@
+{% extends 'dj_admin/base_layout.html' %}
+
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Posts</h1>
+            <br>
+            <div>
+              <a class="btn btn-dark"  href="/dj_admin/postform">Add Post</a>
+            </div>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    <!-- Main content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6 md-6 sm-6">
+        <table style="text-align : center;" class="table table-lg table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Posts</th>
+              <th scope="col" colspan="3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for post in posts %}
+           <tr style="background-color:	#636e72">
+           <td>{{post.title}}</td>
+           <td style="background-color:	#636e72" colspan="5" style="text-align:center; padding:15px;">
+           <a class="btn" style="background-color: #ffc507; " href="/dj_admin/deletepost/{{ post.id }}">Delete</a>
+           <a class="btn" style="background-color: #ffc507; " href="/dj_admin/editpost/{{ post.id }}">Edit</a>
+           </td>         
+          </tr> 
+          {%endfor%}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}

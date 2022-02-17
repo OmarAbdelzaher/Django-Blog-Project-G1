@@ -20,6 +20,20 @@
                             <div class="title h5">
                                 <a style="text-decoration: none;" href="#"><b>{{post.user}}</b></a>
                                 <h6 class="fw-light">Added a new post</h6>
+                                <a class="ms-5 ">
+                                    {% if user.is_authenticated %}
+                                        <!-- only author post can modify post -->
+                                        {% if user.id == post.user.id  %}
+                                                <!-- Edit link  -->
+                        
+                                            <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
+                        
+                                                <!-- Delete link  -->
+                        
+                                            <a href="{% url 'delete-post' post.id %}">Delete</a>
+                                       {% endif %}
+                                   {% endif %}
+                                </a>
                             </div>
                             <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
                         </div>
@@ -29,7 +43,7 @@
                     </div>
 
                     <div class="post-description">
-                        
+                        <br>
                         <h4>{{post.title}}</h4>
                         <p class="card-body">{{post.content}}</p>
                         <div>
