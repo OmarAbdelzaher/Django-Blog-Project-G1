@@ -108,9 +108,26 @@
                             
                             <hr>
                         </div>
-                    </div>
+                        <h5>Comments ({{post.comments.all.count}})...</h5>
+                        {% for comment in post.comments.all %}
+                        <ul class="comments-list">
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user"><a href="{% url 'post' comment.user.id%}">{{ comment.user}}</a></h4>
+                                        <h5 class="time">{{comment.comment_time}}</h5>
+                                    </div>
+                                    <p>{{comment.comment_body|linebreaks }}</p>
+                                </div>
+                            </li>
+                        </ul>
                     {% endfor %}
-                            
+                    </div>
+                </div>
+            </div>
                     </div>
                 </div>
             </div>
@@ -121,5 +138,4 @@
     
 </div>
 </div>
-
 {% endblock %}
