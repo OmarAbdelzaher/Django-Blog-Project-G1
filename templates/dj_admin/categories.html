@@ -7,11 +7,13 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Categories</h1>
+          <div class="col-sm-12">
+            <h1 class="text-center shadow p-3 mb-2 text-light bg-dark fw-light">Categories</h1>
             <br>
             <div>
-              <a class="btn btn-dark"  href="/dj_admin/categoryform">Add Category</a>
+              <center>
+                <a class="btn btn-dark"  href="/dj_admin/categoryform">Add Category</a>
+              </center>
             </div>
           </div><!-- /.col -->
           <div class="col-sm-6">
@@ -24,19 +26,21 @@
     <!-- Main content -->
     <div class="container-fluid">
       <div class="row">
-        <div class="col-6 md-6 sm-6">
+        <div class="col-12 md-6 sm-6">
         <table style="text-align : center;" class="table table-lg table-dark">
           <thead>
             <tr>
-              <th scope="col">Categories</th>
-              <th scope="col" colspan="3">Actions</th>
+              <th class="col-6" scope="col">Categories</th>
+              <th class="col-6" scope="col" colspan="3">Actions</th>
             </tr>
           </thead>
           <tbody>
+            <!-- Put all the catagories in the table  -->
             {% for category in categories %}
            <tr style="background-color:	#636e72">
            <td>{{category.cat_name}}</td>
            <td style="background-color:	#636e72" colspan="5" style="text-align:center; padding:15px;">
+            <!-- Two Buttons For Delete and Edit catagories -->
            <a class="btn" style="background-color: #ffc507; " href="/dj_admin/deletecat/{{ category.id }}">Delete</a>
            <a class="btn" style="background-color: #ffc507; " href="/dj_admin/editcat/{{ category.id }}">Edit</a>
            </td>         

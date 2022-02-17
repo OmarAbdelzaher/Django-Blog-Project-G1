@@ -5,10 +5,10 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Posts Creation</h1>
+      <div class="container-fluid bg-dark shadow-lg p-2">
+        <div class="row ">
+          <div class="col-sm-12">
+            <h1 class="text-center text-ligh fw-light ">Posts Creation</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div>
@@ -19,14 +19,19 @@
 
     <!-- Main content -->
     <div class="container-fluid">
-      <div class="row">
+      <div class="row shadow p-3 mb-4 ">
         <div class="col-8 md-8 sm-8">
 
             <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
-                <div class="input-group mb-3">
-                     {{post_form.as_p}}
-                     {{tag_form.as_p}}
+                
+                <div class="mb-3 col-12 shadow p-3 mb-4" style="margin-left: 20%;">
+                  <label class="form-label col-12">{{post_form.title.label}} {{post_form.title}}</label>
+                  <label class="form-label col-12">{{post_form.picture.label}} {{post_form.picture}}</label>
+                  <label class="form-label col-12">{{post_form.content.label}} {{post_form.content}}</label>
+                  <label class="form-label col-12">{{post_form.category.label}} {{post_form.category}}</label>
+                  <label class="form-label col-12">{{post_form.tag.label}} {{post_form.tag}}</label>
+                  {{tag_form.as_p}}
                 </div>
                 <div>
                     <input class="btn btn-dark" type="submit" value="Add Post">
