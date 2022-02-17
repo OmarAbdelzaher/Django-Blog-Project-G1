@@ -1,0 +1,47 @@
+{% extends 'dj_admin/base_layout.html' %}
+
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Posts Creation</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    <!-- Main content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-8 md-8 sm-8">
+
+            <form method="POST" enctype="multipart/form-data"> 
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                     {{post_form.as_p}}
+                     {{tag_form.as_p}}
+                </div>
+                <div>
+                    <input class="btn btn-dark" type="submit" value="Add Post">
+                </div>
+            </form>
+            <div>
+                {% for field, errors in post_form.errors.items %}
+                               {% for error in errors %}
+                               <p class="text-danger">{{ error }}</p>
+                               {% endfor %}
+                        {% endfor %}
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

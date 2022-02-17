@@ -52,7 +52,6 @@ AUTHENTICATION_BACKENDS = (
 INSTALLED_APPS = [
     'dj_admin',
     'dj_blog',
-    # 'hitcount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -103,8 +102,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdb',
-        'USER':'saeed',
-        'PASSWORD':'passw0rd',
+        'USER': 'omar',
+        'PASSWORD': 'Password1234#@!'
     }
 }
 
@@ -133,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EET'
 
 USE_I18N = True
 

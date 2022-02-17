@@ -11,26 +11,48 @@
     <div class="col-sm-8 col-sm-offset-2">
         <div class="row">
             <div class="col-sm-12">
-                <div class="panel panel-white post">
-                    <div class="post-heading">
+                <div class="card panel panel-white post">
+                    <div class="card-header post-heading">
                         <div class="pull-left image">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle img-fluid avatar" alt="user profile image">
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
-                                <a href="#"><b>{{post.user}}</b></a>
-                                added a new post
+                                <a style="text-decoration: none;" href="#"><b>{{post.user}}</b></a>
+                                <h6 class="fw-light">Added a new post</h6>
+                                <a class="ms-5 ">
+                                    {% if user.is_authenticated %}
+                                        <!-- only author post can modify post -->
+                                        {% if user.id == post.user.id  %}
+                                                <!-- Edit link  -->
+                        
+                                            <a class="ms-5 "href="{% url 'updatePost' post.id %}">EDIT</a>
+                        
+                                                <!-- Delete link  -->
+                        
+                                            <a href="{% url 'delete-post' post.id %}">Delete</a>
+                                       {% endif %}
+                                   {% endif %}
+                                </a>
                             </div>
-                            <h6 class="text-muted time">{{post.date_of_publish}}</h6>
+                            <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
                         </div>
                     </div>
+                   
                     <div class="post-image">
                         <img src={% static post.picture %} class="image" alt="image post" style="width:150px;">
                     </div>
+
                     <div class="post-description">
-                        <h4>{{post.title}}</h4>
-                        <p>{{post.content}}</p>
-                        <h3>{{post.category}}</h3>
+                        current user: {{user.username}} {{user.id}}
+                        <br>
+                        author user:{{post.user}} {{post.user.id}}
+                        <h4>{{post.title}}-{{post.user}}</h4>
+                        <p class="card-body">{{post.content}}</p>
+                        <div>
+                            <span class="btn btn-success all-tags ">{{post.category}}</span>
+
+                        </div>
                         <div class="stats">
                             <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
                                 <button type="submit" class="btn btn-primary stat-item">
@@ -42,41 +64,43 @@
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
                             </form>
-                            <div class="blog-post">
-                                <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                                    {% for tag in post.tag.all %}
-                                        <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
-                                    {% endfor %} 
-                                </ul> 
-                            </div>
-                        
+                        </div>
+                        <div class="">
+                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
+                                {% for tag in post.tag.all %}
+                                    <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
+                                {% endfor %} 
+                            </ul> 
+
                         </div>
                     </div>
 
                      <!-- Add Comment Form -->
                     <div class="card my-4">
-                        <h5 class="card-header">Leave a Comment:</h5>
+                        <!-- <div class="img-push">
+                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                          </div> -->
+                        <h5 class="card-title fw-light">Leave a Comment:</h5>
                         <div class="card-body">
                             <form method="POST" action="{% url 'comment' post.id %}">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    {% csrf_token %}
-                <div class="form-group">
-                    <textarea class="form-control" name="text" rows="3" required></textarea>
-                                <button class="btn btn-primary" type="submit">Comment</button>
+                                    <input type="text" name="text" rows="3" required class="form-control input-sm" placeholder="Press enter to post comment"><br>
+                                    <button class="btn btn-sm btn-primary" type="submit">Comment</button>
+                                </div>    
                             </form>
                         </div>
                     </div>
 
                 
                     <!-- Display Comments -->
-                    <h1>comments ({{post.comments.all.count}})</h1>
+                    <h4 class="fw-light" >comments ({{post.comments.all.count}})</h4>
                     {% for comment in post.comments.all %}
-                    <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle article-img" src="" class="img-circle avatar" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user}}</a></h5>
-                            <p>{{comment.comment_time}}</p>
+                    <div class="card media mb-4">
+                        <img class="d-flex mr-3 rounded-circle article-img" src="" alt="">
+                        <div class="card-body media-body">
+                            <h5 class="mt-0" ><a class="text-dark" style="text-decoration: none;" href="{% url 'post' comment.user.username %}">{{ comment.user}}</a> :</h5>
+                            <p class="text-muted">{{comment.comment_time}}</p>
                             <h5>{{ comment.comment_body|linebreaks }}</h4>
                             
                             <hr>

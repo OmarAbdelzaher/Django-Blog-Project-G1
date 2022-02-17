@@ -46,11 +46,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username
-
     
+#  Reply Table   
+class Reply(models.Model):
+    reply_body=models.CharField(max_length=100)
+    reply_time=models.TimeField(null=True)
+    user_id=models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_id=models.ForeignKey(Comment, on_delete=models.CASCADE) 
 
 class ForbiddenWords(models.Model):
     forbidden_word=models.CharField(max_length=100)
 
     def __str__(self):
-        return self.forbidden_word
+        return self.forbidden_word    
+
+
+
+
