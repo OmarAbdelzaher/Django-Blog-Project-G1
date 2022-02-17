@@ -97,16 +97,19 @@ def editCategory(request,cat_id):
     return render (request,"dj_admin/editcategory.html",context)
 
 
-
+# show all posts to admin
 def showPosts(request):
     posts = Post.objects.all()
     context = {'posts':posts}
     return render(request,'dj_admin/posts.html',context)
 
+# adding post as a user
 def addPost(request):
+    # get the forms empty to be filled
     post_form = PostForm()
     tag_form = TagsForm()
     
+    # if the add button pressed save the input data after validation
     if request.method == 'POST':
         post_form = PostForm(request.POST,request.FILES)
         tag_form = TagsForm(request.POST)
@@ -115,8 +118,11 @@ def addPost(request):
             obj.user = request.user
             obj.save()
             
+            # get object from tag before saving it
             tag_obj = tag_form.save(commit=False)
+            # split the separated tags by comma
             splitted_tags = str(tag_obj).split(',')
+            # loop on each tag splitted, add to the related post and save it
             for tag in splitted_tags:
                 newTag = PostTags.objects.create(tag_name = tag)
                 newTag.save()
@@ -128,11 +134,13 @@ def addPost(request):
     context = {'post_form':post_form,'tag_form':tag_form}
     return render(request,'dj_admin/postform.html',context)
 
-
+# edit post by admin
 def editPost(request,post_id):
+    # get the post with its saved data
     post = Post.objects.get(id= post_id)
     tags = post.tag.all()
     post_form = PostForm(instance=post)
+    # get empty form for new tags
     tag_form = TagsForm()
     
     context = {}
@@ -140,24 +148,28 @@ def editPost(request,post_id):
     context['tag_form'] = tag_form
     
     if request.method == 'POST':
+        # get the new editted data
         post_form = PostForm(request.POST,request.FILES,instance=post)
         tag_form = TagsForm(request.POST)
         if post_form.is_valid():
             obj = post_form.save(commit = False)
-            
             obj.user = request.user
+            # remove the old tags to be replaced with the new editted tags
             obj.tag.clear()
             obj.save()
+            # get the ediited tags
             tags = post_form.cleaned_data['tag']
             
             for tag in tags:
                 newTag = PostTags.objects.get(tag_name = tag)
+                #add the tags to related post
                 obj.tag.add(newTag)
                 obj.save()
-                    
+            
             tag_obj = request.POST.get('tag_name')
             splitted_tags = str(tag_obj).split(',')
             
+            # check if the spliited is empty to validate the input of user
             if splitted_tags[0] != '':
                 for tag in splitted_tags:
                     newTag = PostTags.objects.create(tag_name = tag)
@@ -168,6 +180,7 @@ def editPost(request,post_id):
  
     return render (request,"dj_admin/editpost.html",context)
 
+# delete post by admin
 def deletePost(request,post_id):
     post = Post.objects.get(id=post_id)
     post.delete()

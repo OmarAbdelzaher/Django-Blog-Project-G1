@@ -189,12 +189,12 @@ def addPost(request):
 
 # Edit Post
 def updatePost(request,post_id):
-
+    # get the post with its saved data
     post=Post.objects.get(id=post_id)
     tags = post.tag.all()
 
     post_form = PostForm(instance=post)
-
+    # get empty form for new tags
     tag_form = TagsForm()
 
     context = {}
@@ -202,6 +202,7 @@ def updatePost(request,post_id):
     context['tag_form'] = tag_form
 
     if request.method == 'POST':
+        # get the new editted data
         post_form = PostForm(request.POST,request.FILES,instance=post)
         tag_form = TagsForm(request.POST)
 
@@ -232,17 +233,22 @@ def updatePost(request,post_id):
             obj.content = content
             obj.title = title
             obj.user = request.user
+            # remove the old tags to be replaced with the new editted tags
             obj.tag.clear()
+            obj.save()
+            # get the ediited tags
             tags = post_form.cleaned_data['tag']
 
             for tag in tags:
                 newTag = PostTags.objects.get(tag_name = tag)
+                #add the tags to related post
                 obj.tag.add(newTag)
                 obj.save()
                     
             tag_obj = request.POST.get('tag_name')
             splitted_tags = str(tag_obj).split(',')
 
+            # check if the spliited is empty to validate the input of user
             if splitted_tags[0] != '':
                 for tag in splitted_tags:
                     newTag = PostTags.objects.create(tag_name = tag)
