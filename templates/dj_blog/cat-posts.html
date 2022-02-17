@@ -26,13 +26,22 @@
 
             <div style=" display: block;">
                 <a href="{% url 'post' post.id %}" target="_self">
-                    <img style="width: 40%;" class=" img-fluid" src={% static post.picture %} alt="PostImage">
+                    <img style="width: 100%;" class=" img-fluid" src={% static post.picture %} alt="PostImage">
                 </a>
                 <div class="post-body card-body">
                     <h4>{{post.title}}</h4>
                     <p class="card-text">{{post.content}}</p>
                     <h5>{{post.cat_id}}</h5>
                 </div>
+                <ul class="blog-tags list-unstyled list-inline  ">
+                                                       
+                    <li>
+                        {% for tag in post.tag.all %}
+                        <a class="btn btn-sm btn-success all-tags" style="margin: 1%;" href="#"><i class="fa fa-tag "></i>{{tag}}</a>
+                        {% endfor %}
+                    </li>
+                     
+                </ul> 
             </div>
         </div>
         </div>
