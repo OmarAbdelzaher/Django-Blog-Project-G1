@@ -5,7 +5,6 @@
 {% if user.is_authenticated %}
     {% if user.id == post.user.id  %}
 
-        <!-- Title  -->
             <form class="container text-center" method='POST' enctype="multipart/form-data" >{% csrf_token %}
                 <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Delete Post</h3>
                 <div class="row shadow p-3 mb-4 ">
