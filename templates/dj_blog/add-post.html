@@ -6,8 +6,12 @@
         <div class="row shadow p-3 mb-4 ">
 
             <div class="col-6">
-                <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Add Post</h3>
-                {{post.as_p}}
+                <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75 ">Add Post</h3>
+                {{post.title.label}}        {{post.title}}
+                {{post.content.label}}     {{post.content}}
+                {{post.picture.label}}     {{post.picture}}
+                {{post.category.label}}     {{post.category}}
+
                 {{tag.as_p}}
             </div>
         </div><br>

@@ -312,8 +312,8 @@ body {
   margin-top: 20px;
 }
 .post .post-description .stats .stat-item {
+  margin-bottom: 0%;
   display: inline-block;
-  margin-right: 15px;
 }
 .post .post-description .stats .stat-item .icon {
   margin-right: 8px;

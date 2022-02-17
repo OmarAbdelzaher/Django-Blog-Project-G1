@@ -104,9 +104,7 @@ def landing(request):
 
 def PostPage(request,post_id):
     post = Post.objects.get(id=post_id)
-    replies = Reply.objects.get(id=post_id)
-
-    context = {'post':post,'replies':replies}
+    context = {'post':post}
     return render(request, 'dj_blog/post.html',context)
 
 def logoutpage(request):
@@ -192,15 +190,24 @@ def addPost(request):
 def updatePost(request,post_id):
 
     post=Post.objects.get(id=post_id)
-    form=PostForm(instance=post)
+    tags = post.tag.all()
+
+    post_form = PostForm(instance=post)
+
     tag_form = TagsForm()
     # tags=PostTags.objects.get(tag_name=post.tag)
     # tags= TagsForm(instance=frmtag)
 
+    context = {}
+    context['post_form'] = post_form
+    context['tag_form'] = tag_form
+
     if request.method == 'POST':
-        post = PostForm(request.POST,request.FILES,instance=post)
+        post_form = PostForm(request.POST,request.FILES,instance=post)
+        tag_form = TagsForm(request.POST)
+
         # tag_form = TagsForm(request.POST)
-        if post.is_valid():
+        if post_form.is_valid():
             #get all the forbidden words as objects then get the post title and content that exist in the post request
 
             forbidden_words = ForbiddenWords.objects.all()
@@ -222,16 +229,36 @@ def updatePost(request,post_id):
                         title_replaced +="*"
                     title = title.replace(word.forbidden_word,title_replaced)
             
-            obj = post.save(commit=False)
+            obj = post_form.save(commit=False)
             #assign the new post content and title that we changed to the form 
             obj.content = content
             obj.title = title
             obj.user = request.user
+            obj.tag.clear()
+            tags = post_form.cleaned_data['tag']
+
+            for tag in tags:
+                newTag = PostTags.objects.get(tag_name = tag)
+                obj.tag.add(newTag)
+                obj.save()
+                    
+            tag_obj = request.POST.get('tag_name')
+            splitted_tags = str(tag_obj).split(',')
+
+            if splitted_tags[0] != '':
+                for tag in splitted_tags:
+                    newTag = PostTags.objects.create(tag_name = tag)
+                    newTag.save()
+                    obj.tag.add(newTag)
             obj.save()
             return redirect('landing')
 
 
-    context={'form':form}
+            # obj.save()
+            # return redirect('landing')
+
+
+    # context={'form':form}
 
     return render(request,'dj_blog/updatePost.html',context)
 
@@ -357,6 +384,31 @@ def add_comment(request, post_id):
     else:
         return redirect('post', post_id)
     return redirect('post', post_id)
+
+# Add Reply
+@login_required(login_url='login')
+def add_reply(request, post_id,comment_id):
+    post = Post.objects.get(id=post_id)
+    parent_comment = Comment.objects.get(id=comment_id)
+    if request.method == "POST":
+        reply_body=request.POST.get('reply')
+        author = request.user
+        print(parent_comment)
+        print(reply_body)
+        Comment(user=author , post_id=post, comment_body=reply_body).save()
+        reply_comment=Comment.objects.filter(comment_body=reply_body)
+        print(reply_comment)
+        reply_comment.parent=parent_comment
+        print(reply_comment.parent)
+    else:
+        return redirect('post', post_id)
+    context={
+        'post_id':post_id,
+        'post':post,
+        'reply_comment':reply_comment,
+    }
+    return render(request, 'dj_blog/post.html',context)
+ 
 
 
 

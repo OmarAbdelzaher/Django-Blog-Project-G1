@@ -38,7 +38,7 @@
                                         <div class="row g-0">
                                             <div class="col-md-4">
                                                 <a href="{% url 'post' post.id %}" target="_self">
-                                                    <img class="img-fluid rounded-start " src={% static post.picture %}
+                                                    <img class="img-fluid rounded-start" style="height: 80%; width: 100%;" src={% static post.picture %}
                                                         alt="post-img">
                                                 </a><br>
                                                 <br>
@@ -52,7 +52,7 @@
                                                                                                             
                                                                 <!-- Delete Link  -->
 
-                                                            <a class="btn btn-sm btn-outline-success" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
+                                                            <a class="btn btn-sm btn-outline-secondary" style="text-decoration: none;" href="{% url 'delete-post' post.id %}">Delete</a>
                                                         
                                                         {%endif%}
                                                     {%endif%}
@@ -69,13 +69,17 @@
                                                     <p class="text-muted">{{post.date_of_publish}}</p>
 
                                                     <p class="card-text">
-                                                        {{post.content|slice:":100" }}... <a href="{% url 'post' post.id %}" >  <small >Reade more</small></a>
+                                                        {{post.content|slice:":100" }}... <a href="{% url 'post' post.id %}" >  <small >Read more</small></a>
                                                     </p>
                                                     
-                                                    <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                                                        {% for tag in post.tag.all %}
-                                                        <li><a class="btn btn-sm btn-success all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
-                                                        {% endfor %} 
+                                                    <ul class="blog-tags list-unstyled list-inline  ">
+                                                       
+                                                        <li>
+                                                            {% for tag in post.tag.all %}
+                                                            <a class="btn btn-sm btn-success all-tags " style="margin: 1%;" href="#"><i class="fa fa-tag "></i>{{tag}}</a>
+                                                            {% endfor %}
+                                                        </li>
+                                                         
                                                     </ul> 
                                                 </div>
                                             </div>
@@ -109,22 +113,32 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                            <!-- Recent Posts  -->
                         <h3>Recent Posts</h3>
                         <div class="box posts">
                             <ul class="list-unstyled">
-                                <li><i class="fa fa-chevron-right"></i><a href="#">Introducing WordPress 4.0 “Benny”</a><div>27/02/2014</div></li>
-                                <li><i class="fa fa-chevron-right"></i><a href="#">Nature Center: Earth Day Festival</a><div>18/02/2014</div></li>
-                                <li><i class="fa fa-chevron-right"></i><a href="#">Two New Stores Set to Open in Downtown</a><div>05/02/2014</div></li>
+                                {% for post in posts|slice:":3"  %}
+
+                                    <li><i class="fa fa-chevron-right"></i><a href="#">{{post.title}}</a>
+                                        <div>{{post.date_of_publish}}</div>
+                                    </li>
+
+                                {% endfor %}
+
                             </ul>
                         </div>
                         <h3>Tags</h3>
                         
                         <div class="box tags">
-                            <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                                {% for posttags in tags %}
-                                    <li><a class="btn btn-sm btn-success all-tags " href="#"><i class="fa fa-tag "></i>{{posttags}}</a></li>
-                                {% endfor %} 
-                            </ul> 
+                            
+                                <ul class=" blog-tags list-unstyled list-inline ">
+                                    <li>
+                                        {% for posttags in tags %}
+                                        <a class="btn btn-sm btn-success all-tags " style="margin: 1%;" href="#"><i class="fa fa-tag"></i>{{posttags}}</a>
+                                        {% endfor %}
+                                    </li>
+                                </ul> 
+                            
                         </div>
                     </div>
                 </div>

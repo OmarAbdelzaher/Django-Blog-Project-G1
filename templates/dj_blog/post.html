@@ -11,34 +11,66 @@
     <div class="col-sm-8 col-sm-offset-2">
         <div class="row">
             <div class="col-sm-12">
-                <div class="panel panel-white post">
-                    <div class="post-heading">
+                <div class="card panel panel-white post shadow">
+                    <div class="card-header post-heading">
+                       
                         <div class="pull-left image">
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
-                                <a href="#"><b>{{post.user}}</b></a>
-                                added a new post
+                                <a style="text-decoration: none;" href="#"><b>{{post.user}}</b></a>
+                                <h6 class="fw-light">Added a new post</h6>
+                                <h6 class="text-muted time">{{post.date_of_publish}}</h6><br><br>
+
                             </div>
-                            <h6 class="text-muted time">{{post.date_of_publish}}</h6>
+                        </div>
+                        <div class="btn-group" style="margin-left: 345px;">
+                            {% if user.is_authenticated %}
+                                <!-- only author post can modify post -->
+                                {% if user.id == post.user.id  %}
+                                        <!-- Edit link  -->
+                
+                                    <a  class="btn btn-sm btn-outline-success rounded-pill" style="text-decoration: none;"  href="{% url 'updatePost' post.id %}">EDIT</a>
+                
+                                        <!-- Delete link  -->
+                
+                                    <a  class="btn btn-sm btn-outline-secondary rounded-pill" style="text-decoration: none;"  href="{% url 'delete-post' post.id %}">Delete</a>
+                            {% endif %}
+                        {% endif %}
                         </div>
                     </div>
-                    <div class="post-image">
-                        <img src={% static post.picture %} class="image" alt="image post" style="width:150px;">
+                    <div class="">
+                        <img src={% static post.picture %} class="image" alt="image post" style="width:100%;">
                     </div>
                     <div class="post-description">
+                        <br>
                         <h4>{{post.title}}</h4>
-                        <p>{{post.content}}</p>
-                        <h3>{{post.category}}</h3>
-                        <div class="stats">
-                            <form method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
-                                <button type="submit" class="btn btn-primary stat-item">
+                        <p class="card-body">{{post.content}}</p>
+                        <div>
+                            <span class="btn btn-secondary all-tags ">{{post.category}}</span>
+                        </div>
+                       
+                        <div class="">
+                            <ul class="blog-tags list-unstyled list-inline ">
+                                
+                                    <li>
+                                        {% for tag in post.tag.all %}
+                                        <a class="btn btn-success all-tags" style="margin: .5%;"  href="#"><i class="fa fa-tag "></i>{{tag}}</a>
+                                        {% endfor %} 
+                                    </li>
+                                
+                            </ul> 
+
+                        </div>
+                        <div class="stats" >
+                            <form class="stat-item" method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
+                                <button type="submit" class="btn btn-primary ">
                                     <i class="fa fa-thumbs-up icon">{{post.likes.all.count}}</i> 
                                 </button>
                             </form>
-                            <form method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
-                                <button type="submit" class="btn btn-danger stat-item">
+                            <form class="stat-item" method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary">
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
                             </form>
@@ -52,140 +84,8 @@
                         
                         </div>
                     </div>
-
-
-                    <!-- new add comment -->
-                    <div class="post-footer">
-                        <div class="input-group"> 
-                            <form method="POST" action="{% url 'comment' post.id %}">{% csrf_token %}
-                            <input class="form-control" placeholder="Add a comment" type="text" name="text">
-                            <button class="btn btn-primary" type="submit">Comment</button>
-                        </form>
-                        </div>
-                        <h5>Comments ({{post.comments.all.count}})...</h5>
-                        {% for comment in post.comments.all %}
-                        <ul class="comments-list">
-                            <li class="comment">
-                                <a class="pull-left" href="javascript:void(0);">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user"><a href="{% url 'post' comment.user.id%}">{{ comment.user}}</a></h4>
-                                        <h5 class="time">{{comment.comment_time}}</h5>
-                                    </div>
-                                    <p>{{comment.comment_body|linebreaks }}</p>
-                                   
-                                </div>
-                                
-                                <ul class="comments-list">
-                                    <li class="comment">
-                                        <a class="pull-left" href="javascript:void(0);">
-                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
-                                        </a>
-                                        <div class="comment-body">
-                                            <div class="comment-heading">
-                                                <h4 class="user">John Doe</h4>
-                                                <h5 class="time">3 minutes ago</h5>
-                                            </div>
-                                            {% for reply in replies %}
-                                            {% if reply.comment_id == comment.id  %}
-                                            
-                                            <p>{{reply.comment_body}}</p>
-                                            
-                                            {% endfor %}
-                                            {% endif %}
-                                            
-                                        </div>
-                                    </li>
-                                    <li class="comment">
-                                        <a class="pull-left" href="javascript:void(0);">
-                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="avatar">
-                                        </a>
-                                        <div class="comment-body">
-                                            <div class="comment-heading">
-                                                <h4 class="user">John Doe</h4>
-                                                <h5 class="time">3 minutes ago</h5>
-                                            </div>
-                                            <p>Ok, cool.</p>
-                                        </div>
-                                    </li> 
-                                </ul>
-                            </li>
-                        </ul>
-                    {% endfor %}
-                    </div>
                 </div>
             </div>
-            
-
-                     <!-- Add Comment Form -->
-                    <!-- <div class="card my-4">
-                        <h5 class="card-header">Leave a Comment:</h5>
-                        <div class="card-body">
-                            <form method="POST" action="{% url 'comment' post.id %}">
-                                {% csrf_token %}
-                                <div class="form-group">
-                <div class="form-group">
-                    <textarea class="form-control" name="text" rows="2" required></textarea>
-                                <button class="btn btn-primary" type="submit">Comment</button>
-                            </form>
-                        </div>
-                    </div> -->
-
-                
-                    <!-- Display Comments -->
-                    <!-- <h1>comments ({{post.comments.all.count}})</h1>
-                    {% for comment in post.comments.all %}
-                    <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle article-img" src="" class="img-circle avatar" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'post' comment.user.id %}">{{ comment.user}}</a></h5>
-                            <p>{{comment.comment_time}}</p>
-                            <h5>{{ comment.comment_body|linebreaks }}</h4>
-                            <hr> -->
-                            <!-- <form method="POST" action="{% url 'comment' post.id %}">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {% csrf_token %}
-                <div class="form-group">
-                    <textarea class="form-control" name="text" rows="1" required></textarea>
-                    <input type="hidden" name='parent_id' value='{{comment.id}}'>
-                                <button class="btn btn-primary" type="submit">Reply</button>
-                            </form>
-                        </div>
-                    </div> -->
-                                                    <!-- reply form -->
-                                <!-- <button class="remove-default-btn"><i class="far fa-comment-dots" onclick="commentReplyToggle('{{ comment.id }}')"></i></button> -->
-                              <div class="row justify-content-center mt-3 mb-5" id="{{ comment.id }}">
-                                <div class="col">
-                                  <form method="POST" action="{% url 'reply' post.id comment.id %}">{% csrf_token %}
-                                    <div class="form-group">
-                                    <textarea class="form-control" name="reply" rows="1" required></textarea>
-                                      <button class="btn btn-success" type="submit">Reply!</button>
-                                   </form>
-                                 </div>
-                               </div>
-                               <!-- {% endfor %} -->
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
-    </div>
-    
-</div>
-</div>
-<!-- <script>
-    function commentReplyToggle(parent_id) {
-    const row = document.getElementById(parent_id);
-
-    if (row.classList.contains('d-none')) {
-        row.classList.remove('d-none');
-    } else {
-        row.classList.add('d-none');
-    }
-}
-</script> -->
 {% endblock %}
+
+
