@@ -53,45 +53,35 @@
                         </div>
                     </div>
 
-                     <!-- Add Comment Form -->
-                    <div class="card my-4">
-                        <h5 class="card-header">Leave a Comment:</h5>
-                        <div class="card-body">
-                            <form method="POST" action="{% url 'comment' post.id %}">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {% csrf_token %}
-                <div class="form-group">
-                    <textarea class="form-control" name="text" rows="2" required></textarea>
-                                <button class="btn btn-primary" type="submit">Comment</button>
-                            </form>
-                        </div>
-                    </div>
 
-                
-                    <!-- Display Comments -->
-                    <h1>comments ({{post.comments.all.count}})</h1>
-                    {% for comment in post.comments.all %}
-                    <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle article-img" src="" class="img-circle avatar" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0"><a href="{% url 'post' comment.user.username %}">{{ comment.user}}</a></h5>
-                            <p>{{comment.comment_time}}</p>
-                            <h5>{{ comment.comment_body|linebreaks }}</h4>
-                            <hr>
-                            <form method="POST" action="{% url 'comment' post.id %}">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {% csrf_token %}
-                <div class="form-group">
-                    <textarea class="form-control" name="text" rows="1" required></textarea>
-                    <input type="hidden" name='parent_id' value='{{comment.id}}'>
-                                <button class="btn btn-primary" type="submit">Reply</button>
-                            </form>
+                    <!-- new add comment -->
+                    <div class="post-footer">
+                        <div class="input-group"> 
+                            <form method="POST" action="{% url 'comment' post.id %}">{% csrf_token %}
+                            <input class="form-control" placeholder="Add a comment" type="text" name="text">
+                            <button class="btn btn-primary" type="submit">Comment</button>
+                        </form>
                         </div>
-                    </div>
+                        <h5>Comments ({{post.comments.all.count}})...</h5>
+                        {% for comment in post.comments.all %}
+                        <ul class="comments-list">
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user"><a href="{% url 'post' comment.user.id%}">{{ comment.user}}</a></h4>
+                                        <h5 class="time">{{comment.comment_time}}</h5>
+                                    </div>
+                                    <p>{{comment.comment_body|linebreaks }}</p>
+                                </div>
+                            </li>
+                        </ul>
                     {% endfor %}
-                            
+                    </div>
+                </div>
+            </div>
                     </div>
                 </div>
             </div>
@@ -102,5 +92,4 @@
     
 </div>
 </div>
-
 {% endblock %}

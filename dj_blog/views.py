@@ -233,6 +233,31 @@ def add_comment(request, post_id):
         return redirect('post', post_id)
     return redirect('post', post_id)
 
+# Add Reply
+@login_required(login_url='login')
+def add_reply(request, post_id,comment_id):
+    post = Post.objects.get(id=post_id)
+    parent_comment = Comment.objects.get(id=comment_id)
+    if request.method == "POST":
+        reply_body=request.POST.get('reply')
+        author = request.user
+        print(parent_comment)
+        print(reply_body)
+        Comment(user=author , post_id=post, comment_body=reply_body).save()
+        reply_comment=Comment.objects.filter(comment_body=reply_body)
+        print(reply_comment)
+        reply_comment.parent=parent_comment
+        print(reply_comment.parent)
+    else:
+        return redirect('post', post_id)
+    context={
+        'post_id':post_id,
+        'post':post,
+        'reply_comment':reply_comment,
+    }
+    return render(request, 'dj_blog/post.html',context)
+ 
+
 
 
 def search(request):

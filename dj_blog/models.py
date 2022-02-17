@@ -43,19 +43,11 @@ class Comment(models.Model):
     comment_time=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     post_id=models.ForeignKey(Post,on_delete=models.CASCADE,related_name="comments") 
-    parent=models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='+') #parent holds comment id
 
     def __str__(self):
         return self.user.username
 
-    def children(self):
-        return Comment.objects.filter(parent=self)
-    
-    @property
-    def is_parent(self):
-        if self.parent is not None:
-            return False
-        return True
 
     
 
