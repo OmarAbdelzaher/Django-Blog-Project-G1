@@ -35,10 +35,10 @@
             </form>
             <div>
                 {% for field, errors in cat_form.errors.items %}
-                               {% for error in errors %}
-                               <p class="text-danger">{{ error }}</p>
-                               {% endfor %} 
-                        {% endfor %}
+                    {% for error in errors %}
+                      <p class="text-danger">{{ error }}</p>
+                    {% endfor %} 
+                {% endfor %}
             </div>
         </div>
         </div>

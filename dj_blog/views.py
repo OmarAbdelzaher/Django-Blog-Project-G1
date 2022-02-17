@@ -8,6 +8,8 @@ import os
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+import logging
+
 from dj_admin.views import islocked
 # import email confirmation stuff
 from django.core.mail import send_mail
@@ -22,53 +24,60 @@ from django.core.paginator import Paginator
 
 def registerpage(request):
     # handling the checking for already logged in later
-    user_form = RegistrationForm()
-    if request.method == "POST":
-        user_form = RegistrationForm(request.POST)
-        if user_form.is_valid():
-            user = user_form.save()
-            account = Account.objects.create(user=user)
-            account.is_locked = False 
-            account.save()
-            return redirect('login')
-    context = {'user_form': user_form}
-    return render(request, 'dj_blog/register.html', context)
+    if not request.user.is_authenticated :
+        user_form = RegistrationForm()
+        if request.method == "POST":
+            user_form = RegistrationForm(request.POST)
+            if user_form.is_valid():
+                user = user_form.save()
+                account = Account.objects.create(user=user)
+                account.is_locked = False 
+                account.save()
+                return redirect('login')
+        context = {'user_form': user_form}
+        return render(request, 'dj_blog/register.html', context)
+    else :
+        return redirect("landing")
 
 # validation to the login page (check user already logged in if not -> authenticate the username and password )
 
 @csrf_exempt
 def loginpage(request):
     # handling the checking for already logged in later
-    login_form = LoginForm()
-    if request.method == "POST":
-        login_form = LoginForm(data=request.POST)
-        if(login_form.is_valid()):
-            username = request.POST['username']
-            password = request.POST["password"]
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                # handling the checking for blocked users 
-                if (user.is_staff) : # to check first if the user is admin or not 
-                     login(request, user)
-                     if request.GET.get('next') is not None:
-                        return redirect(request.GET.get('next'))
-                     else:
-                        return redirect('landing')
-                elif islocked(user): # to check if the user is blocked or not 
-                    messages.info(request,"This Account is blocked , Please contact the admin")
-                else :
-                    login(request, user)
-                    if request.GET.get('next') is not None:
-                        return redirect(request.GET.get('next'))
-                    else:
-                        return redirect('landing')
-    context = {"login_form": login_form}
-    return render(request, 'dj_blog/login.html', context)
+    if not request.user.is_authenticated :
+        login_form = LoginForm()
+        if request.method == "POST":
+            login_form = LoginForm(data=request.POST)
+            if(login_form.is_valid()):
+                username = request.POST['username']
+                password = request.POST["password"]
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    # handling the checking for blocked users 
+                    if (user.is_staff) : # to check first if the user is admin or not 
+                        login(request, user)
+                        if request.GET.get('next') is not None:
+                            return redirect(request.GET.get('next'))
+                        else:
+                            return redirect('landing')
+                    elif islocked(user): # to check if the user is blocked or not 
+                        messages.info(request,"This Account is blocked , Please contact the admin")
+                    else :
+                        login(request, user)
+                        if request.GET.get('next') is not None:
+                            return redirect(request.GET.get('next'))
+                        else:
+                            return redirect('landing')
+        context = {"login_form": login_form}
+        return render(request, 'dj_blog/login.html', context)
+    else :
+        return redirect("landing")
 
 # Home Page
 def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
+    tags=PostTags.objects.all()
     
     #set up pagination
     num_of_posts=5
@@ -76,12 +85,12 @@ def landing(request):
     page= request.GET.get('page')
     pagination_posts=p.get_page(page)
 
-    # End of setting pagination
 
     nums= "a" * pagination_posts.paginator.num_pages
     pg=pagination_posts
+    # End of setting pagination
 
-    context = {'posts': posts,'categories': categories,'pg':pg ,'nums':nums}
+    context = {'posts': posts,'tags':tags,'categories': categories,'pg':pg ,'nums':nums}
     return render(request, 'dj_blog/landing.html', context)
 
 def PostPage(request,post_id):
@@ -103,12 +112,19 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
-    # try:
-    #     send_mail("subscribed to a new category",
-    #             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
-    #             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
-    # except Exception as ex:
-    #     log("couldn't send email message"+str(ex))
+    print()
+    try:
+        send_mail("subscribed to a new category",
+                'hello ,'+request.user.username+" "'\nyou have just subscribed to category '+category.cat_name,
+                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+        print(user.first_name,user.last_name)
+        print(category.cat_name)
+        print(user.email)
+        
+        logging.warning('Email Sent')
+        
+    except Exception as ex:
+        logging.warning('Not sent'+str(ex))
         
     return redirect("landing")
 
@@ -127,7 +143,23 @@ def addPost(request):
         post_form = PostForm(request.POST,request.FILES)
         tag_form = TagsForm(request.POST)
         if post_form.is_valid() and tag_form.is_valid():
+            forbidden_words = ForbiddenWords.objects.all()
+            content = request.POST.get("content")
+            title = request.POST.get("title")
+            for word in forbidden_words :
+                content_replaced = ""
+                title_replaced=""
+                if word.forbidden_word in content : 
+                    for char in word.forbidden_word :
+                        content_replaced +="*"
+                    content = content.replace(word.forbidden_word,content_replaced)
+                if word.forbidden_word in title :
+                    for char in word.forbidden_word :
+                        title_replaced +="*"
+                    title = title.replace(word.forbidden_word,title_replaced)
             obj = post_form.save(commit=False)
+            obj.content =content
+            obj.title =title
             obj.user = request.user
             obj.save()
             
@@ -142,6 +174,59 @@ def addPost(request):
 
     context = {'post':post_form,'tag':tag_form}
     return render(request,'dj_blog/add-post.html',context)
+
+# Edit Post
+def updatePost(request,post_id):
+
+    post=Post.objects.get(id=post_id)
+    form=PostForm(instance=post)
+    tag_form = TagsForm()
+    # tags=PostTags.objects.get(tag_name=post.tag)
+    # tags= TagsForm(instance=frmtag)
+
+    if request.method == 'POST':
+        post = PostForm(request.POST,request.FILES,instance=post)
+        # tag_form = TagsForm(request.POST)
+        if post.is_valid():
+            forbidden_words = ForbiddenWords.objects.all()
+            content = request.POST.get("content")
+            title = request.POST.get("title")
+            for word in forbidden_words :
+                replaced = ""
+                title_replaced =""
+                if word.forbidden_word in content : 
+                    for char in word.forbidden_word :
+                        replaced +="*"
+                    content = content.replace(word.forbidden_word,replaced)
+                if word.forbidden_word in title :
+                    for char in word.forbidden_word :
+                        title_replaced +="*"
+                    title = title.replace(word.forbidden_word,title_replaced)
+            
+            obj = post.save(commit=False)
+            obj.content = content
+            obj.title = title
+            obj.user = request.user
+            obj.save()
+            return redirect('landing')
+
+
+    context={'form':form}
+
+    return render(request,'dj_blog/updatePost.html',context)
+
+# Delete post
+def DeletePost(request,post_id):
+    post=Post.objects.get(id=post_id)
+    if request.method == "POST":
+        post.delete()
+        return redirect ('landing')
+
+
+    context={'post':post}
+
+    return render(request,'dj_blog/delete-post.html',context)
+
 
 def catPosts(request,CatId):
     cat_post = Post.objects.filter(category_id = CatId).order_by('-date_of_publish')
@@ -183,6 +268,8 @@ def AddLike(request,post_id):
     if is_like:
         post.likes.remove(request.user)
 
+    # print(post.dislikes.all.count)
+    
     post.save()
     return redirect('post',post_id)
 
@@ -212,6 +299,14 @@ def AddDislike(request,post_id):
     # if the user clicked on the dislike button, add the dislike
     if not is_dislike:
         post.dislikes.add(request.user)
+        print("hai")
+        # Delete if dislikes greater than 10
+        num_of_dislikes=post.dislikes.all().count()
+ 
+        if num_of_dislikes == 10:
+            print("hello")
+            post.delete()
+            return redirect ('landing')
     
     # if the user clicked on the dislike button (already disliked), remove the dislike
     if is_dislike:
@@ -225,10 +320,17 @@ def AddDislike(request,post_id):
 @login_required(login_url='login')
 def add_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id)
+    forbidden_words = ForbiddenWords.objects.all()
     if request.method == 'POST':
         user = request.user
         comment_text = request.POST.get('text')
-        Comment(user=user , post_id=post, comment_body=comment_text).save()
+        for word in forbidden_words :
+            replaced = ""
+            if word.forbidden_word in comment_text :
+                for char in word.forbidden_word :
+                    replaced +="*"
+                comment_text = comment_text.replace(word.forbidden_word,replaced)
+        Comment(user=user,post_id=post, comment_body=comment_text).save() 
     else:
         return redirect('post', post_id)
     return redirect('post', post_id)
@@ -257,6 +359,7 @@ def add_reply(request, post_id,comment_id):
     }
     return render(request, 'dj_blog/post.html',context)
  
+
 
 
 

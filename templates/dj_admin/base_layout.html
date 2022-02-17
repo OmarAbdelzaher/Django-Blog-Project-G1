@@ -10,13 +10,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blog Admin</title>
-
+  <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
+      rel="stylesheet"
+    />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href=" {% static 'dist/css/adminlte.min.css' %}">
 </head>
 <body class="hold-transition sidebar-mini">
+  
+  <style type="text/css">
+    .bootstrap-tagsinput .tag {
+      margin-right: 2px;
+      color: white !important;
+      background-color: #0d6efd;
+      padding: 0.2rem;
+    }
+  </style>
+
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -27,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dj_blog/landing" class="nav-link">Home</a>
+        <a href="/dj_blog/landing" class="nav-link">Our Blog</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/dj_admin/admins" class="nav-link">Admins</a>
@@ -73,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/dj_admin/forbiddenwords" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ForbiddenWords</p>
                 </a>
@@ -85,7 +106,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/dj_admin/posts" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Posts</p>
                 </a>
@@ -100,6 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- /.sidebar -->
   </aside>
+  
   {% block content %}
   {% endblock %}
 
@@ -147,5 +169,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+
 </body>
 </html>

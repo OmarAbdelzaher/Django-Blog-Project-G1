@@ -1,8 +1,10 @@
+from ast import For
 from unicodedata import category
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from dj_blog.models import Account,Category
-from dj_blog.forms import CategoryForm
+from dj_blog.models import *
+from dj_blog.forms import *
+
 # Create your views here.
 
 def starter(request):
@@ -84,3 +86,111 @@ def editCategory(request,cat_id):
             return redirect('category')
     context = {"cat_form":form}
     return render (request,"dj_admin/editcategory.html",context)
+
+def showPosts(request):
+    posts = Post.objects.all()
+    context = {'posts':posts}
+    return render(request,'dj_admin/posts.html',context)
+
+def addPost(request):
+    post_form = PostForm()
+    tag_form = TagsForm()
+    
+    if request.method == 'POST':
+        post_form = PostForm(request.POST,request.FILES)
+        tag_form = TagsForm(request.POST)
+        if post_form.is_valid() and tag_form.is_valid():
+            obj = post_form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            
+            tag_obj = tag_form.save(commit=False)
+            splitted_tags = str(tag_obj).split(',')
+            for tag in splitted_tags:
+                newTag = PostTags.objects.create(tag_name = tag)
+                newTag.save()
+                obj.tag.add(newTag)
+                
+            obj.save()
+            return redirect('post')
+
+    context = {'post_form':post_form,'tag_form':tag_form}
+    return render(request,'dj_admin/postform.html',context)
+
+
+def editPost(request,post_id):
+    post = Post.objects.get(id= post_id)
+    tags = post.tag.all()
+    post_form = PostForm(instance=post)
+    tag_form = TagsForm()
+    
+    context = {}
+    context['post_form'] = post_form
+    context['tag_form'] = tag_form
+    
+    if request.method == 'POST':
+        post_form = PostForm(request.POST,request.FILES,instance=post)
+        tag_form = TagsForm(request.POST)
+        if post_form.is_valid():
+            obj = post_form.save(commit = False)
+            
+            obj.user = request.user
+            obj.tag.clear()
+            obj.save()
+            tags = post_form.cleaned_data['tag']
+            
+            for tag in tags:
+                newTag = PostTags.objects.get(tag_name = tag)
+                obj.tag.add(newTag)
+                obj.save()
+                    
+            tag_obj = request.POST.get('tag_name')
+            splitted_tags = str(tag_obj).split(',')
+            
+            if splitted_tags[0] != '':
+                for tag in splitted_tags:
+                    newTag = PostTags.objects.create(tag_name = tag)
+                    newTag.save()
+                    obj.tag.add(newTag)
+            obj.save()
+            return redirect('post')
+ 
+    return render (request,"dj_admin/editpost.html",context)
+
+def deletePost(request,post_id):
+    post = Post.objects.get(id=post_id)
+    post.delete()
+    return redirect("post")
+
+
+def addForbidden(request):
+    form = ForbiddenWordsForm()
+    if request.method == 'POST':
+        form = ForbiddenWordsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("forbiddenwords")
+    context = {"word_form": form}
+    return render(request, "dj_admin/forbiddenwordform.html", context)
+
+
+def showForbidden(request):
+    forbidden_words = ForbiddenWords.objects.all()
+    context = {'forbidden_words' : forbidden_words}
+    return render(request, "dj_admin/forbiddenwords.html", context)
+
+def delForbidden(request,word_id):
+    forbidden_words = ForbiddenWords.objects.get(id = word_id)
+    forbidden_words.delete()
+    return redirect('forbiddenwords')
+
+def editForbidden(request,word_id):
+    forbidden_words = ForbiddenWords.objects.get(id= word_id)
+    form = ForbiddenWordsForm(instance=forbidden_words)
+    if request.method == 'POST':
+        form = ForbiddenWordsForm(request.POST,instance=forbidden_words)
+        if form.is_valid():
+            form.save()
+            return redirect('forbiddenwords')
+    context = {"word_form":form}
+    return render (request,"dj_admin/editforbiddenwords.html",context)

@@ -5,9 +5,9 @@
       <a class="nav-link active" aria-current="page" href="{% url 'landing' %}">Home</a>
 
       {% if user.is_authenticated %}
-      <a class="nav-link" href="{% url 'add-post'%}">Add Post</a>
+        <a class="nav-link" href="{% url 'add-post'%}">Add Post</a>
 
-      <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+        <a class="nav-link" href="{% url 'logout' %}">Log out</a>
       {% if user.is_staff == True %}
       <a class="nav-link" href="/dj_admin/starter">Manage Blog</a>
       {% else %}
@@ -21,10 +21,17 @@
       <a class="nav-link" href="#">Features</a>
 
     </ul>
+    {% if user.is_authenticated %}
+
+        <ul class="navbar-nav ml-auto mb-2 ">
+          <a class="nav-link" href="#"><h3> Hello {{user.username}} ! </h3></a>
+
+        </ul>
+    {% endif %}    
 
     <form method=POST action="{% url 'search'  %}" class="d-flex">
       {% csrf_token %}
-      <input class="form-control me-2" type="search" name="searched"  placeholder="Search by Tag or Title" aria-label="Search">
+      <input class="form-control me-2 ms-5" type="search" name="searched"  placeholder="Search by Tag or Title" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 

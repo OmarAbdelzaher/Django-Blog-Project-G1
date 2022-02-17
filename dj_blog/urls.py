@@ -6,7 +6,6 @@ from django.conf.urls.static import static
 # from .views import PostDetailView
 
 urlpatterns = [
-
     path('register/', views.registerpage , name='register' ),
     path('login/', views.loginpage , name='login' ),
     path('landing/', views.landing,name='landing'),

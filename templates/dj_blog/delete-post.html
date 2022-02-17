@@ -2,30 +2,47 @@
 {% load static %}
 
 {% block main_block %}
-
 {% if user.is_authenticated %}
+    {% if user.id == post.user.id  %}
 
-        <!-- Title  -->
-        <h1> Delete Post</h1>
-            <form method='POST' enctype="multipart/form-data" >{% csrf_token %}
-        <h4>Are you sure you want to delete<strong class="text-danger"><b> {{post.title}} </b></strong> post ? </h4>
-        <h4>{{post.title}}</h4>
-        <p>{{post.content}}</p>
+            <form class="container text-center" method='POST' enctype="multipart/form-data" >{% csrf_token %}
+                <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Delete Post</h3>
+                <div class="row shadow p-3 mb-4 ">
+                    <div class="card" style="border: none;">
+                        <h4>Are you sure you want to delete<strong style="color: red;"><b> {{post.title}} </b></strong> post ? </h4>
+                        <h5>{{post.title}}</h5>
+                        <p class="card-body">{{post.content}}</p>
+                    </div>
+                </div>
         <!-- <img src={% static 'img/Posts Images/' %}{{image}} class="post-img" alt="image post"> -->
-
-                <input type="submit" value="Delete Post" class="btn btn-danger mt-4"/>
-                <a href="{% url 'landing'%}" class="btn btn-primary mt-4">Cancel </a>
+                <input  type="submit" value="Delete Post" class="btn btn-success mt-4"/>
+                <a href="{% url 'landing'%}"  class="btn btn-secondary mt-4">Cancel </a>
             </form>
+
+    {%else%}
+        <div class="container shadow p-3 mb-4 ">
+            <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Delete Post</h3> 
+            <h3 style="color: red;"> You are not allowed to be here in
+                <stong class="text-primary">Delete Page </stong> 
+                please go and Login here 
+                <a href="{% url 'login' %}">login</a> 
+            </h3>
+
+        </div>
+
+    {% endif %}
 {% else %}
+    <!-- Show message if user try delete link when logout  -->
 
-     <!-- Show message if user try delete link when logout  -->
-
-        <h3> You are not allowed to be here in
+    <div class="container shadow p-3 mb-4 ">
+        <h3 class="text-center text-light bg-success p-2 fw-light bg-opacity-75">Delete Post</h3> 
+        <h3 style="color: red;"> You are not allowed to be here in
             <stong class="text-primary">Delete Page </stong> 
             please go and Login here 
             <a href="{% url 'login' %}">login</a> 
         </h3>
 
-
-{% endif %}
+    </div>
+    
+{% endif %}    
 {% endblock %}

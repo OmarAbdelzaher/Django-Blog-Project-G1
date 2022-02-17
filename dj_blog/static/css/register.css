@@ -3,7 +3,7 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%) !important;
+  background: linear-gradient(90deg, #bdd6ca 0%, #198754 100%) !important;
 }
 .user_card {
   width: 22rem;
@@ -28,12 +28,12 @@ html {
 }
 
 #form-title {
-  color: #395591;
+  color: #198754;
 }
 
 .login_btn {
   width: 100%;
-  background: #395591 !important;
+  background: #198754 !important;
   color: white !important;
 }
 .login_btn:focus {
@@ -44,7 +44,7 @@ html {
   padding: 0 2rem;
 }
 .input-group-text {
-  background: #395591 !important;
+  background: #198754 !important;
   color: white !important;
   border: 0 !important;
   border-radius: 0.25rem 0 0 0.25rem !important;
