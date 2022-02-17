@@ -77,6 +77,8 @@ def loginpage(request):
 def landing(request):
     categories = Category.objects.all()
     posts = Post.objects.order_by('-date_of_publish')
+    tags= PostTags.objects.all() 
+
     
     #set up pagination
     num_of_posts=5
