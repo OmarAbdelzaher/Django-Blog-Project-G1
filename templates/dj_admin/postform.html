@@ -1,7 +1,6 @@
 {% extends 'dj_admin/base_layout.html' %}
 
 {% block content %}
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -9,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Edit Category</h1>
+            <h1 class="m-0">Posts Creation</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div>
@@ -23,25 +22,26 @@
       <div class="row">
         <div class="col-8 md-8 sm-8">
 
-            <form method="POST" action=""> 
+            <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
                 <div class="input-group mb-3">
-                    <label class="" >Category Name</label>
-                     <span>{{ cat_form.cat_name }}</span>
+                     {{post_form.as_p}}
+                     {{tag_form.as_p}}
                 </div>
                 <div>
-                    <input class="btn btn-dark" type="submit" value="Submit">
+                    <input class="btn btn-dark" type="submit" value="Add Post">
                 </div>
             </form>
             <div>
-                {% for field, errors in cat_form.errors.items %}
-                    {% for error in errors %}
-                      <p class="text-danger">{{ error }}</p>
-                    {% endfor %} 
-                {% endfor %}
+                {% for field, errors in post_form.errors.items %}
+                               {% for error in errors %}
+                               <p class="text-danger">{{ error }}</p>
+                               {% endfor %}
+                        {% endfor %}
             </div>
         </div>
         </div>
       </div>
     </div>
+
 {% endblock %}

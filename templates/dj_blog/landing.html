@@ -66,7 +66,6 @@
                                                             href="{% url 'post' post.id %}">{{post.title}}</a>
                                                             
                                                     </h3>
-                                                    
                                                     <p class="text-muted">{{post.date_of_publish}}</p>
 
                                                     <p class="card-text">
@@ -113,16 +112,9 @@
                         <h3>Recent Posts</h3>
                         <div class="box posts">
                             <ul class="list-unstyled">
-                                <h3>Recent Posts</h3>
-                                <div class="box posts">
-            
-                                    {% for post in posts|slice:":3"  %}
-            
-            
-                                        <li><i class="fa fa-chevron-right"></i><a href="{% url 'post' post.id %}">{{post.title}}</a>
-                                            <div>{{post.date_of_publish}}</div>
-                                        </li>
-                                    {% endfor %}
+                                <li><i class="fa fa-chevron-right"></i><a href="#">Introducing WordPress 4.0 “Benny”</a><div>27/02/2014</div></li>
+                                <li><i class="fa fa-chevron-right"></i><a href="#">Nature Center: Earth Day Festival</a><div>18/02/2014</div></li>
+                                <li><i class="fa fa-chevron-right"></i><a href="#">Two New Stores Set to Open in Downtown</a><div>05/02/2014</div></li>
                             </ul>
                         </div>
                         <h3>Tags</h3>
