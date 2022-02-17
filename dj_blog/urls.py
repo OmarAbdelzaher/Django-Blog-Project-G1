@@ -21,6 +21,8 @@ urlpatterns = [
     path('post-dislike/<post_id>',views.AddDislike,name='dislike'),
     path('search/', views.search, name="search"),
     path('comment-reply/<post_id>/<comment_id>',views.add_reply,name='reply'),
+    path('updatePost/<post_id>',views.updatePost,name='updatePost') ,
+    path('delete-post/<post_id>',views.DeletePost,name='delete-post') , 
 
 
       
