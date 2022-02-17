@@ -3,20 +3,24 @@
 
 {% block main_block %}
 
+<!-- Style and Bootstrap Links  -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="{% static 'css/post.css' %}" rel="stylesheet">
 
+<!-- Start of Post Page  -->
 <div class="container">
 <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card panel panel-white post shadow">
+                    <!-- Start Header of Post -->
                     <div class="card-header post-heading">
                        
                         <div class="pull-left image">
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
                         </div>
+                        <!-- user and date details  -->
                         <div class="pull-left meta">
                             <div class="title h5">
                                 <a style="text-decoration: none;" href="#"><b>{{post.user}}</b></a>
@@ -25,6 +29,8 @@
 
                             </div>
                         </div>
+                         
+                        <!-- Delete and Edit buttons if logged in  -->
                         <div class="btn-group" style="margin-left: 345px;">
                             {% if user.is_authenticated %}
                                 <!-- only author post can modify post -->
@@ -39,18 +45,28 @@
                             {% endif %}
                         {% endif %}
                         </div>
+                        <!-- End Delete and Edit buttons   -->
+
                     </div>
-                    <div class="">
+                    <!-- End Header of post  -->
+
+                    <!-- Post Image   -->
+                    <div >
                         <img src={% static post.picture %} class="image" alt="image post" style="width:100%;">
                     </div>
+                    
+                    <!-- Start post body  -->
                     <div class="post-description">
                         <br>
+                        <!-- Post Title  -->
                         <h4>{{post.title}}</h4>
+                        <!-- Post Content  -->
                         <p class="card-body">{{post.content}}</p>
+
                         <div>
                             <span class="btn btn-secondary all-tags ">{{post.category}}</span>
                         </div>
-                       
+                       <!-- Start of Tags  -->
                         <div class="">
                             <ul class="blog-tags list-unstyled list-inline ">
                                 
@@ -63,26 +79,25 @@
                             </ul> 
 
                         </div>
+                        <!-- End of Tags  -->
+
+                        <!-- Start Likes and Dislikes Section  -->
                         <div class="stats" >
+                            <!-- Likes Section  -->
                             <form class="stat-item" method="POST" action="{% url 'like' post.id %}"> {% csrf_token %}  
                                 <button type="submit" class="btn btn-primary ">
                                     <i class="fa fa-thumbs-up icon">{{post.likes.all.count}}</i> 
                                 </button>
                             </form>
+                            <!-- Dislikes Section  -->
                             <form class="stat-item" method="POST" action="{% url 'dislike' post.id %}"> {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary">
                                     <i class="fa fa-thumbs-down icon">{{post.dislikes.all.count}}</i> 
                                 </button>
-                            </form>
-                            <div class="blog-post">
-                                <ul class="blog-tags list-unstyled list-inline d-flex flex-row ">
-                                    {% for tag in post.tag.all %}
-                                        <li><a class="btn btn-secondary all-tags " href="#"><i class="fa fa-tag "></i>{{tag}}</a></li>
-                                    {% endfor %} 
-                                </ul> 
-                            </div>
+                            </form>  
                         
                         </div>
+                        <!-- End of Likes and Dislikes Section  -->
                     </div>
 
                      <!-- Add Comment Form -->
@@ -136,6 +151,7 @@
                     {% endfor %}
 
                 </div>
+                <!-- End of Post Page  -->
             </div>
 {% endblock %}
 
