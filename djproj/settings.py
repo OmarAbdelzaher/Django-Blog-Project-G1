@@ -152,15 +152,11 @@ STATIC_URL = os.path.join(BASE_DIR,'dj_blog/static/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# sending mail to the user firstly we should do some configurations 
 
-from django.core.mail import send_mail
-from django.conf import settings
-#Sednding mail to user
-DEFAULT_FROM_EMAIL = '<djangoapp50@gmail.com>'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True #
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '<djangoapp50@gmail.com>'
-EMAIL_HOST_PASSWORD = '<NSZOS123>'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'djblog2022@gmail.com'
+EMAIL_HOST_PASSWORD = 'djangogroup1'
+EMAIL_PORT = '587'
+EMAIL_USE_SSL = False

@@ -9,9 +9,7 @@
 
       <a class="nav-link" href="{% url 'logout' %}">Log out</a>
       {% if user.is_staff == True %}
-      <a class="nav-link" href="/dj_admin/starter">Manage Blog</a>
-      {% else %}
-      <a class="nav-link" href="{% url 'manageBlog' %}">Manage Blog</a>
+         <a class="nav-link" href="{% url 'starter' %}">Manage Blog</a>
       {% endif %}
       {% else %}
       <a class="nav-link" href="{% url 'login' %}">Log in </a>

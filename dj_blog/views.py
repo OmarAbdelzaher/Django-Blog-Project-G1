@@ -109,13 +109,12 @@ def subscribe(request, cat_id):
     user = request.user
     category = Category.objects.get(id=cat_id)
     category.user.add(user)
-    # try:
-    #     send_mail("subscribed to a new category",
-    #             'hello ,'+user.first_name+" "+user.last_name+'\nyou have just subscribed to category '+category.cat_name,
-    #             'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
-    # except Exception as ex:
-    #     log("couldn't send email message"+str(ex))
-        
+    try:
+        send_mail("subscribed to a new category",
+                'hello ,\nyou have just subscribed successfully to category '+category.cat_name,
+                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+    except Exception :
+                raise ValidationError("Couldn't send the message to the email ! ")        
     return redirect("landing")
 
 # catagories unsubscribe
