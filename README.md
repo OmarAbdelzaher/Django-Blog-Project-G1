@@ -75,6 +75,10 @@ Then you are Good To Go ...
 
 ![search](./dj_blog/static/Django-Blog-Screenshots/Forbidden-post.jpeg)
 
+### Email Subscription for a category:
+
+![email](./dj_blog/static/Django-Blog-Screenshots/email-subscribe.jpeg)
+
 ### Admin Page
 
 ![admin](./dj_blog/static/Django-Blog-Screenshots/admin-info.jpeg)
