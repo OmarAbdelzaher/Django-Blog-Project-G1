@@ -149,7 +149,7 @@
                             
                                 <ul class=" blog-tags list-unstyled list-inline ">
                                     <li>
-                                        {% for posttags in tags %}
+                                        {% for posttags in tags|slice:":9" %}
                                         <a class="btn btn-sm btn-success all-tags " style="margin: 1%;" href="#"><i class="fa fa-tag"></i>{{posttags}}</a>
                                         {% endfor %}
                                     </li>

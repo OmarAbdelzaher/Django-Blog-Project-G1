@@ -126,7 +126,7 @@ def subscribe(request, cat_id):
     try:
         send_mail("subscribed to a new category",
                 'hello ,\nyou have just subscribed successfully to category '+category.cat_name,
-                'settings.EMAIL_HOST_USER', [user.email], fail_silently=False,)
+                'settings.EMAIL_HOST_USER', [user.email],fail_silently=False,)
     except Exception :
                 raise ValidationError("Couldn't send the message to the email ! ")        
     return redirect("landing")
@@ -338,12 +338,10 @@ def AddDislike(request,post_id):
     # if the user clicked on the dislike button, add the dislike
     if not is_dislike:
         post.dislikes.add(request.user)
-        print("hai")
-        # Delete if dislikes greater than 10
+        # Delete if dislikes greater than 5
         num_of_dislikes=post.dislikes.all().count()
  
-        if num_of_dislikes == 10:
-            print("hello")
+        if num_of_dislikes == 5:
             post.delete()
             return redirect ('landing')
     
