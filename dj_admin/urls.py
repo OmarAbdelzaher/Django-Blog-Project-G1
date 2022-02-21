@@ -2,6 +2,8 @@ from django.urls import path
 from dj_admin import views 
 
 urlpatterns = [
+    path('',views.loginAdmin,name="admin"),
+    path('logoutadmin',views.logoutAdmin,name="logoutadmin"),
     path('starter/', views.starter,name='starter'),
     path('admins/' , views.showAdmins,name='admins'),
     path('promote/<id>',views.promoteUser,name="promote"),
