@@ -27,14 +27,12 @@
                 <div class="col-sm-8">
                     <div class="timeline">
                         {% for post in pg %}
-                    
                                 <div class="blog-post">
-                                
+                                    
                                     <!-- Avatar of user -->
                                     <div class="blog-info ">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle img-fluid "
-                                            alt="avatar-img">
-
+                                        <img src={% static post.user.account.avatar %} class="rounded-circle img-fluid " alt="avatar-img">
+                                        
                                         <!-- User Name  -->
                                         <div class="bg-success bg-opacity-75 text-light text-center">{{post.user.username}}</div>
                                     </div>
@@ -132,7 +130,7 @@
                             <ul class="list-unstyled">
                                 {% for post in posts|slice:":3"  %}
 
-                                    <li><i class="fa fa-chevron-right"></i><a href="#">{{post.title}}</a>
+                                    <li><i class="fa fa-chevron-right"></i><a href="{% url 'post' post.id %}">{{post.title}}</a>
                                         <div>{{post.date_of_publish}}</div>
                                     </li>
 
@@ -149,7 +147,7 @@
                             
                                 <ul class=" blog-tags list-unstyled list-inline ">
                                     <li>
-                                        {% for posttags in tags %}
+                                        {% for posttags in tags|slice:":9" %}
                                         <a class="btn btn-sm btn-success all-tags " style="margin: 1%;" href="#"><i class="fa fa-tag"></i>{{posttags}}</a>
                                         {% endfor %}
                                     </li>

@@ -20,7 +20,9 @@
               <a class="nav-link" href="{% url 'starter' %}">Manage Blog</a>
             {% endif %}
 
-      <!-- Show tabs to users if not logged in yet -->
+            <a class="nav-link" href="{% url 'add-avatar' %}">Edit Profile</a>
+      
+            <!-- Show tabs to users if not logged in yet -->
       {% else %}
       <a class="nav-link" href="{% url 'login' %}">Log in </a>
       <a class="nav-link" href="{% url 'register' %}">Register </a>

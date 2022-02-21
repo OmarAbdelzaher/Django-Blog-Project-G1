@@ -428,3 +428,14 @@ def search(request):
     else:
         return render(request, 'dj_blog/search.html',{})
 
+def addAvatar(request):
+    form= AvatarForm()
+    if request.method == "POST":
+        form= AvatarForm(request.method ,request.FILES)
+        if form.is_valid():
+            account=Account.objects.get(user=request.user)
+            account.avatar= request.FILES['avatar']
+            account.save()
+        return redirect('add-avatar')
+    context = {'form':form}
+    return render(request, 'dj_blog/add-avatar.html',context)

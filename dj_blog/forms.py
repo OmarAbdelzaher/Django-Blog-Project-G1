@@ -80,3 +80,11 @@ class ForbiddenWordsForm(forms.ModelForm):
         if ForbiddenWords.objects.filter(forbidden_word = forbidden_word).exists():
             raise ValidationError("This Word Already exists !")
     
+class AvatarForm(forms.ModelForm):
+    
+    class Meta:
+        model= Account
+        fields= ('avatar',)
+        widget={
+         'avatar': forms.FileInput(attrs={'class': 'form-control'}),    
+        }

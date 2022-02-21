@@ -25,6 +25,6 @@ urlpatterns = [
     path('comment-reply/<post_id>/<comment_id>',views.add_reply,name='reply'),
     path('updatePost/<post_id>',views.updatePost,name='updatePost') ,
     path('delete-post/<post_id>',views.DeletePost,name='delete-post') ,
-
+    path('add-avatar',views.addAvatar,name='add-avatar') ,
       
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

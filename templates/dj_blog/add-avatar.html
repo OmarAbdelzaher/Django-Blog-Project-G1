@@ -1,0 +1,35 @@
+{% extends 'dj_blog/base.html' %}
+{% load static %}
+
+{% block main_block %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+
+<div class="container bootstrap snippets bootdey">
+  <h1 class="text-primary">Change Your Profile Picture</h1>
+  <hr>
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-3">
+      <div class="text-center">
+
+
+        <img src="{% static request.user.account.avatar %}" class="avatar img-circle img-thumbnail" alt="avatar">
+        <h6>Upload a different photo...</h6>
+
+      </div>
+      <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
+        <!-- <input type="file" class="form-control" name="avatar"> -->
+        {{form.avatar}}
+        <input type="submit" value="Change" class="btn btn-success mt-4">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+</div>
+<hr>
+
+
+{%endblock%}

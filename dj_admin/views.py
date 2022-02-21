@@ -121,7 +121,7 @@ def addPost(request):
             # get object from tag before saving it
             tag_obj = tag_form.save(commit=False)
             # split the separated tags by comma
-            splitted_tags = str(tag_obj).split(',')
+            splitted_tags = str(tag_obj).split(',') 
             # loop on each tag splitted, add to the related post and save it
             for tag in splitted_tags:
                 newTag = PostTags.objects.create(tag_name = tag)
@@ -157,7 +157,7 @@ def editPost(request,post_id):
             # remove the old tags to be replaced with the new editted tags
             obj.tag.clear()
             obj.save()
-            # get the ediited tags
+            # get the editted tags
             tags = post_form.cleaned_data['tag']
             
             for tag in tags:
@@ -169,12 +169,22 @@ def editPost(request,post_id):
             tag_obj = request.POST.get('tag_name')
             splitted_tags = str(tag_obj).split(',')
             
-            # check if the spliited is empty to validate the input of user
+            all_tags = PostTags.objects.all()
+            is_exist = False
+            
+            # check if the splitted is empty to validate the input of user
             if splitted_tags[0] != '':
                 for tag in splitted_tags:
-                    newTag = PostTags.objects.create(tag_name = tag)
+                    for compare in all_tags:
+                        print(tag,compare)
+                        if str(tag) == str(compare):    
+                            is_exist = True
+                            
+                    if not is_exist:
+                        newTag = PostTags.objects.create(tag_name = tag)
                     newTag.save()
                     obj.tag.add(newTag)
+                    is_exist = False
             obj.save()
             return redirect('post')
  

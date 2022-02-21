@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Account model extends from User (built-in-Model) and add some extra fields
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(null=True,upload_to = 'dj_blog/static/img/Users Images/')
+    avatar = models.ImageField(default='images/default.png',upload_to = 'Avatars/')
     is_locked = models.BooleanField(default=False)
 
     def __str__(self):

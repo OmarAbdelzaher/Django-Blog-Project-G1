@@ -18,7 +18,7 @@
                     <div class="card-header post-heading">
                        
                         <div class="pull-left image">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle img-fluid avatar" alt="user profile image">
+                            <img src={% static post.user.account.avatar %} class="rounded-circle img-fluid avatar" alt="user profile image">
                         </div>
                         <!-- user and date details  -->
                         <div class="pull-left meta">
@@ -125,7 +125,7 @@
                         
                             <ul class="comments-list card-body list-unstyled">
                                 <li class="comment">
-                                    <a class="pull-left rounded-circle img-fluid" href="javascript:void(0);"> <img class="avatar rounded-circle img-fluid " style="width: 50px;" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar"> </a>
+                                    <a class="pull-left rounded-circle img-fluid" href="javascript:void(0);"> <img class="avatar rounded-circle img-fluid " style="width: 50px;" src={% static comment.user.account.avatar %} alt="avatar"> </a>
                                     <div class="comment-body">
                                         <div class="comment-heading card-text">
                                             <h4 class="user"><a class="card-title" style="margin-left: 1%; text-decoration: none;" href="#">{{ comment.user}}</a></h4>

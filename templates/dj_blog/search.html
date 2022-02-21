@@ -1,5 +1,5 @@
 {% extends 'dj_blog/base.html' %}
-
+{% load static %}
 
 {% block main_block %}
 <head>
@@ -25,7 +25,8 @@
                     <div class="card mb-3 shadow p-3 mb-4 " style="max-width: 540px;"> 
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class=" rounded-circle img-fluid user-avatar"
+                                
+                                <img src={% static post.user.account.avatar %} class=" rounded-circle img-fluid user-avatar"
                             alt="avatar-img">
                         <!-- Show post user name  -->
                         <div class="bg-success text-center bg-opacity-75 text-light">{{post.user.username}}</div>
@@ -60,7 +61,7 @@
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <!-- post image -->
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle img-fluid user-avatar"
+                                <img src={% static post.user.account.avatar %} class="rounded-circle img-fluid user-avatar"
                             alt="avatar-img">
                         <!-- post username -->
                         <div class="bg-success text-center bg-opacity-75 text-light">{{post.user.username}}</div>
