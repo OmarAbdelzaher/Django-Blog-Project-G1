@@ -1,5 +1,7 @@
 # Django Blog
 
+### [Demo Video](https://drive.google.com/file/d/1kw9WxeZyBFLrfbk_XoFEPdk4y4NFVdjT/view?usp=sharing) 
+
 # Table of contents
 
 - [Steps for running the Project](#steps-for-running-the-project)
