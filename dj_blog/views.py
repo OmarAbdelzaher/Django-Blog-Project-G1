@@ -344,10 +344,10 @@ def AddDislike(request,post_id):
     # if the user clicked on the dislike button, add the dislike
     if not is_dislike:
         post.dislikes.add(request.user)
-        # Delete if dislikes greater than 5
+        # Delete if dislikes greater than 10
         num_of_dislikes=post.dislikes.all().count()
  
-        if num_of_dislikes == 5:
+        if num_of_dislikes == 10:
             post.delete()
             return redirect ('landing')
     

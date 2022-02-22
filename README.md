@@ -12,6 +12,8 @@
 
 - [Who we are](#who-we-are)
 
+- [Members Contribution](#members-contribution)
+
 ## Steps for running the Project  
 
 1. Clone This Project (Make Sure You Have Git Installed):
@@ -55,29 +57,39 @@ Then you are Good To Go ...
 
 ### Landing page
 
-![landing](./dj_blog/static/Django-Blog-Screenshots/landing.jpeg)
+![landing](./dj_blog/static/Django-Blog-Screenshots/landing-1.png)
 
-![footer](./dj_blog/static/Django-Blog-Screenshots/footer.jpeg)
+![landing](./dj_blog/static/Django-Blog-Screenshots/landing-2.png)
+
+![landing](./dj_blog/static/Django-Blog-Screenshots/landing-3.png)
+
 
 ### Categories page
 
-![categories](./dj_blog/static/Django-Blog-Screenshots/categories.jpeg)
+![categories](./dj_blog/static/Django-Blog-Screenshots/categories-1.png)
 
 ### Post page
 
-![post](./dj_blog/static/Django-Blog-Screenshots/post.jpeg)
+![post](./dj_blog/static/Django-Blog-Screenshots/post-1.png)
 
+### Comments and Forbidden words
+
+![comments](./dj_blog/static/Django-Blog-Screenshots/comment-forbidden.png)
+
+### Edit Profile Picture
+
+![profile](./dj_blog/static/Django-Blog-Screenshots/edit-profile.png)
 ### Search result
 
-![search](./dj_blog/static/Django-Blog-Screenshots/search.jpeg)
-
-### Forbidden Words example
-
-![search](./dj_blog/static/Django-Blog-Screenshots/Forbidden-post.jpeg)
+![search](./dj_blog/static/Django-Blog-Screenshots/search-1.png)
 
 ### Email Subscription for a category:
 
 ![email](./dj_blog/static/Django-Blog-Screenshots/email-subscribe.jpeg)
+
+### Admin Login
+
+![admin](./dj_blog/static/Django-Blog-Screenshots/admin-login.png)
 
 ### Admin Page
 
@@ -210,8 +222,9 @@ page
 
   - For normal users, there should be a button that enables the admin to either lock or unlock this user from logging into the system and for the Admin users, this button is not available So, an admin cannot lock another admin
 
+  - A security feature is added too, a must login to admin pages in order to prevent lucky guessing to admins' urls
+
 ## TO DOs
-  - An Avatar to be chosen by the Users
   - A reply to each Comment
   - Likes and Unlikes to comments and replies
 
@@ -227,3 +240,25 @@ Samiha Hesham | samihahesham9@gmail.com
 Saeed Adel | sashsadel7@gmail.com
 Omar Abdelzaher | omarzaher787@gmail.com
 Zeina Ayman | zeinaayman14@gmail.com
+
+## Members Contribution
+Features/Name | Noura | Samiha | Saeed | Omar | Zeina
+------------ | -------- | --------| --------| --------| --------
+Header|:heavy_check_mark:||||:heavy_check_mark:
+Sidebar|:heavy_check_mark:||||:heavy_check_mark:
+Email|:heavy_check_mark:||:heavy_check_mark:||  
+Body|:heavy_check_mark:|:heavy_check_mark:|||:heavy_check_mark:
+Footer|||||:heavy_check_mark:
+Registration|||:heavy_check_mark:||
+Login|||:heavy_check_mark:||
+Posts||:heavy_check_mark:||:heavy_check_mark:|
+Comments||:heavy_check_mark:||:heavy_check_mark:|
+Forbidden Words|||:heavy_check_mark:||
+Likes-Dislikes||:heavy_check_mark:||:heavy_check_mark:|
+Auto-Delete-Post|||||:heavy_check_mark:
+Search|:heavy_check_mark:||||
+User-CRUD||||:heavy_check_mark:|:heavy_check_mark:
+Admin-CRUD|||:heavy_check_mark:|:heavy_check_mark:|
+Block-Promote|||:heavy_check_mark:||
+Edit-Profile||:heavy_check_mark:||:heavy_check_mark:|:heavy_check_mark:
+Admin-Security|||:heavy_check_mark:||
